@@ -5,6 +5,7 @@ import { Check, ChevronRight } from 'lucide-react';
 import { PageHeader } from '@/components/PageHeader';
 import { settingsRepo, useSettings } from '@/db/repositories';
 import { accents, fontSizes, locales, type Accent, type ThemePreference } from '@/domain/settings';
+import { NotificationsSection } from './NotificationsSection';
 
 const themeOptions: ThemePreference[] = ['system', 'light', 'dim', 'lights-out'];
 
@@ -107,6 +108,8 @@ export function SettingsPage() {
           ))}
         </select>
       </Section>
+
+      <NotificationsSection />
 
       <nav aria-label={t('settings.sections')}>
         {[

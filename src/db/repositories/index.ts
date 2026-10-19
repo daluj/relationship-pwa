@@ -12,6 +12,7 @@ export {
   purgeContact,
   restoreContact,
   saveContact,
+  updateContactStatus,
   TRASH_RETENTION_DAYS,
 } from './contactService';
 export type { ContactDraft, NewImage } from './contactService';
@@ -35,3 +36,19 @@ export {
 } from './momentService';
 export type { MomentDraft, MomentPhotoDraft } from './momentService';
 export { deleteTag, findOrCreateTag, listTags, mergeTags } from './tagService';
+export {
+  completeReminder,
+  deleteImportantDate,
+  deleteReminder,
+  ensureAutoReminders,
+  importantDatesFor,
+  listReminders,
+  markNotified,
+  remindersFor,
+  reopenReminder,
+  restoreReminder,
+  saveImportantDate,
+  saveReminder,
+  snoozeReminder,
+} from './reminderService';
+export type { ImportantDateDraft, ReminderDraft } from './reminderService';

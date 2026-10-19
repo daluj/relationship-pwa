@@ -1,5 +1,23 @@
 # Changelog
 
+## M4 — Reminders (2026-10-19)
+
+- Reminders page (`/reminders`): Upcoming (Today / This week / This month / Later), Overdue with count, Done. Each item has
+  Done, Snooze (tomorrow, next week, pick a date) and a ⋯ menu (edit, add to calendar, mark not done, delete with Undo).
+- Manual reminders with optional time, person, notes and recurrence (daily, weekly, monthly or yearly, every N).
+  `domain/recurrence.ts` handles month-end clamping and Feb 29 → Feb 28.
+- Automatic reminders kept in sync transactionally: birthdays (yearly), important dates (yearly, N days before), and stay
+  in touch (due N days after the last interaction; logging a moment clears it). They're repaired on app start.
+- Important dates in Profile › Details (add, edit, delete) and a Profile › Reminders tab (upcoming + done, add).
+- Right rail: Upcoming (next 5) and Reach out (due stay-in-touch, max 3, "Log" button). The nav badge counts due reminders.
+- Notifications: in-app banner on open; system notifications when permitted (once per due date); OS app badge;
+  Periodic Background Sync (`check-reminders`, 12h) handled in the service worker, which reads IndexedDB; notification click
+  focuses or opens the right page. Settings › Notifications explains plainly how delivery works.
+- `.ics` export per reminder and for all recurring ones.
+- Tests: recurrence, grouping and notification rules, ICS output, the reminder service (incl. the §8.5 AC with a mocked date),
+  and E2E with a mocked clock for the birthday AC, manual reminders, stay in touch, important dates with ICS download, and system
+  notifications. Lint caught a missing `;` escape in ICS text, now fixed.
+
 ## M3 — Moments (2026-10-19)
 
 - Composer ("What happened?") inline on Home (desktop), as a modal on desktop and a full-screen sheet on mobile; opened by

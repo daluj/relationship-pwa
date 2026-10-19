@@ -42,7 +42,8 @@
     "reachOutEmpty": "You're up to date with everyone.",
     "about": "About",
     "export": "Export data",
-    "privacy": "Privacy"
+    "privacy": "Privacy",
+    "log": "Log"
   },
   "pages": {
     "compose": "Log moment",
@@ -415,5 +416,123 @@
   "trashMoment": {
     "confirmBody": "This moment and its photos will be permanently deleted. This can't be undone.",
     "restored": "Moment restored"
+  },
+  "reminders": {
+    "tabs": {
+      "upcoming": "Upcoming",
+      "overdue": "Overdue",
+      "done": "Done"
+    },
+    "groups": {
+      "overdue": "Overdue",
+      "today": "Today",
+      "week": "This week",
+      "month": "This month",
+      "later": "Later"
+    },
+    "new": "New reminder",
+    "edit": "Edit reminder",
+    "empty": {
+      "upcoming": "No upcoming reminders.",
+      "overdue": "Nothing overdue.",
+      "done": "No completed reminders yet."
+    },
+    "titles": {
+      "birthday": "{{name}}'s birthday",
+      "birthdayTurns": "{{name}} turns {{age}}",
+      "stayInTouch": "Reach out to {{name}}",
+      "importantDate": "{{label}} · {{name}}"
+    },
+    "repeat": {
+      "none": "Doesn't repeat",
+      "daily_one": "Every day",
+      "daily_other": "Every {{count}} days",
+      "weekly_one": "Every week",
+      "weekly_other": "Every {{count}} weeks",
+      "monthly_one": "Every month",
+      "monthly_other": "Every {{count}} months",
+      "yearly_one": "Every year",
+      "yearly_other": "Every {{count}} years"
+    },
+    "units": {
+      "daily": "days",
+      "weekly": "weeks",
+      "monthly": "months",
+      "yearly": "years"
+    },
+    "actions": {
+      "done": "Done",
+      "reopen": "Mark as not done",
+      "snooze": "Snooze",
+      "tomorrow": "Tomorrow",
+      "nextWeek": "Next week",
+      "pickDate": "Pick a date…",
+      "edit": "Edit",
+      "delete": "Delete",
+      "log": "Log",
+      "ics": "Add to calendar (.ics)",
+      "exportAll": "Export recurring (.ics)",
+      "more": "More"
+    },
+    "form": {
+      "title": "Title",
+      "contact": "Person",
+      "noContact": "No one",
+      "date": "Date",
+      "time": "Time (optional)",
+      "recurrence": "Repeats",
+      "interval": "Every",
+      "notes": "Notes"
+    },
+    "toast": {
+      "done": "Reminder done",
+      "next": "Next: {{date}}",
+      "snoozed": "Snoozed until {{date}}",
+      "deleted": "Reminder deleted",
+      "saved": "Reminder saved",
+      "exported": "Calendar file ready"
+    },
+    "snoozeTitle": "Snooze until",
+    "snoozedUntil": "Snoozed until {{date}}",
+    "due_one": "You have {{count}} reminder due",
+    "due_other": "You have {{count}} reminders due",
+    "view": "View",
+    "dismiss": "Dismiss",
+    "neverSpoke": "No moments logged yet",
+    "auto": "Automatic",
+    "showAll": "Show all",
+    "notifToday": "Due today",
+    "notifOverdue": "Overdue since {{date}}"
+  },
+  "importantDates": {
+    "title": "Important dates",
+    "add": "Add important date",
+    "edit": "Edit important date",
+    "label": "What",
+    "labelPlaceholder": "Anniversary, name day…",
+    "date": "Date",
+    "remind": "Remind me",
+    "daysBefore": "Days before",
+    "onTheDay": "On the day",
+    "before_one": "{{count}} day before",
+    "before_other": "{{count}} days before",
+    "delete": "Delete important date"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "honesty": "Notifications are delivered when the app is opened, or periodically on supported browsers. There is no server.",
+    "status": {
+      "granted": "Allowed",
+      "denied": "Blocked in your browser settings",
+      "default": "Not enabled yet",
+      "unsupported": "Not supported in this browser"
+    },
+    "enable": "Allow notifications",
+    "test": "Send a test notification",
+    "testTitle": "Kin",
+    "testBody": "This is how reminders will look.",
+    "periodicOn": "Background checks: on, about twice a day (installed app on supported browsers).",
+    "periodicOff": "Background checks: not available here — reminders are checked when you open the app.",
+    "calendarHint": "For alerts you can rely on, add your reminders to your phone's calendar:"
   }
 }

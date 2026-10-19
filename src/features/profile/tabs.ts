@@ -3,7 +3,6 @@ export type ProfileTab = (typeof profileTabs)[number];
 
 /** Milestone that delivers each not-yet-built tab (SPEC §14). */
 export const tabMilestone: Partial<Record<ProfileTab, number>> = {
-  reminders: 4,
   gifts: 5,
   money: 5,
   tasks: 5,

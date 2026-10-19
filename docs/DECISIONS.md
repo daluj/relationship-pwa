@@ -177,3 +177,55 @@ Deleting a tag removes it from every record's `tagIds` and hard-deletes the tag.
 
 Deleted moments appear in Settings › Trash next to contacts, with restore and delete forever. Expired ones are purged
 with their photos on app start.
+
+## D-032 — Stay-in-touch reminders are real records (M4)
+
+Instead of being computed on the fly, each contact with `stayInTouchDays` has one `source: 'stay-in-touch'` reminder,
+synced in the same transaction as contact saves and `lastInteractionAt` changes. Its due date is last interaction (or the date the
+contact was added, if there's none) + N days. That way snooze, badges, notifications, the service worker and ICS treat it like any
+other reminder. There's none for archived or deceased contacts. "Log" opens the composer, and logging a moment moves it forward.
+"Done" means "I reached out elsewhere" and snoozes it for one full period.
+
+## D-033 — Reminder groups (M4)
+
+§6.7 groups are rolling: Today, This week (next 6 days), This month (within 30 days), Later. Anything before today
+is Overdue. A snoozed reminder groups by its snooze date.
+
+## D-034 — Badge and banner (M4)
+
+The nav badge, the OS app badge (`setAppBadge`) and the in-app banner count open reminders due today or earlier (stay-in-touch
+included). The banner hides on `/reminders`. Dismissing it lasts for that day and count (`sessionStorage`).
+
+## D-035 — Notification rule (M4)
+
+A reminder is notified once per effective due date: when it's due and `lastNotifiedAt` is before that date. This covers
+overdue ones never shown (the app wasn't opened). Snoozing or editing the date re-arms it. Page and service worker share
+`db/repositories/reminderCheck.ts`. The service worker includes the locale files so periodic-sync notifications are translated.
+
+## D-036 — Recurrence anchoring (M4)
+
+Manual monthly and yearly reminders advance from their current due date with month-end clamping, so Jan 31 → Feb 28 → Mar 28
+(no anchor day is stored in the v1 schema). Birthdays and important dates are always recomputed from their partial date, so
+Feb 29 birthdays return to Feb 29 in leap years. "Done" on an overdue recurring reminder jumps to the first occurrence after today.
+
+## D-037 — Editing auto reminders (M4)
+
+Birthday, important-date and stay-in-touch reminders are derived, so Edit opens their source (contact edit or Details)
+and they can't be deleted directly. Manual reminders are soft-deleted with an Undo toast. Deleting an important date
+soft-deletes it and purges its reminder. `ensureAutoReminders()` runs on app start to repair missing or stale auto reminders.
+
+## D-038 — ICS export (M4)
+
+One VEVENT per reminder: an all-day event with a 09:00 alarm, or a floating local time (30 min) when `dueTime` is set, with an RRULE from
+the recurrence. Files are saved with the File System Access API when available, otherwise `<a download>`. Available per
+reminder (⋯ menu) and as "Export recurring" (Reminders page, Settings › Notifications).
+
+## D-039 — E2E browser (M4)
+
+Playwright runs the full Chromium build (`channel: 'chromium'`, new headless) instead of the headless shell, because the
+shell always denies notification permission and the notification flow is part of the §8.5 checks.
+
+## D-040 — Right rail split (M4)
+
+"Upcoming" lists the next 5 birthdays and reminders due today or later, excluding stay-in-touch. Those appear only in "Reach out"
+(due ones, max 3, ordered by due date, never by any score).

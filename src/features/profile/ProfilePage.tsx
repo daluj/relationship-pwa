@@ -6,6 +6,7 @@ import { contactRepo, useLiveRecord } from '@/db/repositories';
 import { fullName } from '@/domain/contact';
 import { DetailsTab } from './DetailsTab';
 import { ProfileHeader } from './ProfileHeader';
+import { RemindersTab } from './RemindersTab';
 import { TimelineTab } from './TimelineTab';
 import { isProfileTab, profileTabs, tabMilestone } from './tabs';
 
@@ -48,6 +49,8 @@ export function ProfilePage() {
           <DetailsTab contact={contact} />
         ) : active === 'timeline' ? (
           <TimelineTab contact={contact} />
+        ) : active === 'reminders' ? (
+          <RemindersTab contact={contact} />
         ) : (
           <p className="px-8 py-12 text-center text-muted">
             {t('placeholder.comingIn', { milestone: `M${milestone}` })}

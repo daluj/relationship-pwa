@@ -16,6 +16,7 @@ import { fullName } from '@/domain/contact';
 import { contactFieldHref } from '@/domain/contactFieldHref';
 import { formatPartialDate } from '@/domain/partialDate';
 import type { Address, Contact, ContactFieldType } from '@/domain/types';
+import { ImportantDatesBlock } from '@/features/reminders/ImportantDatesBlock';
 
 const fieldIcons: Record<ContactFieldType, LucideIcon> = {
   phone: Phone,
@@ -171,18 +172,21 @@ export function DetailsTab({ contact }: { contact: Contact }) {
     ),
   ].filter(Boolean);
 
-  if (blocks.length === 0) {
-    return (
-      <div className="px-8 py-12 text-center">
-        <p className="text-muted">{t('details.empty')}</p>
-        <Link
-          to={`/c/${contact.id}/edit`}
-          className="mt-4 inline-block font-bold text-accent hover:underline"
-        >
-          {t('details.addDetails')}
-        </Link>
-      </div>
-    );
-  }
-  return <div>{blocks}</div>;
+  return (
+    <div>
+      {blocks}
+      <ImportantDatesBlock contactId={contact.id} />
+      {blocks.length === 0 && (
+        <div className="px-8 py-12 text-center">
+          <p className="text-muted">{t('details.empty')}</p>
+          <Link
+            to={`/c/${contact.id}/edit`}
+            className="mt-4 inline-block font-bold text-accent hover:underline"
+          >
+            {t('details.addDetails')}
+          </Link>
+        </div>
+      )}
+    </div>
+  );
 }

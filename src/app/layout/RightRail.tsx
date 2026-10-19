@@ -1,21 +1,10 @@
-import { useState, type FormEvent, type ReactNode } from 'react';
+import { useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
+import { ReachOutCard, UpcomingCard } from '@/features/reminders/RailCards';
 
-function RailCard({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <section
-      className="overflow-hidden rounded-2xl border border-border bg-surface-2"
-      aria-label={title}
-    >
-      <h2 className="px-4 pt-3 pb-1 text-xl font-extrabold">{title}</h2>
-      <div className="px-4 pb-4 pt-1 text-muted">{children}</div>
-    </section>
-  );
-}
-
-/** Right rail ≥1000px: search, Upcoming, Reach out, footer (SPEC §6.1). Data arrives in M4/M6. */
+/** Right rail ≥1000px: search, Upcoming, Reach out, footer (SPEC §6.1). Search arrives in M6. */
 export function RightRail() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -45,8 +34,8 @@ export function RightRail() {
             />
           </label>
         </form>
-        <RailCard title={t('rail.upcoming')}>{t('rail.upcomingEmpty')}</RailCard>
-        <RailCard title={t('rail.reachOut')}>{t('rail.reachOutEmpty')}</RailCard>
+        <UpcomingCard />
+        <ReachOutCard />
         <footer className="flex flex-wrap gap-x-3 gap-y-1 px-4 text-xs text-muted">
           <Link to="/settings/about" className="hover:underline">
             {t('rail.about')}

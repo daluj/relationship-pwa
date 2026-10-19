@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useSyncExternalStore, type ReactNode } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import { purgeExpiredTrash, useSettingsQuery } from '@/db/repositories';
+import { ensureAutoReminders, purgeExpiredTrash, useSettingsQuery } from '@/db/repositories';
 import { resolveTheme } from '@/domain/settings';
 import i18n from '@/i18n';
 import { applyTheme, computeTheme } from './theme';
@@ -41,8 +41,9 @@ function SettingsSync() {
 
 export function AppProviders({ children }: { children: ReactNode }) {
   // Trash keeps items for 30 days (SPEC §5.1); purge on every app start.
+  // Also re-derive auto reminders (birthdays, important dates, stay in touch) so they are never stale.
   useEffect(() => {
-    void purgeExpiredTrash();
+    void purgeExpiredTrash().then(ensureAutoReminders);
   }, []);
 
   return (

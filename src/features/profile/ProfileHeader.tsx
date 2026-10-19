@@ -26,6 +26,7 @@ import {
   contactRepo,
   deleteContact,
   restoreContact,
+  updateContactStatus,
   useBlobUrl,
   useLiveQuery,
 } from '@/db/repositories';
@@ -94,7 +95,7 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
     .join(' · ');
 
   const toggleArchive = async () => {
-    await contactRepo.update(contact.id, { isArchived: !contact.isArchived });
+    await updateContactStatus(contact.id, { isArchived: !contact.isArchived });
     showToast({
       message: contact.isArchived
         ? t('profile.unarchived', { name })
@@ -161,7 +162,7 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
                     : t('profile.menu.markDeceased'),
                   icon: Flower2,
                   onSelect: () =>
-                    void contactRepo.update(contact.id, {
+                    void updateContactStatus(contact.id, {
                       isDeceased: contact.isDeceased ? undefined : true,
                       ...(contact.isDeceased && { deceasedDate: undefined }),
                     }),

@@ -1,4 +1,6 @@
-/** Reminders due count for the nav badge. Wired to real data in M4. */
+import { useDueReminders } from '@/features/reminders/useDueReminders';
+
+/** Reminders due today or overdue, for the nav badge (SPEC §6.7). */
 export function useRemindersBadge(): number {
-  return 0;
+  return useDueReminders().due.length;
 }

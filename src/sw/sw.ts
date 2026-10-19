@@ -1,4 +1,5 @@
 /// <reference lib="webworker" />
+import i18next from 'i18next';
 import { clientsClaim } from 'workbox-core';
 import {
   cleanupOutdatedCaches,
@@ -6,6 +7,11 @@ import {
   precacheAndRoute,
 } from 'workbox-precaching';
 import { NavigationRoute, registerRoute } from 'workbox-routing';
+import { db } from '@/db/db';
+import { runReminderCheck } from '@/db/repositories/reminderCheck';
+import { notificationFor } from '@/features/reminders/notify';
+import en from '@/i18n/locales/en.json';
+import es from '@/i18n/locales/es.json';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -23,4 +29,62 @@ self.addEventListener('message', (event) => {
 
 clientsClaim();
 
-// Periodic sync + notificationclick handlers arrive in M4 (SPEC §8.5).
+// ── Reminders (SPEC §8.5) ───────────────────────────────────────────────────
+
+interface PeriodicSyncEvent extends ExtendableEvent {
+  tag: string;
+}
+
+/** Periodic Background Sync (installed Chromium): read IndexedDB and notify due reminders. */
+async function checkReminders(): Promise<void> {
+  const locale = ((await db.settings.get('locale'))?.value as string | undefined) ?? 'en';
+  const i18n = i18next.createInstance();
+  await i18n.init({
+    lng: locale,
+    fallbackLng: 'en',
+    resources: { en: { translation: en }, es: { translation: es } },
+    interpolation: { escapeValue: false },
+  });
+  const canNotify = Notification.permission === 'granted';
+  const count = await runReminderCheck(
+    new Date(),
+    canNotify
+      ? async (items) => {
+          for (const n of items) {
+            const { title, options } = notificationFor(n, i18n.t, locale);
+            await self.registration.showNotification(title, options);
+          }
+        }
+      : undefined,
+  );
+  const nav = self.navigator as WorkerNavigator & {
+    setAppBadge?: (n?: number) => Promise<void>;
+    clearAppBadge?: () => Promise<void>;
+  };
+  await (count ? nav.setAppBadge?.(count) : nav.clearAppBadge?.())?.catch(() => {});
+}
+
+self.addEventListener('periodicsync', ((event: PeriodicSyncEvent) => {
+  if (event.tag === 'check-reminders') event.waitUntil(checkReminders());
+}) as EventListener);
+
+/** Focus an open window (or open one) at the reminder's page or contact. */
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const url = new URL(
+    (event.notification.data as { url?: string } | null)?.url ?? '/reminders',
+    self.location.origin,
+  ).href;
+  event.waitUntil(
+    (async () => {
+      const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+      const client = windows.find((w) => new URL(w.url).origin === self.location.origin);
+      if (client) {
+        await client.focus();
+        await client.navigate(url).catch(() => {});
+      } else {
+        await self.clients.openWindow(url);
+      }
+    })(),
+  );
+});

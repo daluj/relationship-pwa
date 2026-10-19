@@ -7,6 +7,7 @@ import { nowIso } from './createRepository';
 import type { NewImage } from './contactService';
 import { momentRepo } from './entities';
 import { RecordNotFoundError } from './errors';
+import { syncStayInTouchReminder } from './reminderService';
 
 /** Blob id of the feed thumbnail stored next to a full-size photo (SPEC §10). */
 export const thumbId = (photoId: string) => `${photoId}:thumb`;
@@ -40,7 +41,7 @@ function kindFields(d: MomentDraft): KindFields {
   };
 }
 
-const tables = () => [db.moments, db.contacts, db.blobs];
+const tables = () => [db.moments, db.contacts, db.blobs, db.reminders];
 
 /** Denormalized `Contact.lastInteractionAt` = newest live moment mentioning them (SPEC §5.1). */
 async function refreshLastInteraction(contactIds: Iterable<string>): Promise<void> {
@@ -56,11 +57,9 @@ async function refreshLastInteraction(contactIds: Iterable<string>): Promise<voi
       });
     if (latest === contact.lastInteractionAt) continue;
     const { lastInteractionAt: _, ...rest } = contact;
-    await db.contacts.put({
-      ...rest,
-      ...(latest && { lastInteractionAt: latest }),
-      updatedAt: nowIso(),
-    });
+    const updated = { ...rest, ...(latest && { lastInteractionAt: latest }), updatedAt: nowIso() };
+    await db.contacts.put(updated);
+    await syncStayInTouchReminder(updated); // logging a moment clears "stay in touch" (SPEC §8.5)
   }
 }
 

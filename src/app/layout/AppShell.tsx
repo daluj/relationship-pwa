@@ -4,6 +4,8 @@ import { Outlet } from 'react-router-dom';
 import { Toaster } from '@/components/Toaster';
 import { ComposerDialog } from '@/features/compose/ComposerDialog';
 import { EntityLookupProvider } from '@/features/moments/lookup';
+import { DueBanner } from '@/features/reminders/DueBanner';
+import { useReminderNotifications } from '@/features/reminders/useReminderNotifications';
 import { useGlobalShortcuts } from '../useGlobalShortcuts';
 import { UpdatePrompt } from '../UpdatePrompt';
 import { BottomTabBar } from './BottomTabBar';
@@ -19,6 +21,7 @@ export function AppShell() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
   useGlobalShortcuts();
+  useReminderNotifications();
 
   return (
     <EntityLookupProvider>
@@ -37,6 +40,7 @@ export function AppShell() {
             className="min-h-dvh w-full min-w-0 pb-[calc(53px+env(safe-area-inset-bottom))] md:w-[600px] md:border-x md:border-border md:pb-0"
           >
             <MobileTopBar onOpenMenu={() => setDrawerOpen(true)} />
+            <DueBanner />
             <Outlet />
           </main>
         </div>

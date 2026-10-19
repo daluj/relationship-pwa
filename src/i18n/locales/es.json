@@ -42,7 +42,8 @@
     "reachOutEmpty": "Estás al día con todo el mundo.",
     "about": "Acerca de",
     "export": "Exportar datos",
-    "privacy": "Privacidad"
+    "privacy": "Privacidad",
+    "log": "Registrar"
   },
   "pages": {
     "compose": "Registrar momento",
@@ -415,5 +416,123 @@
   "trashMoment": {
     "confirmBody": "Este momento y sus fotos se eliminarán de forma permanente. No se puede deshacer.",
     "restored": "Momento restaurado"
+  },
+  "reminders": {
+    "tabs": {
+      "upcoming": "Próximos",
+      "overdue": "Vencidos",
+      "done": "Hechos"
+    },
+    "groups": {
+      "overdue": "Vencidos",
+      "today": "Hoy",
+      "week": "Esta semana",
+      "month": "Este mes",
+      "later": "Más adelante"
+    },
+    "new": "Nuevo recordatorio",
+    "edit": "Editar recordatorio",
+    "empty": {
+      "upcoming": "No hay recordatorios próximos.",
+      "overdue": "Nada vencido.",
+      "done": "Aún no hay recordatorios hechos."
+    },
+    "titles": {
+      "birthday": "Cumpleaños de {{name}}",
+      "birthdayTurns": "{{name}} cumple {{age}}",
+      "stayInTouch": "Escribe a {{name}}",
+      "importantDate": "{{label}} · {{name}}"
+    },
+    "repeat": {
+      "none": "No se repite",
+      "daily_one": "Cada día",
+      "daily_other": "Cada {{count}} días",
+      "weekly_one": "Cada semana",
+      "weekly_other": "Cada {{count}} semanas",
+      "monthly_one": "Cada mes",
+      "monthly_other": "Cada {{count}} meses",
+      "yearly_one": "Cada año",
+      "yearly_other": "Cada {{count}} años"
+    },
+    "units": {
+      "daily": "días",
+      "weekly": "semanas",
+      "monthly": "meses",
+      "yearly": "años"
+    },
+    "actions": {
+      "done": "Hecho",
+      "reopen": "Marcar como pendiente",
+      "snooze": "Posponer",
+      "tomorrow": "Mañana",
+      "nextWeek": "La semana que viene",
+      "pickDate": "Elegir fecha…",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "log": "Registrar",
+      "ics": "Añadir al calendario (.ics)",
+      "exportAll": "Exportar recurrentes (.ics)",
+      "more": "Más"
+    },
+    "form": {
+      "title": "Título",
+      "contact": "Persona",
+      "noContact": "Nadie",
+      "date": "Fecha",
+      "time": "Hora (opcional)",
+      "recurrence": "Se repite",
+      "interval": "Cada",
+      "notes": "Notas"
+    },
+    "toast": {
+      "done": "Recordatorio hecho",
+      "next": "Siguiente: {{date}}",
+      "snoozed": "Pospuesto hasta {{date}}",
+      "deleted": "Recordatorio eliminado",
+      "saved": "Recordatorio guardado",
+      "exported": "Archivo de calendario listo"
+    },
+    "snoozeTitle": "Posponer hasta",
+    "snoozedUntil": "Pospuesto hasta {{date}}",
+    "due_one": "Tienes {{count}} recordatorio pendiente",
+    "due_other": "Tienes {{count}} recordatorios pendientes",
+    "view": "Ver",
+    "dismiss": "Descartar",
+    "neverSpoke": "Aún no hay momentos",
+    "auto": "Automático",
+    "showAll": "Ver todos",
+    "notifToday": "Para hoy",
+    "notifOverdue": "Vencido desde el {{date}}"
+  },
+  "importantDates": {
+    "title": "Fechas importantes",
+    "add": "Añadir fecha importante",
+    "edit": "Editar fecha importante",
+    "label": "Qué",
+    "labelPlaceholder": "Aniversario, santo…",
+    "date": "Fecha",
+    "remind": "Recordármelo",
+    "daysBefore": "Días antes",
+    "onTheDay": "El mismo día",
+    "before_one": "{{count}} día antes",
+    "before_other": "{{count}} días antes",
+    "delete": "Eliminar fecha importante"
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "honesty": "Las notificaciones llegan cuando abres la app o, en navegadores compatibles, de forma periódica. No hay ningún servidor.",
+    "status": {
+      "granted": "Permitidas",
+      "denied": "Bloqueadas en los ajustes del navegador",
+      "default": "Aún no activadas",
+      "unsupported": "No compatibles con este navegador"
+    },
+    "enable": "Permitir notificaciones",
+    "test": "Enviar una notificación de prueba",
+    "testTitle": "Kin",
+    "testBody": "Así se verán los recordatorios.",
+    "periodicOn": "Comprobación en segundo plano: activa, unas dos veces al día (app instalada en navegadores compatibles).",
+    "periodicOff": "Comprobación en segundo plano: no disponible aquí; los recordatorios se revisan al abrir la app.",
+    "calendarHint": "Para avisos fiables, añade tus recordatorios al calendario del móvil:"
   }
 }

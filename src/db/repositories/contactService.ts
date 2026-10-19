@@ -1,11 +1,10 @@
 import type { Table } from 'dexie';
-import { fullName } from '@/domain/contact';
-import { nextOccurrence, toIsoDate } from '@/domain/partialDate';
-import type { Address, BaseRecord, Contact, ContactField, PartialDate } from '@/domain/types';
+import type { Address, BaseRecord, Contact, ContactField } from '@/domain/types';
 import { db } from '../db';
 import { blobRepo } from './blobRepo';
 import { nowIso, type CreateInput } from './createRepository';
-import { addressRepo, contactFieldRepo, contactRepo, reminderRepo } from './entities';
+import { addressRepo, contactFieldRepo, contactRepo } from './entities';
+import { syncBirthdayReminder, syncStayInTouchReminder } from './reminderService';
 import { RecordNotFoundError } from './errors';
 
 /** Days a soft-deleted record stays in Trash before it is purged (SPEC §5.1). */
@@ -43,40 +42,6 @@ const dependentTables = () =>
     db.tasks,
     db.pets,
   ] as Table<BaseRecord & { contactId?: string }, string>[];
-
-const sameDate = (a?: PartialDate, b?: PartialDate) =>
-  a?.day === b?.day && a?.month === b?.month && a?.year === b?.year;
-
-/**
- * Keeps the contact's yearly `birthday` reminder in sync (SPEC §8.2 AC). Auto-generated reminders
- * are purged, not trashed, when the birthday is removed (DECISIONS D-015).
- */
-async function syncBirthdayReminder(contact: Contact, previous?: PartialDate): Promise<void> {
-  const existing = await db.reminders
-    .where('sourceId')
-    .equals(contact.id)
-    .filter((r) => r.source === 'birthday' && !r.deletedAt)
-    .first();
-  if (!contact.birthday) {
-    if (existing) await reminderRepo.purge(existing.id);
-    return;
-  }
-  const dueDate = toIsoDate(nextOccurrence(contact.birthday, new Date()));
-  const title = fullName(contact);
-  if (!existing) {
-    await reminderRepo.create({
-      contactId: contact.id,
-      title,
-      dueDate,
-      recurrence: 'yearly',
-      source: 'birthday',
-      sourceId: contact.id,
-    });
-  } else {
-    const birthdayChanged = !sameDate(contact.birthday, previous);
-    await reminderRepo.update(existing.id, { title, ...(birthdayChanged && { dueDate }) });
-  }
-}
 
 async function storeImage(img: NewImage | null | undefined, currentId: string | undefined) {
   if (img === undefined) return currentId;
@@ -132,6 +97,7 @@ export async function saveContact(id: string | undefined, draft: ContactDraft): 
     await syncChildren(contact.id, db.contactFields, draft.fields, contactFieldRepo);
     await syncChildren(contact.id, db.addresses, draft.addresses, addressRepo);
     await syncBirthdayReminder(contact, before?.birthday);
+    await syncStayInTouchReminder(contact);
     return contact;
   });
 }
@@ -153,6 +119,18 @@ const optionalContactKeys = [
   'deceasedDate',
   'stayInTouchDays',
 ] as const satisfies readonly (keyof Contact)[];
+
+/** Archive/unarchive or mark deceased — also starts/stops the stay-in-touch reminder. */
+export async function updateContactStatus(
+  id: string,
+  patch: Partial<Pick<Contact, 'isArchived' | 'isDeceased' | 'deceasedDate'>>,
+): Promise<Contact> {
+  return db.transaction('rw', [db.contacts, db.reminders], async () => {
+    const c = await contactRepo.update(id, patch);
+    await syncStayInTouchReminder(c);
+    return c;
+  });
+}
 
 /** Soft-delete a contact and its dependents with one shared tombstone timestamp (SPEC §5.2). */
 export async function deleteContact(id: string): Promise<void> {
