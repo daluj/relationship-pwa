@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/Button';
 import { Dialog } from '@/components/Dialog';
 import { inputClass } from '@/components/form/fieldClass';
+import { PartialDateInputs } from '@/components/form/PartialDateInputs';
 import { TextField } from '@/components/form/TextField';
 import { saveImportantDate } from '@/db/repositories';
 import { partialDateFromParts } from '@/domain/partialDate';
@@ -19,7 +20,7 @@ interface Props {
 
 /** Add/edit an important date with an optional yearly reminder (SPEC §5.1, §8.5). */
 export function ImportantDateDialog({ open, onClose, contactId, date }: Props) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [label, setLabel] = useState('');
   const [day, setDay] = useState('');
   const [month, setMonth] = useState('');
@@ -38,10 +39,6 @@ export function ImportantDateDialog({ open, onClose, contactId, date }: Props) {
     setLead(date?.remindDaysBefore ?? 0);
     setError(undefined);
   }, [open, date]);
-
-  const months = Array.from({ length: 12 }, (_, i) =>
-    new Intl.DateTimeFormat(i18n.language, { month: 'long' }).format(new Date(2000, i, 1)),
-  );
 
   const save = async () => {
     const pd = partialDateFromParts(day.trim(), month, year.trim());
@@ -79,40 +76,15 @@ export function ImportantDateDialog({ open, onClose, contactId, date }: Props) {
           autoFocus
           onChange={(e) => setLabel(e.target.value)}
         />
-        <fieldset>
-          <legend className="mb-1 text-sm font-bold text-muted">{t('importantDates.date')}</legend>
-          <div className="grid grid-cols-[1fr_2fr_1.3fr] gap-2">
-            <input
-              aria-label={t('form.day')}
-              placeholder={t('form.day')}
-              inputMode="numeric"
-              value={day}
-              onChange={(e) => setDay(e.target.value)}
-              className={inputClass}
-            />
-            <select
-              aria-label={t('form.month')}
-              value={month}
-              onChange={(e) => setMonth(e.target.value)}
-              className={inputClass}
-            >
-              <option value="">{t('form.month')}</option>
-              {months.map((m, i) => (
-                <option key={m} value={String(i + 1)}>
-                  {m}
-                </option>
-              ))}
-            </select>
-            <input
-              aria-label={`${t('form.year')} (${t('common.optional')})`}
-              placeholder={`${t('form.year')} (${t('common.optional')})`}
-              inputMode="numeric"
-              value={year}
-              onChange={(e) => setYear(e.target.value)}
-              className={inputClass}
-            />
-          </div>
-        </fieldset>
+        <PartialDateInputs
+          legend={t('importantDates.date')}
+          value={{ day, month, year }}
+          onChange={(v) => {
+            setDay(v.day);
+            setMonth(v.month);
+            setYear(v.year);
+          }}
+        />
         <label className="flex items-center gap-2">
           <input
             type="checkbox"

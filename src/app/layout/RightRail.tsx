@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
+import { MoneyCard } from '@/features/money/MoneyCard';
 import { ReachOutCard, UpcomingCard } from '@/features/reminders/RailCards';
 
 /** Right rail ≥1000px: search, Upcoming, Reach out, footer (SPEC §6.1). Search arrives in M6. */
@@ -36,6 +37,7 @@ export function RightRail() {
         </form>
         <UpcomingCard />
         <ReachOutCard />
+        <MoneyCard />
         <footer className="flex flex-wrap gap-x-3 gap-y-1 px-4 text-xs text-muted">
           <Link to="/settings/about" className="hover:underline">
             {t('rail.about')}

@@ -5,6 +5,7 @@ import { Check, ChevronRight } from 'lucide-react';
 import { PageHeader } from '@/components/PageHeader';
 import { settingsRepo, useSettings } from '@/db/repositories';
 import { accents, fontSizes, locales, type Accent, type ThemePreference } from '@/domain/settings';
+import { CurrencySelect } from '@/features/money/CurrencySelect';
 import { NotificationsSection } from './NotificationsSection';
 
 const themeOptions: ThemePreference[] = ['system', 'light', 'dim', 'lights-out'];
@@ -107,6 +108,14 @@ export function SettingsPage() {
             </option>
           ))}
         </select>
+      </Section>
+
+      <Section title={t('settings.currency')}>
+        <CurrencySelect
+          label={t('settings.currency')}
+          value={settings.currency}
+          onChange={(c) => void settingsRepo.set('currency', c)}
+        />
       </Section>
 
       <NotificationsSection />

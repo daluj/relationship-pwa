@@ -7,7 +7,8 @@ import { buttonClass } from '@/components/buttonClass';
 import { IconButton } from '@/components/IconButton';
 import { PageHeader } from '@/components/PageHeader';
 import { SelectField } from '@/components/form/SelectField';
-import { contactRepo, useLiveList } from '@/db/repositories';
+import { contactRepo, listGroups, useLiveList, useLiveQuery } from '@/db/repositories';
+import { useLookup } from '@/features/moments/useLookup';
 import { fullName, sortContacts, sortLetter, type ContactSort } from '@/domain/contact';
 import type { Contact } from '@/domain/types';
 import { ContactRow } from './ContactRow';
@@ -32,9 +33,20 @@ export function ContactsPage() {
     ? (params.get('filter') as Filter)
     : 'all';
   const all = useLiveList(contactRepo);
+  const lookup = useLookup();
+  const groups = useLiveQuery(listGroups, []);
+  const tagId = params.get('tag') ?? '';
+  const groupId = params.get('group') ?? '';
   const visible = useMemo(
-    () => sortContacts(applyFilter(all ?? [], filter), sort, i18n.language),
-    [all, filter, sort, i18n.language],
+    () =>
+      sortContacts(
+        applyFilter(all ?? [], filter).filter(
+          (c) => (!tagId || c.tagIds.includes(tagId)) && (!groupId || c.groupIds.includes(groupId)),
+        ),
+        sort,
+        i18n.language,
+      ),
+    [all, filter, sort, i18n.language, tagId, groupId],
   );
 
   const setParam = (key: string, value: string, fallback: string) => {
@@ -60,7 +72,33 @@ export function ContactsPage() {
           </Link>
         }
       />
-      <div className="flex justify-end border-b border-border px-4 py-2">
+      <div className="flex flex-wrap justify-end gap-2 border-b border-border px-4 py-2">
+        {lookup.tags.length > 0 && (
+          <SelectField
+            label={t('contactFilters.tag')}
+            hideLabel
+            value={tagId}
+            onChange={(e) => setParam('tag', e.target.value, '')}
+            options={[
+              { value: '', label: t('contactFilters.allTags') },
+              ...lookup.tags.map((tag) => ({ value: tag.id, label: `#${tag.name}` })),
+            ]}
+            className="w-44"
+          />
+        )}
+        {!!groups?.length && (
+          <SelectField
+            label={t('contactFilters.group')}
+            hideLabel
+            value={groupId}
+            onChange={(e) => setParam('group', e.target.value, '')}
+            options={[
+              { value: '', label: t('contactFilters.allGroups') },
+              ...groups.map((g) => ({ value: g.id, label: `${g.emoji ?? ''} ${g.name}`.trim() })),
+            ]}
+            className="w-44"
+          />
+        )}
         <SelectField
           label={t('contacts.sort.label')}
           hideLabel

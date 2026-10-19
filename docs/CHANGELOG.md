@@ -1,5 +1,21 @@
 # Changelog
 
+## M5 — Relationships, gifts, debts, tasks, pets, groups, starred (2026-10-19)
+
+- Relationships in Profile › Details, grouped Family / Love / Friends / Work / Other. Pick or create a person, set type and
+  since date. The inverse is created and kept in sync, and deleting one side deletes both (§8.3 AC). The profile shows a
+  "1 family · 2 friends" row that links to the list.
+- Gifts tab grouped Ideas / Bought / Given / Received (occasion, safe link, price and currency, date, notes, move between statuses).
+- Money tab with per-currency running balance ("Owes you €15.00" / "You owe €20.00"), settle and unsettle with date
+  (§8.7 AC). The right-rail Money card shows only while unsettled debts exist.
+- Tasks: profile tab and global `/tasks` checklist (Open/Done, quick add with due date and person, overdue highlight).
+- Pets, plus tag and group chips with create-on-the-fly, in Profile › Details. The groups a contact belongs to show in the profile meta.
+- Groups (`/groups`, `/groups/:id`): emoji and color banner, description, members (add/remove, inline create),
+  group timeline, edit, delete with Undo. Contacts list gains Tag and Group filters.
+- Starred (`/starred`): starred people row and starred moments feed. Settings has a default currency.
+- Tests: relationship inverses and grouping, money balances and settling, groups (membership, timeline, purge),
+  starred, plus E2E for each area.
+
 ## M4 — Reminders (2026-10-19)
 
 - Reminders page (`/reminders`): Upcoming (Today / This week / This month / Later), Overdue with count, Done. Each item has

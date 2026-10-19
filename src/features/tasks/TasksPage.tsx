@@ -1,7 +1,14 @@
 import { useTranslation } from 'react-i18next';
-import { Placeholder } from '@/components/Placeholder';
+import { PageHeader } from '@/components/PageHeader';
+import { TaskList } from './TaskList';
 
+/** `/tasks`: simple checklist across everyone (SPEC §6.7). */
 export function TasksPage() {
   const { t } = useTranslation();
-  return <Placeholder title={t('pages.tasks')} milestone={5} />;
+  return (
+    <>
+      <PageHeader title={t('pages.tasks')} />
+      <TaskList />
+    </>
+  );
 }

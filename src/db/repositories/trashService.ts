@@ -29,6 +29,16 @@ export async function purgeExpiredTrash(now = new Date()): Promise<number> {
   for (const id of contacts) await purgeContact(id);
   const moments = await db.moments.where('deletedAt').below(cutoff).primaryKeys();
   for (const id of moments) await purgeMoment(id);
+  // Purged groups leave no dangling memberships.
+  const groups = await db.groups.where('deletedAt').below(cutoff).primaryKeys();
+  if (groups.length) {
+    await db.contacts
+      .where('groupIds')
+      .anyOf(groups)
+      .modify((c) => {
+        c.groupIds = c.groupIds.filter((g) => !groups.includes(g));
+      });
+  }
   let purged = contacts.length + moments.length;
   for (const table of softDeletableTables()) {
     purged += await table.where('deletedAt').below(cutoff).delete();

@@ -229,3 +229,38 @@ shell always denies notification permission and the notification flow is part of
 
 "Upcoming" lists the next 5 birthdays and reminders due today or later, excluding stay-in-touch. Those appear only in "Reach out"
 (due ones, max 3, ordered by due date, never by any score).
+
+## D-041 — Relationship direction and inverses (M5)
+
+A row `from → to` with type T reads "to is from's T" (Élise → Marc `parent` = Marc is Élise's parent). The profile lists
+rows where the contact is `from`, so each row reads "Marc · Parent". Saving creates or updates both rows in one transaction,
+linked via `inverseId`. Deleting either side soft-deletes both (§8.3 AC), and Undo restores both. Self-links and exact
+duplicates are rejected. The dialog shows a "Marc is Élise's parent" preview so the direction is never ambiguous.
+`neighbour` is grouped under "Other" (§8.3 lists only Family, Love, Friends, Work, Other).
+
+## D-042 — Contact tags and groups (M5)
+
+Tags and group memberships are edited from Profile › Details as chips with an add combobox that can create new ones
+(not from the contact form). The Contacts list gained Tag and Group filters, which closes the M2 deferral in D-017.
+
+## D-043 — Groups (M5)
+
+Deleting a group soft-deletes it with Undo. Contacts keep the id until the 30-day purge removes it from `groupIds`.
+A group's timeline is every moment mentioning any member. Member counts come from the `*groupIds` multi-entry index.
+
+## D-044 — Money (M5)
+
+Balances are per currency (no exchange rates), summed in minor units to avoid float drift. Positive means they owe you.
+The right-rail Money card shows only while unsettled debts exist: totals owed each way plus up to 5 people.
+The default currency is a new Settings option.
+
+## D-045 — Profile sub-records (M5)
+
+Gifts, debts, tasks and pets are soft-deleted with an Undo toast. They don't get Trash rows (they go to Trash only
+through their contact) and are purged after 30 days like everything else. Gift links must be http(s). Gift photos
+(`photoBlobId`) aren't editable yet, but existing values are kept.
+
+## D-046 — Boolean indexes (M5)
+
+IndexedDB can't index booleans, so the `isStarred` and `isArchived` indexes in the v1 schema never match. Starred queries
+filter instead, which is fine at the spec's data sizes. A future schema version could index them as 0/1.

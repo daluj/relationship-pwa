@@ -6,9 +6,12 @@ import { contactRepo, useLiveRecord } from '@/db/repositories';
 import { fullName } from '@/domain/contact';
 import { DetailsTab } from './DetailsTab';
 import { ProfileHeader } from './ProfileHeader';
+import { GiftsTab } from '@/features/gifts/GiftsTab';
+import { MoneyTab } from '@/features/money/MoneyTab';
+import { TaskList } from '@/features/tasks/TaskList';
 import { RemindersTab } from './RemindersTab';
 import { TimelineTab } from './TimelineTab';
-import { isProfileTab, profileTabs, tabMilestone } from './tabs';
+import { isProfileTab, profileTabs } from './tabs';
 
 /** Contact profile `/c/:id` and `/c/:id/:tab` (SPEC §6.6). */
 export function ProfilePage() {
@@ -29,7 +32,6 @@ export function ProfilePage() {
     );
   }
 
-  const milestone = tabMilestone[active];
   return (
     <>
       <PageHeader title={fullName(contact)} back />
@@ -51,10 +53,12 @@ export function ProfilePage() {
           <TimelineTab contact={contact} />
         ) : active === 'reminders' ? (
           <RemindersTab contact={contact} />
+        ) : active === 'gifts' ? (
+          <GiftsTab contactId={contact.id} />
+        ) : active === 'money' ? (
+          <MoneyTab contactId={contact.id} />
         ) : (
-          <p className="px-8 py-12 text-center text-muted">
-            {t('placeholder.comingIn', { milestone: `M${milestone}` })}
-          </p>
+          <TaskList contactId={contact.id} />
         )}
       </div>
     </>

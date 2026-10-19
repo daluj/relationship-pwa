@@ -11,6 +11,7 @@ import {
   MapPin,
   MessageCircle,
   Sparkles,
+  Users,
   Star,
   Trash2,
   type LucideIcon,
@@ -23,6 +24,8 @@ import { Menu } from '@/components/Menu';
 import {
   contactDetails,
   momentsForContact,
+  listGroups,
+  relationshipsFor,
   contactRepo,
   deleteContact,
   restoreContact,
@@ -31,6 +34,7 @@ import {
   useLiveQuery,
 } from '@/db/repositories';
 import { avatarColors, fullName } from '@/domain/contact';
+import { countByGroup, relationshipGroups } from '@/domain/relationships';
 import { ageOn, formatPartialDate, formatRelativeDay, nextOccurrence } from '@/domain/partialDate';
 import type { Contact, PartialDate } from '@/domain/types';
 
@@ -65,6 +69,12 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
         .sort((a, b) => b.happenedAt.localeCompare(a.happenedAt))[0],
     [contact.id],
   );
+  const relationships = useLiveQuery(() => relationshipsFor(contact.id), [contact.id]);
+  const groups = useLiveQuery(listGroups, []);
+  const relCounts = countByGroup((relationships ?? []).map((r) => r.type));
+  const groupNames = (groups ?? [])
+    .filter((g) => contact.groupIds.includes(g.id))
+    .map((g) => g.name);
   const name = fullName(contact);
   const locale = i18n.language;
   const today = new Date();
@@ -214,6 +224,7 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
                 : t('profile.deceased')}
             </MetaItem>
           )}
+          {groupNames.length > 0 && <MetaItem icon={Users}>{groupNames.join(' · ')}</MetaItem>}
           {place && <MetaItem icon={MapPin}>{place}</MetaItem>}
           {lifeEvent && (
             <MetaItem icon={Sparkles}>
@@ -243,6 +254,26 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
           )}
           {contact.isArchived && <MetaItem icon={Archive}>{t('contacts.archivedBadge')}</MetaItem>}
         </ul>
+        {relationships && relationships.length > 0 && (
+          <Link
+            to={`/c/${contact.id}/details#relationships`}
+            className="mb-4 flex flex-wrap gap-x-4 text-sm hover:underline"
+            data-testid="relationship-counts"
+          >
+            {relationshipGroups
+              .filter((g) => relCounts[g])
+              .map((g) => (
+                <span key={g}>
+                  <strong className="text-text">{relCounts[g]}</strong>{' '}
+                  <span className="text-muted">
+                    {t(`relationships.counts.${g}` as 'relationships.counts.family', {
+                      count: relCounts[g],
+                    })}
+                  </span>
+                </span>
+              ))}
+          </Link>
+        )}
       </div>
     </div>
   );

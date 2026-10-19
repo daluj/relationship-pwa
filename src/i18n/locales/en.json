@@ -95,7 +95,8 @@
       "en": "English",
       "es": "Español"
     },
-    "sections": "More settings"
+    "sections": "More settings",
+    "currency": "Default currency"
   },
   "pwa": {
     "updateAvailable": "Update available",
@@ -534,5 +535,187 @@
     "periodicOn": "Background checks: on, about twice a day (installed app on supported browsers).",
     "periodicOff": "Background checks: not available here — reminders are checked when you open the app.",
     "calendarHint": "For alerts you can rely on, add your reminders to your phone's calendar:"
+  },
+  "relationships": {
+    "title": "Relationships",
+    "add": "Add relationship",
+    "edit": "Edit relationship",
+    "person": "Person",
+    "type": "Relationship",
+    "since": "Since",
+    "notes": "Notes",
+    "delete": "Remove relationship",
+    "deleted": "Relationship removed",
+    "duplicate": "That relationship already exists.",
+    "pickPerson": "Pick a person.",
+    "preview": "{{other}} is {{name}}'s {{type}}",
+    "types": {
+      "partner": "Partner",
+      "spouse": "Spouse",
+      "ex-partner": "Ex-partner",
+      "date": "Dating",
+      "parent": "Parent",
+      "child": "Child",
+      "sibling": "Sibling",
+      "grandparent": "Grandparent",
+      "grandchild": "Grandchild",
+      "uncle-aunt": "Uncle/Aunt",
+      "nephew-niece": "Nephew/Niece",
+      "cousin": "Cousin",
+      "in-law": "In-law",
+      "godparent": "Godparent",
+      "godchild": "Godchild",
+      "friend": "Friend",
+      "best-friend": "Best friend",
+      "colleague": "Colleague",
+      "boss": "Boss",
+      "subordinate": "Direct report",
+      "mentor": "Mentor",
+      "protege": "Mentee",
+      "neighbour": "Neighbour",
+      "other": "Other"
+    },
+    "groups": {
+      "family": "Family",
+      "love": "Love",
+      "friends": "Friends",
+      "work": "Work",
+      "other": "Other"
+    },
+    "counts": {
+      "family": "family",
+      "love": "love",
+      "friends_one": "friend",
+      "friends_other": "friends",
+      "work": "work",
+      "other": "other"
+    }
+  },
+  "pets": {
+    "title": "Pets",
+    "add": "Add pet",
+    "edit": "Edit pet",
+    "name": "Name",
+    "species": "Species",
+    "notes": "Notes",
+    "delete": "Remove pet"
+  },
+  "tagsGroups": {
+    "tags": "Tags",
+    "groups": "Groups",
+    "addTag": "Add tag",
+    "addGroup": "Add to group",
+    "removeTag": "Remove tag {{name}}",
+    "removeGroup": "Remove from {{name}}",
+    "searchTags": "Search tags",
+    "searchGroups": "Search groups",
+    "createGroup": "Create group “{{name}}”"
+  },
+  "gifts": {
+    "statuses": {
+      "idea": "Ideas",
+      "bought": "Bought",
+      "given": "Given",
+      "received": "Received"
+    },
+    "status": {
+      "idea": "Idea",
+      "bought": "Bought",
+      "given": "Given",
+      "received": "Received"
+    },
+    "statusLabel": "Status",
+    "add": "Add gift",
+    "edit": "Edit gift",
+    "name": "Gift",
+    "occasion": "Occasion",
+    "url": "Link",
+    "price": "Price",
+    "currency": "Currency",
+    "date": "Date",
+    "notes": "Notes",
+    "delete": "Delete gift",
+    "deleted": "Gift deleted",
+    "empty": "No gifts yet. Jot down ideas when they come up.",
+    "moveTo": "Mark as {{status}}",
+    "invalidUrl": "Enter a full link starting with https://"
+  },
+  "money": {
+    "theyOwe": "Owes you {{amount}}",
+    "iOwe": "You owe {{amount}}",
+    "allSettled": "All settled",
+    "add": "Add debt",
+    "edit": "Edit debt",
+    "direction": "Who owes?",
+    "directionTheyOwe": "They owe me",
+    "directionIOwe": "I owe them",
+    "amount": "Amount",
+    "currency": "Currency",
+    "reason": "What for",
+    "date": "Date",
+    "settle": "Settle",
+    "unsettle": "Mark as unsettled",
+    "settledOn": "Settled on {{date}}",
+    "delete": "Delete debt",
+    "deleted": "Debt deleted",
+    "empty": "No money matters with them.",
+    "open": "Open",
+    "history": "Settled",
+    "invalidAmount": "Enter an amount greater than 0",
+    "rail": "Money",
+    "railTheyOwe": "People owe you {{amount}}",
+    "railIOwe": "You owe {{amount}}"
+  },
+  "tasks": {
+    "add": "Add task",
+    "placeholder": "What needs doing?",
+    "due": "Due date",
+    "person": "Person",
+    "tabs": {
+      "open": "Open",
+      "done": "Done"
+    },
+    "empty": {
+      "open": "Nothing to do.",
+      "done": "No finished tasks yet."
+    },
+    "delete": "Delete task",
+    "deleted": "Task deleted",
+    "toggle": "Done: {{title}}",
+    "dueOn": "Due {{date}}",
+    "overdue": "Overdue · {{date}}"
+  },
+  "groups": {
+    "new": "New group",
+    "edit": "Edit group",
+    "name": "Name",
+    "description": "Description",
+    "emoji": "Emoji",
+    "color": "Banner color",
+    "members_one": "{{count}} member",
+    "members_other": "{{count}} members",
+    "addMember": "Add member",
+    "removeMember": "Remove {{name}} from group",
+    "tabs": {
+      "timeline": "Timeline",
+      "members": "Members"
+    },
+    "empty": "No groups yet. Create one for family, work, a book club…",
+    "emptyMembers": "No members yet.",
+    "emptyTimeline": "No moments with members yet.",
+    "delete": "Delete group",
+    "deleted": "Group deleted",
+    "notFound": "This group doesn't exist."
+  },
+  "starred": {
+    "contacts": "Starred people",
+    "moments": "Starred moments",
+    "empty": "Star people and moments to find them here."
+  },
+  "contactFilters": {
+    "tag": "Tag",
+    "group": "Group",
+    "allTags": "All tags",
+    "allGroups": "All groups"
   }
 }

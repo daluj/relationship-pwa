@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   AtSign,
   Globe,
@@ -17,6 +17,9 @@ import { contactFieldHref } from '@/domain/contactFieldHref';
 import { formatPartialDate } from '@/domain/partialDate';
 import type { Address, Contact, ContactFieldType } from '@/domain/types';
 import { ImportantDatesBlock } from '@/features/reminders/ImportantDatesBlock';
+import { RelationshipsBlock } from '@/features/relationships/RelationshipsBlock';
+import { PetsBlock } from './PetsBlock';
+import { TagsGroupsBlocks } from './TagsGroupsBlocks';
 
 const fieldIcons: Record<ContactFieldType, LucideIcon> = {
   phone: Phone,
@@ -56,6 +59,12 @@ export function DetailsTab({ contact }: { contact: Contact }) {
         : undefined,
     [contact.howWeMet?.introducedById],
   );
+  const { hash } = useLocation();
+  const ready = !!fields && !!addresses;
+  // Deep links like `/c/:id/details#relationships` (profile counts row).
+  useEffect(() => {
+    if (ready && hash) document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start' });
+  }, [ready, hash]);
   if (!fields || !addresses) return null;
 
   const fmt = (pd: Parameters<typeof formatPartialDate>[0]) => formatPartialDate(pd, i18n.language);
@@ -175,7 +184,10 @@ export function DetailsTab({ contact }: { contact: Contact }) {
   return (
     <div>
       {blocks}
+      <RelationshipsBlock contact={contact} />
       <ImportantDatesBlock contactId={contact.id} />
+      <PetsBlock contactId={contact.id} />
+      <TagsGroupsBlocks contact={contact} />
       {blocks.length === 0 && (
         <div className="px-8 py-12 text-center">
           <p className="text-muted">{t('details.empty')}</p>

@@ -52,3 +52,40 @@ export {
   snoozeReminder,
 } from './reminderService';
 export type { ImportantDateDraft, ReminderDraft } from './reminderService';
+export {
+  deleteRelationship,
+  relationshipsFor,
+  restoreRelationship,
+  saveRelationship,
+} from './relationshipService';
+export type { RelationshipDraft } from './relationshipService';
+export {
+  addToGroup,
+  deleteGroup,
+  groupMemberCounts,
+  groupMembers,
+  groupTimeline,
+  listGroups,
+  removeFromGroup,
+  restoreGroup,
+  saveGroup,
+} from './groupService';
+export type { GroupDraft } from './groupService';
+export {
+  debtsFor,
+  giftsFor,
+  listOpenDebts,
+  listTasks,
+  petsFor,
+  saveDebt,
+  saveGift,
+  savePet,
+  saveTask,
+  setContactTags,
+  setTaskDone,
+  settleDebt,
+  starredContacts,
+  starredMoments,
+  tasksFor,
+} from './profileItems';
+export type { DebtDraft, GiftDraft, PetDraft, TaskDraft } from './profileItems';

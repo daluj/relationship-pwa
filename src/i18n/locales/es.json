@@ -95,7 +95,8 @@
       "en": "English",
       "es": "Español"
     },
-    "sections": "Más ajustes"
+    "sections": "Más ajustes",
+    "currency": "Moneda predeterminada"
   },
   "pwa": {
     "updateAvailable": "Actualización disponible",
@@ -534,5 +535,187 @@
     "periodicOn": "Comprobación en segundo plano: activa, unas dos veces al día (app instalada en navegadores compatibles).",
     "periodicOff": "Comprobación en segundo plano: no disponible aquí; los recordatorios se revisan al abrir la app.",
     "calendarHint": "Para avisos fiables, añade tus recordatorios al calendario del móvil:"
+  },
+  "relationships": {
+    "title": "Relaciones",
+    "add": "Añadir relación",
+    "edit": "Editar relación",
+    "person": "Persona",
+    "type": "Relación",
+    "since": "Desde",
+    "notes": "Notas",
+    "delete": "Quitar relación",
+    "deleted": "Relación eliminada",
+    "duplicate": "Esa relación ya existe.",
+    "pickPerson": "Elige una persona.",
+    "preview": "{{other}}: {{type}} de {{name}}",
+    "types": {
+      "partner": "Pareja",
+      "spouse": "Cónyuge",
+      "ex-partner": "Expareja",
+      "date": "Saliendo",
+      "parent": "Padre/Madre",
+      "child": "Hijo/Hija",
+      "sibling": "Hermano/Hermana",
+      "grandparent": "Abuelo/Abuela",
+      "grandchild": "Nieto/Nieta",
+      "uncle-aunt": "Tío/Tía",
+      "nephew-niece": "Sobrino/Sobrina",
+      "cousin": "Primo/Prima",
+      "in-law": "Familia política",
+      "godparent": "Padrino/Madrina",
+      "godchild": "Ahijado/Ahijada",
+      "friend": "Amistad",
+      "best-friend": "Mejor amistad",
+      "colleague": "Compañero/a de trabajo",
+      "boss": "Jefe/a",
+      "subordinate": "Subordinado/a",
+      "mentor": "Mentor/a",
+      "protege": "Mentorizado/a",
+      "neighbour": "Vecino/a",
+      "other": "Otra"
+    },
+    "groups": {
+      "family": "Familia",
+      "love": "Amor",
+      "friends": "Amistades",
+      "work": "Trabajo",
+      "other": "Otras"
+    },
+    "counts": {
+      "family": "familia",
+      "love": "amor",
+      "friends_one": "amistad",
+      "friends_other": "amistades",
+      "work": "trabajo",
+      "other": "otras"
+    }
+  },
+  "pets": {
+    "title": "Mascotas",
+    "add": "Añadir mascota",
+    "edit": "Editar mascota",
+    "name": "Nombre",
+    "species": "Especie",
+    "notes": "Notas",
+    "delete": "Quitar mascota"
+  },
+  "tagsGroups": {
+    "tags": "Etiquetas",
+    "groups": "Grupos",
+    "addTag": "Añadir etiqueta",
+    "addGroup": "Añadir a un grupo",
+    "removeTag": "Quitar etiqueta {{name}}",
+    "removeGroup": "Quitar de {{name}}",
+    "searchTags": "Buscar etiquetas",
+    "searchGroups": "Buscar grupos",
+    "createGroup": "Crear grupo «{{name}}»"
+  },
+  "gifts": {
+    "statuses": {
+      "idea": "Ideas",
+      "bought": "Comprados",
+      "given": "Regalados",
+      "received": "Recibidos"
+    },
+    "status": {
+      "idea": "Idea",
+      "bought": "Comprado",
+      "given": "Regalado",
+      "received": "Recibido"
+    },
+    "statusLabel": "Estado",
+    "add": "Añadir regalo",
+    "edit": "Editar regalo",
+    "name": "Regalo",
+    "occasion": "Ocasión",
+    "url": "Enlace",
+    "price": "Precio",
+    "currency": "Moneda",
+    "date": "Fecha",
+    "notes": "Notas",
+    "delete": "Eliminar regalo",
+    "deleted": "Regalo eliminado",
+    "empty": "Aún no hay regalos. Apunta ideas cuando se te ocurran.",
+    "moveTo": "Marcar como {{status}}",
+    "invalidUrl": "Introduce un enlace completo que empiece por https://"
+  },
+  "money": {
+    "theyOwe": "Te debe {{amount}}",
+    "iOwe": "Le debes {{amount}}",
+    "allSettled": "Todo saldado",
+    "add": "Añadir deuda",
+    "edit": "Editar deuda",
+    "direction": "¿Quién debe?",
+    "directionTheyOwe": "Me debe",
+    "directionIOwe": "Le debo",
+    "amount": "Importe",
+    "currency": "Moneda",
+    "reason": "Concepto",
+    "date": "Fecha",
+    "settle": "Saldar",
+    "unsettle": "Marcar como pendiente",
+    "settledOn": "Saldada el {{date}}",
+    "delete": "Eliminar deuda",
+    "deleted": "Deuda eliminada",
+    "empty": "No hay temas de dinero con esta persona.",
+    "open": "Pendientes",
+    "history": "Saldadas",
+    "invalidAmount": "Introduce un importe mayor que 0",
+    "rail": "Dinero",
+    "railTheyOwe": "Te deben {{amount}}",
+    "railIOwe": "Debes {{amount}}"
+  },
+  "tasks": {
+    "add": "Añadir tarea",
+    "placeholder": "¿Qué hay que hacer?",
+    "due": "Fecha límite",
+    "person": "Persona",
+    "tabs": {
+      "open": "Pendientes",
+      "done": "Hechas"
+    },
+    "empty": {
+      "open": "Nada pendiente.",
+      "done": "Aún no hay tareas hechas."
+    },
+    "delete": "Eliminar tarea",
+    "deleted": "Tarea eliminada",
+    "toggle": "Hecha: {{title}}",
+    "dueOn": "Para el {{date}}",
+    "overdue": "Vencida · {{date}}"
+  },
+  "groups": {
+    "new": "Nuevo grupo",
+    "edit": "Editar grupo",
+    "name": "Nombre",
+    "description": "Descripción",
+    "emoji": "Emoji",
+    "color": "Color de cabecera",
+    "members_one": "{{count}} miembro",
+    "members_other": "{{count}} miembros",
+    "addMember": "Añadir miembro",
+    "removeMember": "Quitar a {{name}} del grupo",
+    "tabs": {
+      "timeline": "Cronología",
+      "members": "Miembros"
+    },
+    "empty": "Aún no hay grupos. Crea uno para la familia, el trabajo, un club de lectura…",
+    "emptyMembers": "Aún no hay miembros.",
+    "emptyTimeline": "Aún no hay momentos con miembros.",
+    "delete": "Eliminar grupo",
+    "deleted": "Grupo eliminado",
+    "notFound": "Este grupo no existe."
+  },
+  "starred": {
+    "contacts": "Personas destacadas",
+    "moments": "Momentos destacados",
+    "empty": "Destaca personas y momentos para encontrarlos aquí."
+  },
+  "contactFilters": {
+    "tag": "Etiqueta",
+    "group": "Grupo",
+    "allTags": "Todas las etiquetas",
+    "allGroups": "Todos los grupos"
   }
 }
