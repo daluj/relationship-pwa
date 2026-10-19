@@ -10,16 +10,19 @@ import {
   Handshake,
   MapPin,
   MessageCircle,
+  Sparkles,
   Star,
   Trash2,
   type LucideIcon,
 } from 'lucide-react';
+import { useComposer } from '@/app/stores/composer';
 import { useToasts } from '@/app/stores/toast';
 import { Avatar } from '@/components/Avatar';
 import { buttonClass } from '@/components/buttonClass';
 import { Menu } from '@/components/Menu';
 import {
   contactDetails,
+  momentsForContact,
   contactRepo,
   deleteContact,
   restoreContact,
@@ -44,6 +47,7 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const showToast = useToasts((s) => s.show);
+  const openComposer = useComposer((s) => s.openComposer);
   const bannerUrl = useBlobUrl(contact.bannerBlobId);
   const addresses = useLiveQuery(() => contactDetails.addresses(contact.id), [contact.id]);
   const introducer = useLiveQuery(
@@ -52,6 +56,13 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
         ? contactRepo.get(contact.howWeMet.introducedById)
         : undefined,
     [contact.howWeMet?.introducedById],
+  );
+  const lifeEvent = useLiveQuery(
+    async () =>
+      (await momentsForContact(contact.id))
+        .filter((m) => m.kind === 'life-event')
+        .sort((a, b) => b.happenedAt.localeCompare(a.happenedAt))[0],
+    [contact.id],
   );
   const name = fullName(contact);
   const locale = i18n.language;
@@ -163,14 +174,15 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
                 },
               ]}
             />
-            <Link
-              to={`/compose?contact=${contact.id}`}
+            <button
+              type="button"
+              onClick={() => openComposer({ prefill: { contactIds: [contact.id] } })}
               aria-label={t('profile.logMoment')}
               className={`${buttonClass('outline', 'sm')} max-md:w-8 max-md:px-0`}
             >
               <Feather size={16} className="md:hidden" aria-hidden />
               <span className="hidden md:inline">{t('profile.logMoment')}</span>
-            </Link>
+            </button>
             <Link to={`/c/${contact.id}/edit`} className={buttonClass('outline', 'sm')}>
               {t('profile.editProfile')}
             </Link>
@@ -202,6 +214,23 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
             </MetaItem>
           )}
           {place && <MetaItem icon={MapPin}>{place}</MetaItem>}
+          {lifeEvent && (
+            <MetaItem icon={Sparkles}>
+              {t('moment.lifeEventMeta', {
+                event: [
+                  lifeEvent.lifeEventType
+                    ? t(`moment.lifeEventTypes.${lifeEvent.lifeEventType}`)
+                    : t('moment.kinds.life-event'),
+                  lifeEvent.location,
+                ]
+                  .filter(Boolean)
+                  .join(' · '),
+                date: new Intl.DateTimeFormat(locale, { month: 'short', year: 'numeric' }).format(
+                  new Date(lifeEvent.happenedAt),
+                ),
+              })}
+            </MetaItem>
+          )}
           {birthday && <MetaItem icon={Cake}>{birthday}</MetaItem>}
           {metText && <MetaItem icon={Handshake}>{metText}</MetaItem>}
           {contact.lastInteractionAt && (

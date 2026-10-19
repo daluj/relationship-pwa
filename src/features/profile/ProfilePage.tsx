@@ -6,6 +6,7 @@ import { contactRepo, useLiveRecord } from '@/db/repositories';
 import { fullName } from '@/domain/contact';
 import { DetailsTab } from './DetailsTab';
 import { ProfileHeader } from './ProfileHeader';
+import { TimelineTab } from './TimelineTab';
 import { isProfileTab, profileTabs, tabMilestone } from './tabs';
 
 /** Contact profile `/c/:id` and `/c/:id/:tab` (SPEC §6.6). */
@@ -45,6 +46,8 @@ export function ProfilePage() {
       <div role="tabpanel" aria-label={t(`profile.tabs.${active}`)}>
         {active === 'details' ? (
           <DetailsTab contact={contact} />
+        ) : active === 'timeline' ? (
+          <TimelineTab contact={contact} />
         ) : (
           <p className="px-8 py-12 text-center text-muted">
             {t('placeholder.comingIn', { milestone: `M${milestone}` })}

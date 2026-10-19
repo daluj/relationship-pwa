@@ -131,3 +131,49 @@ Expired items (> 30 days) of every table are purged on app start.
 
 The profile menu toggles `isDeceased` without a date. The date of death can be set in the edit form. Unmarking clears
 both. Deceased contacts show "In memoriam" and drop the "turns N" countdown.
+
+## D-024 — Composer opens over the current page, not as a route (M3)
+
+"Desktop modal over current route" (§6.5) is implemented with a Zustand store (`useComposer`). Nav button, FAB, `n`,
+profile "Log moment" and Edit open it in place. `/compose` stays as a deep link (manifest shortcut, later the share
+target): it opens the composer over Home (`?contact=`, `?text=` prefill). On mobile the same `<dialog>` is full-screen.
+
+## D-025 — Composer edits readable text; tokens are produced on save (M3)
+
+The textarea shows `@Élise Aubert` / `#family`. The composer tracks which display strings stand for which ids, and
+`draftToBody` turns them into `@[…](contact:id)` / `#[…](tag:id)` tokens on save (longest match first, word-bounded).
+Editing a display string turns it back into plain text. `contactIds` = mentions ∪ people added with the explicit picker.
+"Create contact" in `@` suggestions creates a minimal contact immediately.
+
+## D-026 — Photo thumbnails (M3)
+
+Each moment photo is stored at ≤ 1600px with a ≤ 600px feed thumbnail as a separate blob with id `<photoId>:thumb`
+(no schema change). Feeds load thumbnails; the moment page loads full size. Purging a moment deletes both.
+
+## D-027 — Pinning (M3)
+
+`isPinned` is a flag on the moment, so a pinned moment is pinned on every profile it appears on. Several pinned
+moments are allowed; profile timelines list all pinned ones first.
+
+## D-028 — `lastInteractionAt` (M3)
+
+The newest `happenedAt` among live moments that mention the contact (any kind). It's recomputed inside the same
+transaction whenever a moment is saved, re-dated, deleted, restored or purged, so stay-in-touch (M4) stays correct.
+
+## D-029 — Tag delete and merge (M3)
+
+Deleting a tag removes it from every record's `tagIds` and hard-deletes the tag. Body tokens stay and render as plain
+`#name` text, so nothing people wrote is lost. Merging re-points `tagIds` and rewrites body tokens to the target tag.
+
+## D-030 — Moment card details (M3)
+
+- Moments with no people (e.g. journal) show "You" with a kind icon as the avatar.
+- Timestamps use `Intl.RelativeTimeFormat` narrow style ("2h ago", "hace 2 h") under a week, then "Mar 18".
+- If the date wasn't changed in the composer, the moment gets the exact save time (not the time the composer opened).
+- Life events show only under "All" on Home (there's no Life events tab in §6.1). The newest one appears in the profile meta row.
+- Bodies are rendered as React nodes from `parseBody`: there is no `dangerouslySetInnerHTML` anywhere (§11).
+
+## D-031 — Moments in Trash (M3)
+
+Deleted moments appear in Settings › Trash next to contacts, with restore and delete forever. Expired ones are purged
+with their photos on app start.

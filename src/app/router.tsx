@@ -1,10 +1,10 @@
 import { createBrowserRouter, type RouteObject } from 'react-router-dom';
-import { ComposePage } from '@/features/compose/ComposePage';
+import { ComposeRoute } from '@/features/compose/ComposeRoute';
 import { ContactsPage } from '@/features/contacts/ContactsPage';
 import { GroupPage } from '@/features/groups/GroupPage';
 import { GroupsPage } from '@/features/groups/GroupsPage';
 import { HomePage } from '@/features/home/HomePage';
-import { MomentPage } from '@/features/moment/MomentPage';
+import { MomentPage } from '@/features/moments/MomentPage';
 import { NotFoundPage } from '@/features/not-found/NotFoundPage';
 import { OnboardingPage } from '@/features/onboarding/OnboardingPage';
 import { ProfilePage } from '@/features/profile/ProfilePage';
@@ -27,7 +27,7 @@ export const routes: RouteObject[] = [
     Component: AppShell,
     children: [
       { index: true, Component: HomePage },
-      { path: 'compose', Component: ComposePage },
+      { path: 'compose', Component: ComposeRoute },
       { path: 'moment/:id', Component: MomentPage },
       { path: 'contacts', Component: ContactsPage },
       // Contact editing is lazy-loaded (SPEC §10).

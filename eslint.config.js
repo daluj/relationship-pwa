@@ -63,4 +63,6 @@ export default tseslint.config(
       ],
     },
   },
+  // Fast refresh is irrelevant for test helpers.
+  { files: ['tests/**/*.{ts,tsx}'], rules: { 'react-refresh/only-export-components': 'off' } },
 );

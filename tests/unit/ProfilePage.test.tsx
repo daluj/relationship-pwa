@@ -1,24 +1,20 @@
-import { render, screen, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createMemoryRouter, RouterProvider } from 'react-router-dom';
-import '@/i18n';
 import { saveContact } from '@/db/repositories';
 import { ProfilePage } from '@/features/profile/ProfilePage';
 import { resetDb } from './helpers';
+import { renderRoutes } from './renderWithApp';
 
 beforeEach(resetDb);
 
 function renderAt(path: string) {
-  const router = createMemoryRouter(
+  return renderRoutes(
     [
       { path: '/c/:id', Component: ProfilePage },
       { path: '/c/:id/:tab', Component: ProfilePage },
-      { path: '*', element: null },
     ],
-    { initialEntries: [path] },
+    path,
   );
-  render(<RouterProvider router={router} />);
-  return router;
 }
 
 describe('ProfilePage tabs (SPEC §6.6)', () => {

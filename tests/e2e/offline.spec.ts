@@ -1,7 +1,7 @@
 import { expect, test, waitForServiceWorker } from './fixtures';
 
-// SPEC §9 AC (M1 subset, see docs/DECISIONS.md D-003): after first load the app works fully
-// offline, and data written to IndexedDB survives offline reloads.
+// SPEC §9 AC: after first load the app works fully offline; settings, a contact and a moment
+// created offline survive reloads.
 test('app shell and data survive offline reloads', async ({ page, context }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Home', level: 1 })).toBeVisible();
@@ -40,4 +40,16 @@ test('app shell and data survive offline reloads', async ({ page, context }) => 
   await expect(page.getByRole('heading', { name: 'Offline Olga', level: 2 })).toBeVisible();
   await page.goto('/contacts');
   await expect(page.getByRole('link', { name: /Offline Olga/ })).toBeVisible();
+
+  // …and a moment mentioning her (SPEC §9 AC, part 2), then reload again.
+  await page.goto('/');
+  const box = page.getByRole('combobox', { name: 'What happened?' });
+  await box.pressSequentially('Tea with @olga');
+  await box.press('Enter');
+  await page.getByRole('button', { name: 'Save', exact: true }).click();
+  await expect(page.getByTestId('moment-card')).toContainText('Tea with');
+  await page.reload();
+  await expect(
+    page.getByTestId('moment-card').getByRole('link', { name: '@Offline Olga' }),
+  ).toBeVisible();
 });

@@ -289,5 +289,131 @@
     "confirmTitle": "¿Eliminar definitivamente?",
     "confirmBody": "{{name}} y todo lo vinculado se eliminará de forma permanente. No se puede deshacer.",
     "restored": "{{name}} restaurado"
+  },
+  "moment": {
+    "kinds": {
+      "activity": "Actividad",
+      "note": "Nota",
+      "call": "Llamada",
+      "journal": "Diario",
+      "life-event": "Acontecimiento"
+    },
+    "activityTypes": {
+      "meal": "Comida",
+      "coffee": "Café",
+      "drinks": "Copas",
+      "trip": "Viaje",
+      "event": "Evento",
+      "sport": "Deporte",
+      "visit": "Visita",
+      "other": "Otro"
+    },
+    "lifeEventTypes": {
+      "new-job": "Nuevo trabajo",
+      "moved": "Mudanza",
+      "engaged": "Compromiso",
+      "married": "Boda",
+      "baby": "Nuevo bebé",
+      "graduated": "Graduación",
+      "new-pet": "Nueva mascota",
+      "retired": "Jubilación",
+      "loss": "Pérdida",
+      "health": "Salud",
+      "other": "Acontecimiento"
+    },
+    "callDirections": {
+      "incoming": "Llamada recibida",
+      "outgoing": "Llamada realizada"
+    },
+    "minutes": "{{count}} min",
+    "moods": {
+      "1": "Fatal",
+      "2": "Mal",
+      "3": "Regular",
+      "4": "Bien",
+      "5": "Genial"
+    },
+    "moodLabel": "Ánimo: {{mood}}",
+    "with": "con {{names}}",
+    "you": "Tú",
+    "actions": {
+      "star": "Destacar",
+      "pin": "Fijar en el perfil",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "copy": "Copiar texto",
+      "changeDate": "Cambiar fecha",
+      "more": "Más"
+    },
+    "deleted": "Momento eliminado",
+    "copied": "Copiado al portapapeles",
+    "pinned": "Fijado",
+    "notFound": "Este momento no existe o se ha eliminado.",
+    "people": "Personas",
+    "photoAlt": "Foto {{n}} de {{total}}",
+    "changeDateTitle": "Cambiar fecha",
+    "lifeEventMeta": "{{event}} · {{date}}"
+  },
+  "composer": {
+    "placeholder": "¿Qué ha pasado?",
+    "title": "Registrar momento",
+    "editTitle": "Editar momento",
+    "kind": "Tipo de momento",
+    "addPhoto": "Añadir fotos",
+    "date": "Fecha y hora",
+    "location": "Lugar",
+    "locationPlaceholder": "¿Dónde?",
+    "mood": "Ánimo",
+    "activityType": "Tipo de actividad",
+    "callDirection": "Tipo de llamada",
+    "duration": "Duración (min)",
+    "lifeEventType": "Tipo de acontecimiento",
+    "people": "Personas en este momento",
+    "addPerson": "Añadir persona",
+    "removePerson": "Quitar a {{name}}",
+    "searchPeople": "Buscar personas",
+    "createContact": "Crear contacto «{{name}}»",
+    "createTag": "Crear etiqueta #{{name}}",
+    "suggestions": "Sugerencias",
+    "removePhoto": "Quitar foto {{n}}",
+    "maxPhotos": "Hasta 4 fotos",
+    "discard": "¿Descartar este momento?",
+    "saved": "Momento guardado",
+    "shortcutHint": "Ctrl/⌘ + Intro para guardar",
+    "photoError": "No se ha podido leer esa foto."
+  },
+  "tags": {
+    "moments_one": "{{count}} momento",
+    "moments_other": "{{count}} momentos",
+    "rename": "Renombrar",
+    "recolor": "Cambiar color",
+    "merge": "Fusionar con…",
+    "delete": "Eliminar etiqueta",
+    "renameTitle": "Renombrar etiqueta",
+    "name": "Nombre",
+    "color": "Color",
+    "mergeTitle": "Fusionar #{{name}} con…",
+    "mergeTarget": "Etiqueta de destino",
+    "mergeConfirm": "Fusionar",
+    "deleteTitle": "¿Eliminar #{{name}}?",
+    "deleteBody": "La etiqueta se quitará de todos los momentos y contactos. El texto que escribiste se mantiene.",
+    "deleted": "Etiqueta eliminada",
+    "merged": "Etiquetas fusionadas",
+    "notFound": "Esta etiqueta no existe.",
+    "empty": "Todavía no hay momentos con esta etiqueta.",
+    "duplicate": "Ya existe una etiqueta con ese nombre."
+  },
+  "feed": {
+    "empty": "Aún no has registrado nada. ¿Qué ha pasado?",
+    "emptyKind": "Todavía no hay nada aquí.",
+    "timelineEmpty": "Todavía no hay momentos con {{name}}."
+  },
+  "trashSections": {
+    "contacts": "Contactos",
+    "moments": "Momentos"
+  },
+  "trashMoment": {
+    "confirmBody": "Este momento y sus fotos se eliminarán de forma permanente. No se puede deshacer.",
+    "restored": "Momento restaurado"
   }
 }

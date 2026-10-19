@@ -1,7 +1,7 @@
 import { expect, test } from './fixtures';
 
 const leftNav = (page: import('@playwright/test').Page) =>
-  page.locator('header').filter({ has: page.getByRole('link', { name: 'Log moment' }) });
+  page.locator('header').filter({ has: page.getByRole('button', { name: 'Log moment' }) });
 const rail = (page: import('@playwright/test').Page) => page.getByRole('complementary');
 const bottomBar = (page: import('@playwright/test').Page) => page.locator('nav.fixed');
 
@@ -41,7 +41,7 @@ test.describe('responsive shell (SPEC §6.1–6.3)', () => {
     for (const name of ['Home', 'Search', 'Reminders', 'Contacts']) {
       await expect(bottomBar(page).getByRole('link', { name })).toBeVisible();
     }
-    await expect(page.getByRole('link', { name: 'Log moment' })).toBeVisible(); // FAB
+    await expect(page.getByRole('button', { name: 'Log moment' })).toBeVisible(); // FAB
 
     await bottomBar(page).getByRole('link', { name: 'Contacts' }).click();
     await expect(page).toHaveURL(/\/contacts$/);

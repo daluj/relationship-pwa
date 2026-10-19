@@ -35,8 +35,37 @@ export async function renderCrop(
   const r = coverRect(crop, img, { w: width, h: height });
   ctx.drawImage(bitmap, r.x, r.y, r.w, r.h);
 
+  return encode(canvas);
+}
+
+/** WebP, falling back to JPEG where the browser can't encode WebP (older Safari). */
+async function encode(canvas: HTMLCanvasElement): Promise<NewImage> {
   let blob = await toBlob(canvas, 'image/webp', 0.85);
   if (!blob || blob.type !== 'image/webp') blob = await toBlob(canvas, 'image/jpeg', 0.85);
   if (!blob) throw new Error('Image encoding failed');
-  return { data: blob, mime: blob.type, width, height };
+  return { data: blob, mime: blob.type, width: canvas.width, height: canvas.height };
+}
+
+/** Scales an image down so its longest side is at most `maxDim` (never up). */
+export function resize(bitmap: ImageBitmap, maxDim: number): Promise<NewImage> {
+  const k = Math.min(1, maxDim / Math.max(bitmap.width, bitmap.height));
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.max(1, Math.round(bitmap.width * k));
+  canvas.height = Math.max(1, Math.round(bitmap.height * k));
+  const ctx = canvas.getContext('2d')!;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  return encode(canvas);
+}
+
+/** Moment photo (≤ 1600px) plus feed thumbnail (≤ 600px) (SPEC §3, §10). */
+export async function prepareMomentPhoto(
+  file: Blob,
+): Promise<{ image: NewImage; thumb: NewImage }> {
+  const bitmap = await loadImage(file);
+  try {
+    return { image: await resize(bitmap, 1600), thumb: await resize(bitmap, 600) };
+  } finally {
+    bitmap.close();
+  }
 }

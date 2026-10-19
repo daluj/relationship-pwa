@@ -10,7 +10,6 @@ export {
   deleteContact,
   listTrashedContacts,
   purgeContact,
-  purgeExpiredTrash,
   restoreContact,
   saveContact,
   TRASH_RETENTION_DAYS,
@@ -19,3 +18,20 @@ export type { ContactDraft, NewImage } from './contactService';
 export { useBlobUrl } from './hooks';
 /** Sanctioned way for UI to compose repository reads into a live query (SPEC §4). */
 export { useLiveQuery } from 'dexie-react-hooks';
+export { purgeExpiredTrash } from './trashService';
+export {
+  deleteMoment,
+  feed,
+  listTrashedMoments,
+  momentsForContact,
+  momentsForTag,
+  purgeMoment,
+  restoreMoment,
+  saveMoment,
+  setMomentDate,
+  setMomentPinned,
+  setMomentStarred,
+  thumbId,
+} from './momentService';
+export type { MomentDraft, MomentPhotoDraft } from './momentService';
+export { deleteTag, findOrCreateTag, listTags, mergeTags } from './tagService';

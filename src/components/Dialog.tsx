@@ -34,6 +34,7 @@ export function Dialog({ open, onClose, title, children, footer, wide }: Props) 
       ref={ref}
       aria-labelledby={titleId}
       onCancel={(e) => {
+        if (e.target !== e.currentTarget) return; // ignore events re-propagated from nested dialogs
         e.preventDefault();
         onClose();
       }}

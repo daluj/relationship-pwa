@@ -1,5 +1,24 @@
 # Changelog
 
+## M3 — Moments (2026-10-19)
+
+- Composer ("What happened?") inline on Home (desktop), as a modal on desktop and a full-screen sheet on mobile; opened by
+  the nav button, FAB, `n`, profile "Log moment" or `/compose`. Kind chips (Activity, Note, Call, Journal, Life event)
+  with kind-specific fields (activity type, call direction and duration, life-event type, mood), date/time, location, up to 4
+  photos (resized client-side with thumbnails). Ctrl/⌘+Enter saves; Esc asks before discarding a dirty draft.
+- `@` and `#` autocomplete as an ARIA combobox: fuzzy, accent-insensitive contact matching with "Create contact",
+  and tag matching with create-on-Enter. An explicit people picker sits alongside.
+- Mentions and tags are stored as id tokens, so renaming a contact or tag re-renders every moment (§8.4, §8.8 AC).
+- Home feed with All · Activities · Notes · Calls · Journal tabs, infinite scroll in pages of 30, virtualized.
+- Moment card (§6.4): primary and stacked avatars, kind line, linked body, X-style photo grid, "with …" line,
+  Star / Pin / Edit / Delete (with Undo), and ⋯ Copy text / Change date. Moment page `/moment/:id`.
+- Profile Timeline (pinned first) and a life-event meta line. `lastInteractionAt` is kept in sync transactionally.
+- Tag page `/tags/:id` with rename, recolor, merge and delete. Deleted moments appear in Trash.
+- Fixed while testing: the caret was placed after a completion asynchronously; Ctrl/⌘+Enter saved twice; nested
+  dialogs closed their parent; the composer was stamped with the time it opened.
+- Tests: tokens, triggers, fuzzy matching, timestamps, moment and tag services (incl. the 3-contact AC), composer
+  autocomplete and moment card component tests, and moment E2E flows. The offline E2E test now covers the full §9 AC.
+
 ## M2 — Contacts (2026-10-19)
 
 - Contacts list (`/contacts`): A–Z (locale-aware), recently interacted and recently added sorts; All, Starred and Archived

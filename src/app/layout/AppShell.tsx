@@ -2,6 +2,9 @@ import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router-dom';
 import { Toaster } from '@/components/Toaster';
+import { ComposerDialog } from '@/features/compose/ComposerDialog';
+import { EntityLookupProvider } from '@/features/moments/lookup';
+import { useGlobalShortcuts } from '../useGlobalShortcuts';
 import { UpdatePrompt } from '../UpdatePrompt';
 import { BottomTabBar } from './BottomTabBar';
 import { Fab } from './Fab';
@@ -15,9 +18,10 @@ export function AppShell() {
   const { t } = useTranslation();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
+  useGlobalShortcuts();
 
   return (
-    <>
+    <EntityLookupProvider>
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-accent focus:px-3 focus:py-2 focus:text-on-accent"
@@ -43,6 +47,7 @@ export function AppShell() {
       <BottomTabBar />
       <Toaster />
       <UpdatePrompt />
-    </>
+      <ComposerDialog />
+    </EntityLookupProvider>
   );
 }

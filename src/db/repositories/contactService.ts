@@ -44,23 +44,6 @@ const dependentTables = () =>
     db.pets,
   ] as Table<BaseRecord & { contactId?: string }, string>[];
 
-const softDeletableTables = () =>
-  [
-    db.contacts,
-    db.contactFields,
-    db.addresses,
-    db.relationships,
-    db.moments,
-    db.reminders,
-    db.importantDates,
-    db.gifts,
-    db.debts,
-    db.tasks,
-    db.pets,
-    db.tags,
-    db.groups,
-  ] as Table<BaseRecord, string>[];
-
 const sameDate = (a?: PartialDate, b?: PartialDate) =>
   a?.day === b?.day && a?.month === b?.month && a?.year === b?.year;
 
@@ -246,18 +229,6 @@ export async function purgeContact(id: string): Promise<void> {
       await db.contacts.delete(id);
     },
   );
-}
-
-/** Purge everything that has been in Trash longer than the retention period. Runs on app start. */
-export async function purgeExpiredTrash(now = new Date()): Promise<number> {
-  const cutoff = new Date(now.getTime() - TRASH_RETENTION_DAYS * 86_400_000).toISOString();
-  const expiredContacts = await db.contacts.where('deletedAt').below(cutoff).primaryKeys();
-  for (const id of expiredContacts) await purgeContact(id);
-  let purged = expiredContacts.length;
-  for (const table of softDeletableTables()) {
-    purged += await table.where('deletedAt').below(cutoff).delete();
-  }
-  return purged;
 }
 
 /** Contacts currently in Trash, most recently deleted first. */

@@ -289,5 +289,131 @@
     "confirmTitle": "Delete forever?",
     "confirmBody": "{{name}} and everything linked to them will be permanently deleted. This can't be undone.",
     "restored": "{{name}} restored"
+  },
+  "moment": {
+    "kinds": {
+      "activity": "Activity",
+      "note": "Note",
+      "call": "Call",
+      "journal": "Journal",
+      "life-event": "Life event"
+    },
+    "activityTypes": {
+      "meal": "Meal",
+      "coffee": "Coffee",
+      "drinks": "Drinks",
+      "trip": "Trip",
+      "event": "Event",
+      "sport": "Sport",
+      "visit": "Visit",
+      "other": "Other"
+    },
+    "lifeEventTypes": {
+      "new-job": "New job",
+      "moved": "Moved",
+      "engaged": "Got engaged",
+      "married": "Got married",
+      "baby": "New baby",
+      "graduated": "Graduated",
+      "new-pet": "New pet",
+      "retired": "Retired",
+      "loss": "Loss",
+      "health": "Health",
+      "other": "Life event"
+    },
+    "callDirections": {
+      "incoming": "Incoming call",
+      "outgoing": "Outgoing call"
+    },
+    "minutes": "{{count}} min",
+    "moods": {
+      "1": "Awful",
+      "2": "Bad",
+      "3": "Okay",
+      "4": "Good",
+      "5": "Great"
+    },
+    "moodLabel": "Mood: {{mood}}",
+    "with": "with {{names}}",
+    "you": "You",
+    "actions": {
+      "star": "Star",
+      "pin": "Pin to profile",
+      "edit": "Edit",
+      "delete": "Delete",
+      "copy": "Copy text",
+      "changeDate": "Change date",
+      "more": "More"
+    },
+    "deleted": "Moment deleted",
+    "copied": "Copied to clipboard",
+    "pinned": "Pinned",
+    "notFound": "This moment doesn't exist or was deleted.",
+    "people": "People",
+    "photoAlt": "Photo {{n}} of {{total}}",
+    "changeDateTitle": "Change date",
+    "lifeEventMeta": "{{event}} · {{date}}"
+  },
+  "composer": {
+    "placeholder": "What happened?",
+    "title": "Log moment",
+    "editTitle": "Edit moment",
+    "kind": "Kind of moment",
+    "addPhoto": "Add photos",
+    "date": "Date and time",
+    "location": "Location",
+    "locationPlaceholder": "Where?",
+    "mood": "Mood",
+    "activityType": "Activity type",
+    "callDirection": "Call direction",
+    "duration": "Duration (min)",
+    "lifeEventType": "Life event type",
+    "people": "People in this moment",
+    "addPerson": "Add person",
+    "removePerson": "Remove {{name}}",
+    "searchPeople": "Search people",
+    "createContact": "Create contact “{{name}}”",
+    "createTag": "Create tag #{{name}}",
+    "suggestions": "Suggestions",
+    "removePhoto": "Remove photo {{n}}",
+    "maxPhotos": "Up to 4 photos",
+    "discard": "Discard this moment?",
+    "saved": "Moment saved",
+    "shortcutHint": "Ctrl/⌘ + Enter to save",
+    "photoError": "That photo couldn't be read."
+  },
+  "tags": {
+    "moments_one": "{{count}} moment",
+    "moments_other": "{{count}} moments",
+    "rename": "Rename",
+    "recolor": "Change color",
+    "merge": "Merge into…",
+    "delete": "Delete tag",
+    "renameTitle": "Rename tag",
+    "name": "Name",
+    "color": "Color",
+    "mergeTitle": "Merge #{{name}} into…",
+    "mergeTarget": "Target tag",
+    "mergeConfirm": "Merge",
+    "deleteTitle": "Delete #{{name}}?",
+    "deleteBody": "The tag is removed from all moments and contacts. The text you wrote stays.",
+    "deleted": "Tag deleted",
+    "merged": "Tags merged",
+    "notFound": "This tag doesn't exist.",
+    "empty": "No moments with this tag yet.",
+    "duplicate": "A tag with that name already exists."
+  },
+  "feed": {
+    "empty": "Nothing logged yet. What happened?",
+    "emptyKind": "Nothing here yet.",
+    "timelineEmpty": "No moments with {{name}} yet."
+  },
+  "trashSections": {
+    "contacts": "Contacts",
+    "moments": "Moments"
+  },
+  "trashMoment": {
+    "confirmBody": "This moment and its photos will be permanently deleted. This can't be undone.",
+    "restored": "Moment restored"
   }
 }

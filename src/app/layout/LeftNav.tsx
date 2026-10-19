@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, NavLink } from 'react-router-dom';
 import { Database, Ellipsis, Feather, Info, Trash2 } from 'lucide-react';
 import { Logo } from '@/components/Logo';
+import { useComposer } from '../stores/composer';
 import { Badge } from './Badge';
 import { useRemindersBadge } from './useRemindersBadge';
 import { navItems } from './navItems';
@@ -13,6 +14,7 @@ export function LeftNav() {
   const { t } = useTranslation();
   const remindersDue = useRemindersBadge();
   const [moreOpen, setMoreOpen] = useState(false);
+  const openComposer = useComposer((st) => st.openComposer);
 
   return (
     <header className="sticky top-0 hidden h-dvh w-[88px] shrink-0 flex-col items-center px-2 md:flex xl:w-[275px] xl:items-stretch">
@@ -85,14 +87,15 @@ export function LeftNav() {
         </ul>
       </nav>
 
-      <Link
-        to="/compose"
+      <button
+        type="button"
+        onClick={() => openComposer()}
         aria-label={t('nav.logMoment')}
         className="mt-4 flex h-[52px] w-[52px] items-center justify-center rounded-full bg-accent text-on-accent shadow hover:bg-accent-hover xl:w-[90%]"
       >
         <Feather size={24} className="xl:hidden" aria-hidden />
         <span className="hidden text-lg font-bold xl:inline">{t('nav.logMoment')}</span>
-      </Link>
+      </button>
 
       <div className="mt-auto mb-3">
         <ThemeToggle />
