@@ -1,7 +1,17 @@
 import { test as base, expect } from '@playwright/test';
 
 /** Fails any test that makes a request to another origin (SPEC §1.2, §15). */
-export const test = base.extend<{ foreignRequests: string[] }>({
+export const test = base.extend<{ foreignRequests: string[]; pageErrors: string[] }>({
+  /** Uncaught exceptions / unhandled rejections in the app fail the test. */
+  pageErrors: [
+    async ({ page }, use) => {
+      const errors: string[] = [];
+      page.on('pageerror', (e) => errors.push(`${e.name}: ${e.message}\n${e.stack ?? ''}`));
+      await use(errors);
+      expect(errors, 'uncaught page errors').toEqual([]);
+    },
+    { auto: true },
+  ],
   foreignRequests: [
     async ({ page, baseURL }, use) => {
       const origin = new URL(baseURL!).origin;

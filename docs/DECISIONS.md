@@ -264,3 +264,49 @@ through their contact) and are purged after 30 days like everything else. Gift l
 
 IndexedDB can't index booleans, so the `isStarred` and `isArchived` indexes in the v1 schema never match. Starred queries
 filter instead, which is fine at the spec's data sizes. A future schema version could index them as 0/1.
+
+## D-047 — Search index stores words; prefixes come from a range query (M6)
+
+§8.6 suggests storing every prefix of at least 2 characters. Instead the index stores whole normalized words, and the last query token
+uses an IndexedDB `startsWith` range on the multi-entry `tokens` index. Matching is the same (exact for earlier tokens,
+prefix for the last) with an index about 5× smaller and faster writes. One-letter words aren't indexed (numbers are).
+A trailing space makes the last token exact.
+
+## D-048 — Keeping the index in sync (M6)
+
+The writes that change searchable text update the index inside their own transactions: contact save, delete, restore,
+purge and tag changes; moment save, delete, restore and purge; and tag rename, merge and delete. Moments are indexed with
+current contact names, so renaming a contact re-indexes the moments that mention them. A deleted tag's word stays in the body text,
+so it's still findable. `SEARCH_INDEX_VERSION` is stored in settings, and the index is rebuilt in batches on start when it's missing
+or outdated (data from M1–M5, or after a tokenizer change). Tag rename now goes through `renameTag()`.
+
+## D-049 — Search ranking and paging (M6)
+
+People come first (archived last, then best name match), then tags, then moments newest first. Moments come 50 at a time.
+The newest page is fetched with whichever strategy is cheaper: load and sort few hits, or walk the `happenedAt` index from the newest
+end for many hits (n² > limit·N). Measured in Chromium with 2,000 contacts and 20,000 moments: about 35 ms typical and
+about 70 ms for the first (cold) query, against the < 100 ms AC.
+
+## D-050 — Measuring search time (M6)
+
+Each search records a `kin-search` `performance.measure` with its duration (local only, never sent anywhere). The Playwright
+perf test reads it to check the < 100 ms AC. `scripts/seed.ts` generates the deterministic dataset (`npx tsx scripts/seed.ts`),
+using the §8.9 backup format. `tsx` was added as a dev dependency to run it.
+
+## D-051 — Search page details (M6)
+
+Recent searches are a per-device convenience in `localStorage` (max 8), recorded on Enter, on a right-rail search, or on
+clicking a result. When the query is empty the page shows recent searches and "Trending tags" (tags by moment count, never
+people). The right-rail search box is hidden on `/search`, which has its own.
+
+## D-052 — No "Create …" before data has loaded (M6)
+
+Right after the page loads, the shared contact and tag lookup can still be empty. Offering "Create contact 'marc'" then made
+Enter create a duplicate of an existing Marc (found by an intermittent E2E failure). Composer, people picker and chip pickers now
+offer suggestions only once their data has loaded (`Lookup.loaded`).
+
+## D-053 — E2E hygiene (M6)
+
+Every E2E test now fails on any uncaught page error (`pageErrors` fixture). The search perf test lives in `*.perf.ts`
+and runs in its own Playwright project after all others, so parallel workers don't skew timings (under contention a cold
+query measured 130 ms; alone it's about 70 ms).

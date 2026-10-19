@@ -8,6 +8,7 @@ import type { NewImage } from './contactService';
 import { momentRepo } from './entities';
 import { RecordNotFoundError } from './errors';
 import { syncStayInTouchReminder } from './reminderService';
+import { indexMoment, removeMomentFromIndex, searchTables } from './searchService';
 
 /** Blob id of the feed thumbnail stored next to a full-size photo (SPEC §10). */
 export const thumbId = (photoId: string) => `${photoId}:thumb`;
@@ -41,7 +42,7 @@ function kindFields(d: MomentDraft): KindFields {
   };
 }
 
-const tables = () => [db.moments, db.contacts, db.blobs, db.reminders];
+const tables = () => [db.moments, db.contacts, db.blobs, db.reminders, ...searchTables()];
 
 /** Denormalized `Contact.lastInteractionAt` = newest live moment mentioning them (SPEC §5.1). */
 async function refreshLastInteraction(contactIds: Iterable<string>): Promise<void> {
@@ -100,6 +101,7 @@ export async function saveMoment(id: string | undefined, draft: MomentDraft): Pr
       ? await momentRepo.update(before.id, data)
       : await momentRepo.create(data);
     await refreshLastInteraction([...(before?.contactIds ?? []), ...moment.contactIds]);
+    await indexMoment(moment.id);
     return moment;
   });
 }
@@ -120,6 +122,7 @@ export const setMomentDate = (id: string, happenedAt: string) => patch(id, { hap
 export async function deleteMoment(id: string): Promise<void> {
   await db.transaction('rw', tables(), async () => {
     await momentRepo.softDelete(id);
+    await removeMomentFromIndex(id);
     const m = await momentRepo.get(id, { includeDeleted: true });
     await refreshLastInteraction(m?.contactIds ?? []);
   });
@@ -128,6 +131,7 @@ export async function deleteMoment(id: string): Promise<void> {
 export async function restoreMoment(id: string): Promise<void> {
   await db.transaction('rw', tables(), async () => {
     await momentRepo.restore(id);
+    await indexMoment(id);
     const m = await momentRepo.get(id);
     await refreshLastInteraction(m?.contactIds ?? []);
   });
@@ -140,6 +144,7 @@ export async function purgeMoment(id: string): Promise<void> {
     if (!m) return;
     await deletePhotoBlobs(m.photoBlobIds);
     await db.moments.delete(id);
+    await removeMomentFromIndex(id);
     await refreshLastInteraction(m.contactIds);
   });
 }

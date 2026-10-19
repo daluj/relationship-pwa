@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { UserPlus } from 'lucide-react';
 import { inputClass } from '@/components/form/fieldClass';
 import type { Contact } from '@/domain/types';
+import { useLookup } from '@/features/moments/useLookup';
 import { handleListKeys } from './listKeys';
 import { SuggestionList } from './SuggestionList';
 import { contactSuggestions } from './suggestions';
@@ -27,19 +28,21 @@ export function PeoplePicker({ contacts, exclude, onPick, onCreate }: Props) {
     setQuery('');
     setOpen(false);
   };
-  const items = open
-    ? contactSuggestions(
-        contacts,
-        query,
-        t,
-        (c) => {
-          onPick(c);
-          done();
-        },
-        (name) => void onCreate(name).then(done),
-        exclude,
-      )
-    : [];
+  const { loaded } = useLookup();
+  const items =
+    open && loaded
+      ? contactSuggestions(
+          contacts,
+          query,
+          t,
+          (c) => {
+            onPick(c);
+            done();
+          },
+          (name) => void onCreate(name).then(done),
+          exclude,
+        )
+      : [];
 
   if (!open) {
     return (

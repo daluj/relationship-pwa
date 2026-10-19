@@ -27,6 +27,8 @@ interface Props {
     create: (name: string) => string;
   };
   renderChip?: (o: ChipOption) => ReactNode;
+  /** Options have loaded; until then nothing (not even "Create …") is offered. */
+  ready?: boolean;
 }
 
 /** Chips with remove buttons and an add combobox with create-on-the-fly (tags, groups). */
@@ -39,6 +41,7 @@ export function ChipPicker({
   onCreate,
   labels,
   renderChip,
+  ready = true,
 }: Props) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -54,23 +57,29 @@ export function ChipPicker({
     setQuery('');
     setOpen(false);
   };
-  const items: Suggestion[] = open
-    ? fuzzyFilter(
-        options.filter((o) => !selected.includes(o.id)),
-        query,
-        (o) => [o.label],
-      ).map((o) => ({
-        key: o.id,
-        label: o.label,
-        icon: o.icon,
-        onSelect: () => {
-          onAdd(o.id);
-          done();
-        },
-      }))
-    : [];
+  const items: Suggestion[] =
+    open && ready
+      ? fuzzyFilter(
+          options.filter((o) => !selected.includes(o.id)),
+          query,
+          (o) => [o.label],
+        ).map((o) => ({
+          key: o.id,
+          label: o.label,
+          icon: o.icon,
+          onSelect: () => {
+            onAdd(o.id);
+            done();
+          },
+        }))
+      : [];
   const name = query.trim();
-  if (open && name && !options.some((o) => normalizeText(o.label) === normalizeText(name))) {
+  if (
+    open &&
+    ready &&
+    name &&
+    !options.some((o) => normalizeText(o.label) === normalizeText(name))
+  ) {
     items.push({
       key: 'create',
       label: labels.create(name),

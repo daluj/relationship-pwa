@@ -15,6 +15,7 @@ import {
   DuplicateError,
   listTags,
   mergeTags,
+  renameTag,
   momentsForTag,
   tagRepo,
   useLiveQuery,
@@ -61,7 +62,7 @@ export function TagPage() {
 
   const rename = async () => {
     try {
-      await tagRepo.update(tag.id, { name: name.trim() });
+      await renameTag(tag.id, name);
       close();
     } catch (e) {
       setError(e instanceof DuplicateError ? t('tags.duplicate') : String(e));

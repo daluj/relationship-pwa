@@ -3,6 +3,7 @@ import type { Debt, Gift, Pet, Task } from '@/domain/types';
 import { db } from '../db';
 import { nowIso } from './createRepository';
 import { contactRepo, debtRepo, giftRepo, petRepo, taskRepo } from './entities';
+import { indexContact, searchTables } from './searchService';
 
 export const giftsFor = (contactId: string): Promise<Gift[]> =>
   db.gifts
@@ -57,7 +58,11 @@ export const listTasks = () => taskRepo.list();
 export const listOpenDebts = () => db.debts.filter((d) => !d.deletedAt && !d.settledAt).toArray();
 
 export const setContactTags = (contactId: string, tagIds: string[]) =>
-  contactRepo.update(contactId, { tagIds: [...new Set(tagIds)] });
+  db.transaction('rw', searchTables(), async () => {
+    const c = await contactRepo.update(contactId, { tagIds: [...new Set(tagIds)] });
+    await indexContact(contactId);
+    return c;
+  });
 
 /** Starred contacts and moments (SPEC §6.7 Starred). Booleans aren't indexable, so these filter. */
 export const starredContacts = () =>

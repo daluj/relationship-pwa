@@ -717,5 +717,24 @@
     "group": "Group",
     "allTags": "All tags",
     "allGroups": "All groups"
+  },
+  "search": {
+    "placeholder": "Search people, moments, tags",
+    "label": "Search",
+    "clear": "Clear search",
+    "tabs": {
+      "top": "Top",
+      "people": "People",
+      "moments": "Moments",
+      "tags": "Tags"
+    },
+    "recent": "Recent searches",
+    "clearRecent": "Clear all",
+    "removeRecent": "Remove “{{q}}” from recent searches",
+    "trends": "Trending tags",
+    "trendsEmpty": "Tag moments with #something and they'll show up here.",
+    "noResults": "No results for “{{q}}”",
+    "noResultsHint": "Try a shorter word or check the spelling.",
+    "showAllPeople": "Show all people"
   }
 }

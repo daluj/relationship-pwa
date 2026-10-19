@@ -35,7 +35,7 @@ export {
   thumbId,
 } from './momentService';
 export type { MomentDraft, MomentPhotoDraft } from './momentService';
-export { deleteTag, findOrCreateTag, listTags, mergeTags } from './tagService';
+export { deleteTag, findOrCreateTag, listTags, mergeTags, renameTag } from './tagService';
 export {
   completeReminder,
   deleteImportantDate,
@@ -89,3 +89,5 @@ export {
   tasksFor,
 } from './profileItems';
 export type { DebtDraft, GiftDraft, PetDraft, TaskDraft } from './profileItems';
+export { ensureSearchIndex, rebuildSearchIndex, search, trendingTags } from './searchService';
+export type { SearchResults } from './searchService';

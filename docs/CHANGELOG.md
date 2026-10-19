@@ -1,5 +1,22 @@
 # Changelog
 
+## M6 — Search (2026-10-19)
+
+- Client-side full-text index (`searchIndex`) with accent- and case-insensitive tokens for contacts (names, nickname, work, notes,
+  fields, addresses, tags) and moments (body with current names, location, tags). It's updated in the same transaction as every write
+  and rebuilt on start when needed.
+- Query: tokenize, intersect, prefix on the last token. People rank above moments. "eli" finds "Élise", and "lyon coffee" finds
+  a moment containing both words (§8.6 ACs).
+- Search page (`/search?q=`): pill search box, Top / People / Moments / Tags tabs, archived badge, live results,
+  paged moments, recent searches, and trending tags when the query is empty. The right-rail box opens it.
+- Performance: measured in Chromium with 2,000 contacts and 20,000 moments, about 35 ms typical and about 70 ms cold (AC < 100 ms). The
+  first version took up to 120 ms on broad queries; adaptive "newest N" loading fixed that.
+- `scripts/seed.ts`: deterministic dataset generator (also used by the perf E2E).
+- Fixed: right after load, `@` / "Add person" could offer only "Create contact" and create a duplicate. Suggestions now wait
+  for data. E2E tests now fail on uncaught page errors, and the perf test runs in an isolated project.
+- Tests: tokenizer and query parsing, index maintenance across every write path, ranking and paging, the search page E2E,
+  and the perf E2E.
+
 ## M5 — Relationships, gifts, debts, tasks, pets, groups, starred (2026-10-19)
 
 - Relationships in Profile › Details, grouped Family / Love / Friends / Work / Other. Pick or create a person, set type and

@@ -196,7 +196,8 @@ export function Composer({ momentId, prefill, variant, onDone, onDirtyChange }: 
     return c;
   };
   const suggestions = useMemo(() => {
-    if (!trigger) return [];
+    // Until contacts/tags have loaded, "Create …" would be the only option and Enter would create a duplicate.
+    if (!trigger || !lookup.loaded) return [];
     return trigger.sigil === '@'
       ? contactSuggestions(
           lookup.contacts,

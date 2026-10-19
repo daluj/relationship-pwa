@@ -23,6 +23,7 @@ export function TagsGroupsBlocks({ contact }: { contact: Contact }) {
     <>
       <ChipPicker
         title={t('tagsGroups.tags')}
+        ready={lookup.loaded}
         options={lookup.tags.map((tag) => ({ id: tag.id, label: tag.name }))}
         selected={contact.tagIds}
         onAdd={(id) => void setContactTags(contact.id, [...contact.tagIds, id])}
@@ -50,6 +51,7 @@ export function TagsGroupsBlocks({ contact }: { contact: Contact }) {
       />
       <ChipPicker
         title={t('tagsGroups.groups')}
+        ready={groups !== undefined}
         options={(groups ?? []).map((g) => ({
           id: g.id,
           label: g.name,

@@ -3,7 +3,8 @@ import type { Tag } from '@/domain/types';
 import { db } from '../db';
 import { nowIso } from './createRepository';
 import { tagRepo } from './entities';
-import { RecordNotFoundError } from './errors';
+import { DuplicateError, RecordNotFoundError } from './errors';
+import { indexContact, indexMoment, reindexForTag, searchTables } from './searchService';
 
 /** Existing tag with that name (case-insensitive) or a new one — used by the composer's `#`. */
 export async function findOrCreateTag(name: string): Promise<Tag> {
@@ -13,7 +14,7 @@ export async function findOrCreateTag(name: string): Promise<Tag> {
 /** Merge `fromId` into `intoId`: re-point moments and contacts, then remove the source tag (SPEC §8.8). */
 export async function mergeTags(fromId: string, intoId: string): Promise<void> {
   if (fromId === intoId) return;
-  await db.transaction('rw', [db.tags, db.moments, db.contacts], async () => {
+  await db.transaction('rw', searchTables(), async () => {
     const into = await tagRepo.get(intoId);
     if (!into) throw new RecordNotFoundError('tag', intoId);
     const now = nowIso();
@@ -34,6 +35,7 @@ export async function mergeTags(fromId: string, intoId: string): Promise<void> {
         c.updatedAt = now;
       });
     await db.tags.delete(fromId);
+    await reindexForTag(intoId);
   });
 }
 
@@ -42,7 +44,9 @@ export async function mergeTags(fromId: string, intoId: string): Promise<void> {
  * so the words people wrote aren't lost.
  */
 export async function deleteTag(id: string): Promise<void> {
-  await db.transaction('rw', [db.tags, db.moments, db.contacts], async () => {
+  await db.transaction('rw', searchTables(), async () => {
+    const affectedMoments = await db.moments.where('tagIds').equals(id).primaryKeys();
+    const affectedContacts = await db.contacts.where('tagIds').equals(id).primaryKeys();
     const now = nowIso();
     const drop = (r: { tagIds: string[]; updatedAt: string }) => {
       r.tagIds = r.tagIds.filter((t) => t !== id);
@@ -51,6 +55,19 @@ export async function deleteTag(id: string): Promise<void> {
     await db.moments.where('tagIds').equals(id).modify(drop);
     await db.contacts.where('tagIds').equals(id).modify(drop);
     await db.tags.delete(id);
+    for (const m of affectedMoments) await indexMoment(m);
+    for (const c of affectedContacts) await indexContact(c);
+  });
+}
+
+/** Rename a tag; bodies keep their id tokens, the index picks up the new name (SPEC §8.8 AC). */
+export async function renameTag(id: string, name: string): Promise<Tag> {
+  return db.transaction('rw', searchTables(), async () => {
+    const clash = await tagRepo.findByName(name);
+    if (clash && clash.id !== id) throw new DuplicateError('tag', name);
+    const tag = await tagRepo.update(id, { name: name.trim() });
+    await reindexForTag(id);
+    return tag;
   });
 }
 

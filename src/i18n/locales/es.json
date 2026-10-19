@@ -717,5 +717,24 @@
     "group": "Grupo",
     "allTags": "Todas las etiquetas",
     "allGroups": "Todos los grupos"
+  },
+  "search": {
+    "placeholder": "Buscar personas, momentos, etiquetas",
+    "label": "Buscar",
+    "clear": "Borrar búsqueda",
+    "tabs": {
+      "top": "Destacado",
+      "people": "Personas",
+      "moments": "Momentos",
+      "tags": "Etiquetas"
+    },
+    "recent": "Búsquedas recientes",
+    "clearRecent": "Borrar todo",
+    "removeRecent": "Quitar «{{q}}» de las búsquedas recientes",
+    "trends": "Etiquetas populares",
+    "trendsEmpty": "Etiqueta momentos con #algo y aparecerán aquí.",
+    "noResults": "No hay resultados para «{{q}}»",
+    "noResultsHint": "Prueba con una palabra más corta o revisa la ortografía.",
+    "showAllPeople": "Ver todas las personas"
   }
 }

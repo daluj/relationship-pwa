@@ -5,6 +5,13 @@ import { blobRepo } from './blobRepo';
 import { nowIso, type CreateInput } from './createRepository';
 import { addressRepo, contactFieldRepo, contactRepo } from './entities';
 import { syncBirthdayReminder, syncStayInTouchReminder } from './reminderService';
+import {
+  indexContact,
+  reindexMomentsForContact,
+  removeContactFromIndex,
+  searchTables,
+} from './searchService';
+import { fullName } from '@/domain/contact';
 import { RecordNotFoundError } from './errors';
 
 /** Days a soft-deleted record stays in Trash before it is purged (SPEC §5.1). */
@@ -74,7 +81,14 @@ async function syncChildren<
   }
 }
 
-const saveTables = () => [db.contacts, db.contactFields, db.addresses, db.reminders, db.blobs];
+const saveTables = () => [
+  db.contacts,
+  db.contactFields,
+  db.addresses,
+  db.reminders,
+  db.blobs,
+  ...searchTables(),
+];
 
 /** Create or update a contact together with its fields, addresses and images, atomically. */
 export async function saveContact(id: string | undefined, draft: ContactDraft): Promise<Contact> {
@@ -98,6 +112,9 @@ export async function saveContact(id: string | undefined, draft: ContactDraft): 
     await syncChildren(contact.id, db.addresses, draft.addresses, addressRepo);
     await syncBirthdayReminder(contact, before?.birthday);
     await syncStayInTouchReminder(contact);
+    await indexContact(contact.id);
+    if (before && fullName(before) !== fullName(contact))
+      await reindexMomentsForContact(contact.id);
     return contact;
   });
 }
@@ -134,63 +151,74 @@ export async function updateContactStatus(
 
 /** Soft-delete a contact and its dependents with one shared tombstone timestamp (SPEC §5.2). */
 export async function deleteContact(id: string): Promise<void> {
-  await db.transaction('rw', [db.contacts, db.relationships, ...dependentTables()], async () => {
-    const contact = await db.contacts.get(id);
-    if (!contact) throw new RecordNotFoundError('contact', id);
-    if (contact.deletedAt) return;
-    const now = nowIso();
-    const tombstone = (r: BaseRecord) => {
-      r.deletedAt = now;
-      r.updatedAt = now;
-    };
-    await db.contacts.update(id, { deletedAt: now, updatedAt: now });
-    for (const table of dependentTables()) {
-      await table
-        .where('contactId')
-        .equals(id)
-        .filter((r) => !r.deletedAt)
+  await db.transaction(
+    'rw',
+    [db.contacts, db.relationships, ...dependentTables(), ...searchTables()],
+    async () => {
+      const contact = await db.contacts.get(id);
+      if (!contact) throw new RecordNotFoundError('contact', id);
+      if (contact.deletedAt) return;
+      await removeContactFromIndex(id);
+      const now = nowIso();
+      const tombstone = (r: BaseRecord) => {
+        r.deletedAt = now;
+        r.updatedAt = now;
+      };
+      await db.contacts.update(id, { deletedAt: now, updatedAt: now });
+      for (const table of dependentTables()) {
+        await table
+          .where('contactId')
+          .equals(id)
+          .filter((r) => !r.deletedAt)
+          .modify(tombstone);
+      }
+      await db.relationships
+        .filter((r) => !r.deletedAt && (r.fromContactId === id || r.toContactId === id))
         .modify(tombstone);
-    }
-    await db.relationships
-      .filter((r) => !r.deletedAt && (r.fromContactId === id || r.toContactId === id))
-      .modify(tombstone);
-  });
+    },
+  );
 }
 
 /** Restore a contact and exactly the dependents its delete tombstoned (same `deletedAt`). */
 export async function restoreContact(id: string): Promise<void> {
-  await db.transaction('rw', [db.contacts, db.relationships, ...dependentTables()], async () => {
-    const contact = await db.contacts.get(id);
-    if (!contact) throw new RecordNotFoundError('contact', id);
-    const stamp = contact.deletedAt;
-    if (!stamp) return;
-    const now = nowIso();
-    const revive = (r: BaseRecord) => {
-      delete r.deletedAt;
-      r.updatedAt = now;
-    };
-    await db.contacts.where('id').equals(id).modify(revive);
-    for (const table of dependentTables()) {
-      await table
-        .where('contactId')
-        .equals(id)
-        .filter((r) => r.deletedAt === stamp)
+  await db.transaction(
+    'rw',
+    [db.contacts, db.relationships, ...dependentTables(), ...searchTables()],
+    async () => {
+      const contact = await db.contacts.get(id);
+      if (!contact) throw new RecordNotFoundError('contact', id);
+      const stamp = contact.deletedAt;
+      if (!stamp) return;
+      const now = nowIso();
+      const revive = (r: BaseRecord) => {
+        delete r.deletedAt;
+        r.updatedAt = now;
+      };
+      await db.contacts.where('id').equals(id).modify(revive);
+      for (const table of dependentTables()) {
+        await table
+          .where('contactId')
+          .equals(id)
+          .filter((r) => r.deletedAt === stamp)
+          .modify(revive);
+      }
+      await db.relationships
+        .filter((r) => r.deletedAt === stamp && (r.fromContactId === id || r.toContactId === id))
         .modify(revive);
-    }
-    await db.relationships
-      .filter((r) => r.deletedAt === stamp && (r.fromContactId === id || r.toContactId === id))
-      .modify(revive);
-  });
+      await indexContact(id);
+    },
+  );
 }
 
 /** Permanently delete a contact, its dependents and images, and unlink it from moments. */
 export async function purgeContact(id: string): Promise<void> {
   await db.transaction(
     'rw',
-    [db.contacts, db.relationships, db.moments, db.blobs, ...dependentTables()],
+    [db.contacts, db.relationships, db.moments, db.blobs, ...dependentTables(), ...searchTables()],
     async () => {
       const contact = await db.contacts.get(id);
       if (!contact) return;
+      await removeContactFromIndex(id);
       const blobIds = [contact.avatarBlobId, contact.bannerBlobId];
       const gifts = await db.gifts.where('contactId').equals(id).toArray();
       blobIds.push(...gifts.map((g) => g.photoBlobId));

@@ -13,6 +13,7 @@ export function EntityLookupProvider({ children }: { children: ReactNode }) {
     const c = new Map((contacts ?? []).map((x) => [x.id, x]));
     const t = new Map((tags ?? []).map((x) => [x.id, x]));
     return {
+      loaded: contacts !== undefined && tags !== undefined,
       contacts: contacts ?? [],
       tags: tags ?? [],
       contact: (id) => c.get(id),
