@@ -1,14 +1,12 @@
 import { createBrowserRouter, type RouteObject } from 'react-router-dom';
 import { ComposePage } from '@/features/compose/ComposePage';
 import { ContactsPage } from '@/features/contacts/ContactsPage';
-import { NewContactPage } from '@/features/contacts/NewContactPage';
 import { GroupPage } from '@/features/groups/GroupPage';
 import { GroupsPage } from '@/features/groups/GroupsPage';
 import { HomePage } from '@/features/home/HomePage';
 import { MomentPage } from '@/features/moment/MomentPage';
 import { NotFoundPage } from '@/features/not-found/NotFoundPage';
 import { OnboardingPage } from '@/features/onboarding/OnboardingPage';
-import { EditContactPage } from '@/features/profile/EditContactPage';
 import { ProfilePage } from '@/features/profile/ProfilePage';
 import { RemindersPage } from '@/features/reminders/RemindersPage';
 import { SearchPage } from '@/features/search/SearchPage';
@@ -16,6 +14,11 @@ import { StarredPage } from '@/features/starred/StarredPage';
 import { TagPage } from '@/features/tags/TagPage';
 import { TasksPage } from '@/features/tasks/TasksPage';
 import { AppShell } from './layout/AppShell';
+
+const contactForm = () =>
+  import('@/features/contacts/form/ContactFormPage').then((m) => ({
+    Component: m.ContactFormPage,
+  }));
 
 /** SPEC §7. */
 export const routes: RouteObject[] = [
@@ -27,9 +30,10 @@ export const routes: RouteObject[] = [
       { path: 'compose', Component: ComposePage },
       { path: 'moment/:id', Component: MomentPage },
       { path: 'contacts', Component: ContactsPage },
-      { path: 'contacts/new', Component: NewContactPage },
+      // Contact editing is lazy-loaded (SPEC §10).
+      { path: 'contacts/new', lazy: contactForm },
       { path: 'c/:id', Component: ProfilePage },
-      { path: 'c/:id/edit', Component: EditContactPage },
+      { path: 'c/:id/edit', lazy: contactForm },
       { path: 'c/:id/:tab', Component: ProfilePage },
       { path: 'reminders', Component: RemindersPage },
       { path: 'tasks', Component: TasksPage },

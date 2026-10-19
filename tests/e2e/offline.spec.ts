@@ -30,4 +30,14 @@ test('app shell and data survive offline reloads', async ({ page, context }) => 
 
   await page.goto('/reminders');
   await expect(page.getByRole('heading', { name: 'Reminders', level: 1 })).toBeVisible();
+
+  // Create a contact offline (lazy form chunk is precached), reload, still there (SPEC §9 AC, part 1).
+  await page.goto('/contacts/new');
+  await page.getByLabel('First name').fill('Offline Olga');
+  await page.getByRole('button', { name: 'Save' }).first().click();
+  await expect(page.getByRole('heading', { name: 'Offline Olga', level: 2 })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('heading', { name: 'Offline Olga', level: 2 })).toBeVisible();
+  await page.goto('/contacts');
+  await expect(page.getByRole('link', { name: /Offline Olga/ })).toBeVisible();
 });

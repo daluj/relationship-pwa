@@ -20,6 +20,8 @@
     "verify": "npm run typecheck && npm run lint && npm run test && npm run build && npm run test:e2e"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.10.0",
+    "@tanstack/react-virtual": "^3.14.21",
     "date-fns": "^4.4.0",
     "dexie": "^4.4.6",
     "dexie-react-hooks": "^1.1.7",
@@ -27,6 +29,7 @@
     "lucide-react": "^1.59.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.90.0",
     "react-i18next": "^15.7.4",
     "react-router-dom": "^6.30.6",
     "workbox-core": "^7.4.1",
@@ -43,6 +46,7 @@
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
     "@types/node": "^22.20.5",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",

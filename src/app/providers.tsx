@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useSyncExternalStore, type ReactNode } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import { useSettingsQuery } from '@/db/repositories';
+import { purgeExpiredTrash, useSettingsQuery } from '@/db/repositories';
 import { resolveTheme } from '@/domain/settings';
 import i18n from '@/i18n';
 import { applyTheme, computeTheme } from './theme';
@@ -40,6 +40,11 @@ function SettingsSync() {
 }
 
 export function AppProviders({ children }: { children: ReactNode }) {
+  // Trash keeps items for 30 days (SPEC §5.1); purge on every app start.
+  useEffect(() => {
+    void purgeExpiredTrash();
+  }, []);
+
   return (
     <I18nextProvider i18n={i18n}>
       <SettingsSync />

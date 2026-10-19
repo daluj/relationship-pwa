@@ -50,7 +50,10 @@ export default tseslint.config(
         'error',
         {
           patterns: [
-            { group: ['dexie'], message: 'Use db/repositories instead of Dexie (SPEC §4).' },
+            {
+              group: ['dexie', 'dexie-react-hooks'],
+              message: 'Use db/repositories instead of Dexie (SPEC §4).',
+            },
             {
               group: ['@/db/db', '@/db/schema'],
               message: 'Use db/repositories instead (SPEC §4).',

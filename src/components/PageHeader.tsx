@@ -2,17 +2,13 @@ import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
-
-export interface PageTab {
-  id: string;
-  label: string;
-}
+import { Tabs, type TabItem } from './Tabs';
 
 interface Props {
   title: string;
   subtitle?: string;
   back?: boolean;
-  tabs?: PageTab[];
+  tabs?: TabItem[];
   activeTab?: string;
   onTabChange?: (id: string) => void;
   actions?: ReactNode;
@@ -49,29 +45,7 @@ export function PageHeader({
         </div>
         {actions}
       </div>
-      {tabs && (
-        <div role="tablist" aria-label={title} className="flex overflow-x-auto">
-          {tabs.map((tab) => {
-            const selected = tab.id === activeTab;
-            return (
-              <button
-                key={tab.id}
-                role="tab"
-                type="button"
-                aria-selected={selected}
-                onClick={() => onTabChange?.(tab.id)}
-                className={`flex flex-1 justify-center px-4 hover:bg-surface-1 ${selected ? 'font-bold text-text' : 'text-muted'}`}
-              >
-                <span
-                  className={`py-4 ${selected ? 'border-b-4 border-accent' : 'border-b-4 border-transparent'}`}
-                >
-                  {tab.label}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      )}
+      {tabs && <Tabs label={title} items={tabs} active={activeTab} onChange={onTabChange} />}
     </header>
   );
 }

@@ -23,6 +23,8 @@
 - All writes go through repositories. They set `createdAt`/`updatedAt`, validate with Zod, and soft-delete via `deletedAt`.
 - Never edit a released `db.version(n)`. Add a new version with `.upgrade()`.
 - `src/features/<area>/`: route screens. `src/components/`: shared UI. `src/app/`: router, shell, providers.
+- `src/lib/`: browser-only helpers that aren't UI (canvas and image encoding).
+- UI composes live reads with `useLiveQuery` imported from `@/db/repositories`, never from `dexie-react-hooks`.
 - No network calls that send user data, no analytics, no CDNs, no third-party runtime scripts.
 - No X.com branding. Copy the layout only. Accent default `#14B8A6`.
 - All user-facing strings go through i18next (`src/i18n/locales/{en,es}.json`), and both locales stay complete.

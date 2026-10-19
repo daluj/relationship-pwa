@@ -28,6 +28,10 @@ export interface ListOptions {
 
 export const nowIso = () => new Date().toISOString();
 
+/** Optional fields are omitted rather than stored as `undefined`. */
+const stripUndefined = <T extends object>(o: T): T =>
+  Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined)) as T;
+
 export function createRepository<T extends BaseRecord, D extends keyof T = never>(
   opts: RepositoryOptions<T, D>,
 ) {
@@ -36,7 +40,7 @@ export function createRepository<T extends BaseRecord, D extends keyof T = never
   function validate(record: T): T {
     const result = schema.safeParse(prepare(record));
     if (!result.success) throw new ValidationError(entity, result.error.issues);
-    return result.data;
+    return stripUndefined(result.data);
   }
 
   async function mustGet(id: string): Promise<T> {
@@ -67,13 +71,16 @@ export function createRepository<T extends BaseRecord, D extends keyof T = never
     async update(id: string, patch: UpdatePatch<T>): Promise<T> {
       return db.transaction('rw', table, async () => {
         const current = await mustGet(id);
+        // Keys patched to `undefined` are removed rather than stored as undefined.
+        const merged = Object.fromEntries(
+          Object.entries({ ...current, ...patch }).filter(([, v]) => v !== undefined),
+        );
         const next = validate({
-          ...current,
-          ...patch,
+          ...merged,
           id,
           createdAt: current.createdAt,
           updatedAt: nowIso(),
-        });
+        } as T);
         await table.put(next);
         return next;
       });

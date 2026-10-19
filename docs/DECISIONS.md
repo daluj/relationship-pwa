@@ -17,7 +17,8 @@ SPEC §5.2 indexes `tags` by `&nameLower`, but the §5.1 `Tag` interface has no 
 The §9 AC ("go offline, reload, create a contact and a moment") needs the M2/M3 UI. In M1, the
 offline E2E test checks: app shell, lazy-loaded route and deep-link reload offline; data written to IndexedDB
 through the UI (settings) persists across offline reloads; zero foreign-origin requests. The full
-AC gets added to `tests/e2e/offline.spec.ts` in M3.
+AC gets added to `tests/e2e/offline.spec.ts` in M3. _Update M2:_ creating a contact offline and reloading is now covered;
+creating a moment offline comes in M3.
 
 ## D-004 — Unique tag names vs. soft delete (M1)
 
@@ -75,3 +76,58 @@ from 1000 to 1279px and 350px from 1280px up.
 ## D-013 — Theme toggle cycles explicit themes (M1)
 
 The left-nav toggle cycles Light → Dim → Lights out. "Follow system" is chosen in Settings › Display.
+
+## D-014 — Birthday reminder lands with contacts (M2)
+
+The §8.2 AC (a birthday creates, updates and removes a yearly `birthday` reminder) is contact-save behaviour, so it
+ships in M2 inside `saveContact`'s transaction. The reminder's `title` stores the contact's full name. The Reminders UI
+(M4) renders `source: 'birthday'` reminders with a localized label. `dueDate` is only recomputed when the birthday
+itself changes, so a reminder already advanced by "Done" is kept.
+
+## D-015 — Auto-generated reminders are purged, not trashed (M2)
+
+Removing a birthday hard-deletes its auto reminder. Sending a system-generated record to Trash would be confusing,
+and the reminder can be regenerated from the contact.
+
+## D-016 — Cascade restore matches the tombstone timestamp (M2)
+
+`deleteContact` stamps the contact and its dependents (fields, addresses, relationships from/to, reminders,
+important dates, gifts, debts, tasks, pets) with one `deletedAt`. `restoreContact` restores only rows carrying
+that exact stamp, so items deleted separately before stay in Trash. Moments are shared by several contacts and aren't
+cascaded. Purging a contact removes its id from moments' `contactIds`.
+
+## D-017 — Deferred contact features (M2)
+
+- Duplicate detection and merge (§8.2) are in M7 ("duplicate detection & merge").
+- Contact-list filters by tag and group come with tags (M3) and groups (M5).
+- Profile meta "relationship counts" and groups come in M5. "Export vCard" in the ⋯ menu comes in M7.
+
+## D-018 — Image sizes and encoding (M2)
+
+Avatars are cropped square to ≤ 400×400 and banners to 3:1 at ≤ 1500×500. Output is WebP (q 0.85), falling back to JPEG where the
+browser can't encode WebP. Small sources are never upscaled. Replacing or removing an image deletes the old blob.
+
+## D-019 — `src/lib/` for browser-only helpers (M2)
+
+Canvas/`createImageBitmap` code isn't pure (so not `domain/`) and isn't UI. It lives in `src/lib/`.
+Crop geometry itself is pure and lives in `domain/crop.ts`.
+
+## D-020 — Contact list is always virtualized (M2)
+
+§6.9 asks for virtualization above 200 items. The list always uses `@tanstack/react-virtual` (window scroller)
+so there is one code path. The mobile A–Z jump uses `scrollToIndex`.
+
+## D-021 — `useLiveQuery` re-exported from `db/repositories` (M2)
+
+UI may combine repository reads in a live query by importing `useLiveQuery` from `@/db/repositories`. Importing
+`dexie-react-hooks` directly from UI code is now a lint error.
+
+## D-022 — Trash scope in M2 (M2)
+
+Trash lists contacts, with restore and delete forever. Other entity types get Trash rows when their UI lands.
+Expired items (> 30 days) of every table are purged on app start.
+
+## D-023 — "Mark as deceased" from the menu (M2)
+
+The profile menu toggles `isDeceased` without a date. The date of death can be set in the edit form. Unmarking clears
+both. Deceased contacts show "In memoriam" and drop the "turns N" countdown.
