@@ -58,7 +58,10 @@ test('installable: Chromium reports no installability errors; manifest complete 
   page,
   browserName,
 }) => {
-  test.skip(browserName !== 'chromium', 'Installability is reported through a Chromium-only DevTools API');
+  test.skip(
+    browserName !== 'chromium',
+    'Installability is reported through a Chromium-only DevTools API',
+  );
   await page.goto('/');
   await waitForServiceWorker(page);
   const cdp = await page.context().newCDPSession(page);

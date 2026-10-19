@@ -4,6 +4,13 @@ import { parseBody } from '@/domain/momentText';
 import { useLookup } from './useLookup';
 
 /**
+ * Links inside running text are underlined, not only coloured, so they stay distinguishable from the
+ * surrounding text in every theme (WCAG 1.4.1, axe "link-in-text-block").
+ */
+export const inTextLink =
+  'text-accent-text underline decoration-1 underline-offset-2 decoration-current/40 hover:decoration-current';
+
+/**
  * Renders a moment body: text, line breaks, @mentions, #tags and links. Everything is React text
  * nodes — no HTML injection (SPEC §11). Missing contacts/tags fall back to the stored name as text.
  */
@@ -22,7 +29,7 @@ export function MomentBody({ body, className = '' }: { body: string; className?:
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent-text hover:underline"
+                className={inTextLink}
               >
                 {s.text}
               </a>
@@ -30,7 +37,7 @@ export function MomentBody({ body, className = '' }: { body: string; className?:
           case 'mention': {
             const c = lookup.contact(s.id);
             return c ? (
-              <Link key={i} to={`/c/${c.id}`} className="text-accent-text hover:underline">
+              <Link key={i} to={`/c/${c.id}`} className={inTextLink}>
                 @{fullName(c)}
               </Link>
             ) : (
@@ -40,7 +47,7 @@ export function MomentBody({ body, className = '' }: { body: string; className?:
           case 'tag': {
             const tag = lookup.tag(s.id);
             return tag ? (
-              <Link key={i} to={`/tags/${tag.id}`} className="text-accent-text hover:underline">
+              <Link key={i} to={`/tags/${tag.id}`} className={inTextLink}>
                 #{tag.name}
               </Link>
             ) : (

@@ -4,7 +4,7 @@ export type ButtonSize = 'sm' | 'md' | 'lg';
 const variants: Record<ButtonVariant, string> = {
   primary: 'bg-accent text-on-accent hover:bg-accent-hover',
   outline: 'border border-border text-text hover:bg-surface-2',
-  danger: 'bg-danger text-white hover:opacity-90',
+  danger: 'bg-danger text-on-danger hover:opacity-90',
   ghost: 'text-text hover:bg-surface-2',
 };
 const sizes: Record<ButtonSize, string> = {

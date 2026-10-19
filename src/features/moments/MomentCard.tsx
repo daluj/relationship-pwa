@@ -15,7 +15,7 @@ import type { Contact, Moment } from '@/domain/types';
 import { ChangeDateDialog } from './ChangeDateDialog';
 import { kindIcon } from './kindMeta';
 import { useLookup } from './useLookup';
-import { MomentBody } from './MomentBody';
+import { inTextLink, MomentBody } from './MomentBody';
 import { PhotoGrid } from './PhotoGrid';
 
 interface Props {
@@ -182,7 +182,7 @@ export function MomentCard({ moment: m, detail, showPinned }: Props) {
             {others.map((c, i) => (
               <span key={c.id}>
                 {i > 0 && ', '}
-                <Link to={`/c/${c.id}`} className="text-accent-text hover:underline">
+                <Link to={`/c/${c.id}`} className={inTextLink}>
                   @{fullName(c)}
                 </Link>
               </span>

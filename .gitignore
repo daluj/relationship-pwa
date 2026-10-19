@@ -9,3 +9,4 @@ blob-report
 .DS_Store
 .env*
 .claude/settings.local.json
+lighthouse-report.html

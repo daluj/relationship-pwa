@@ -24,9 +24,17 @@ export const test = base.extend<{
   ],
   /** Uncaught exceptions / unhandled rejections in the app fail the test. */
   pageErrors: [
-    async ({ page, expectedPageErrors }, use) => {
+    async ({ page, expectedPageErrors, browserName }, use) => {
       const errors: string[] = [];
       page.on('pageerror', (e) => {
+        // WebKit reports its own cancelled service-worker script fetch (the test navigated away mid-request)
+        // as a page error with no stack; it doesn't come from app code. DECISIONS D-068.
+        if (
+          browserName === 'webkit' &&
+          !e.stack &&
+          /Cannot load .*sw\.js due to access control checks/.test(`${e.name}: ${e.message}`) // WebKit splits the text at ": "
+        )
+          return;
         if (!expectedPageErrors?.test(e.message))
           errors.push(`${e.name}: ${e.message}\n${e.stack ?? ''}`);
       });

@@ -1,6 +1,7 @@
 # Changelog
 
 ## M8 — Polish (2026-10-19)
+
 - Onboarding (language, theme, persistent storage, notifications, first contacts or demo data). It opens only when the database is
   empty and onboarding was never completed. Load and remove demo data from Settings › Your data.
 - Keyboard shortcuts with a `?` help dialog: n, /, g h, g r, g c, j/k, s, Enter.
@@ -14,6 +15,8 @@
   Best practices 100. Chromium reports the app as installable (apart from the test's incognito context).
 - The offline and layout E2E tests pass in Chromium, Firefox and WebKit.
 - Fixed: the onboarding gate race after "Delete all data", and explicit `undefined` overriding repository defaults.
+- Follow-up: service-worker registration errors go to the diagnostics log; the WebKit E2E flake was traced to WebKit reporting
+  its own cancelled `sw.js` fetch (D-068); M8 decisions D-061–D-068; README rewritten; `npm run lighthouse`.
 
 ## M7 — Import / export (2026-10-19)
 

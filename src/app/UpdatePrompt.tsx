@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRegisterSW } from 'virtual:pwa-register/react';
+import { logError } from '@/lib/diagnostics';
 import { useComposer } from './stores/composer';
 import { useToasts } from './stores/toast';
 
@@ -18,7 +19,14 @@ export function UpdatePrompt() {
   const {
     needRefresh: [needRefresh],
     updateServiceWorker,
-  } = useRegisterSW();
+  } = useRegisterSW({
+    // Kept in the local diagnostics log (SPEC §11); e.g. a registration interrupted by navigation.
+    onRegisterError: (e: unknown) =>
+      logError({
+        kind: 'error',
+        message: `Service worker registration: ${e instanceof Error ? e.message : String(e)}`,
+      }),
+  });
 
   const composing = useComposer((st) => st.open);
   useEffect(() => {

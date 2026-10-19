@@ -364,3 +364,66 @@ Shown when contacts exist and there has been no export in 30 days (counting from
 start. A search typed right after launch had to wait for it: the cold query took 120–150 ms with 2k/20k records. It now does a
 read-only pass, and only opens a write transaction (touching only the affected contacts) when something is missing or stale.
 The cold search is now about 35–50 ms. The backup nudge's "data since" also became one indexed read instead of a scan.
+
+## D-061 — When onboarding shows (M8)
+
+§8.1: shown only when the database is empty and `settings.onboarded` is unset. The gate runs only on Home (`/`, the
+`start_url`); deep links like `/contacts/new` or `/settings/data` are never redirected. "Onboarded" is also mirrored in
+`localStorage['kin.onboarded']` so the decision doesn't wait for IndexedDB. "Delete all data" clears both, so onboarding
+returns. Existing databases without the flag (upgrades from M1–M7) are marked as onboarded silently. The gate reads settings and counts
+in one transaction (`onboardingSnapshot`), because separate live queries caused a race after "Delete all data".
+
+## D-062 — Demo data (M8)
+
+About 15 bilingual (en/es) sample people with moments, reminders, gifts, debts, tasks, a pet, an important date, groups and
+relationships, created through the normal services so derived data (auto reminders, search index, last interaction) is
+consistent. The created ids are stored in `settings.demo`. "Remove demo data" permanently removes exactly those (it never touches
+the user's own contacts or pre-existing tags). Available from onboarding and Settings › Your data.
+
+## D-063 — App lock (M8)
+
+§8.10 asks for a screen lock, not encryption, and the UI says so. A 4–6 digit PIN is required (stored only as PBKDF2-SHA256,
+210k iterations, random salt; compared in constant time). A passkey is an optional faster unlock: a platform authenticator
+with user verification, and the assertion is verified on the device with WebCrypto (challenge, origin, UP/UV flags, ES256 or
+RS256 signature over `authenticatorData ‖ SHA-256(clientDataJSON)`). After 5 wrong PINs there's a 30 s cool-down that survives
+reloads. It locks on open and after N minutes in the background (default 5). A forgotten PIN can only be recovered by deleting all data,
+which is honest because the data isn't encrypted. `localStorage['kin.lock']` mirrors the setting so the lock screen shows before
+IndexedDB has loaded.
+
+## D-064 — Keyboard shortcuts (M8)
+
+§6.9's set plus Enter to open the focused moment. Shortcuts are ignored while typing, with modifier keys, or while any dialog or the
+composer is open. Moment cards are focusable (`tabIndex=0`) so `j`/`k` move real focus (visible focus ring) and `s` stars the focused
+card. `g` waits up to 1 s for its second key.
+
+## D-065 — Accent text contrast (M8)
+
+Accent fills keep the user's accent with `--on-accent` text (D-008). Accent-coloured text, links and icons use `--accent-text`,
+computed per theme and accent: the accent is mixed toward black (light) or white (dark) just enough to reach 4.5:1 on every surface of
+the theme, including accent-tinted chips. A unit test checks every accent × theme × surface. Light-theme `--success` was darkened
+to #00704f (it was 4.43:1 on cards). Danger buttons use `--on-danger` (white on the light red, black on the dark themes' lighter
+red, which only reached 3.0:1 with white text). Links inside running text (moment bodies, "with …") are underlined as well as
+coloured (WCAG 1.4.1).
+
+## D-066 — Accessible names (M8)
+
+Links and buttons whose text is visible take their name from that text, not an `aria-label` (WCAG 2.5.3). Icon-only nav labels
+are visually hidden (`sr-only`) rather than replaced by `aria-label`. The reminders badge number is decorative, and its phrase follows the
+label ("Reminders (1 reminder due)"). The avatar link next to a moment's name link is hidden from assistive tech and the tab order. axe-core
+(WCAG 2.1 A/AA) runs in E2E across 13 screens × 3 themes, plus the composer, onboarding, lock screen and mobile layout.
+
+## D-067 — Performance and installability checks (M8)
+
+Every screen except Home is a lazy route chunk (all precached, so they still open offline), which leaves the first-load bundle at about
+204 KB gzipped (budget 250). What remains is mostly React, the router, Dexie, Zod, i18next and the virtual list that Home needs.
+Lighthouse 12 has no PWA category any more, so installability is checked through Chromium's `Page.getInstallabilityErrors` in E2E
+(the only error reported is `in-incognito`, inherent to Playwright contexts). Lighthouse on mobile (simulated throttling) scores
+Performance 94, Accessibility 100 and Best practices 100. See the README for how to run it.
+
+## D-068 — Cross-browser E2E (M8)
+
+The offline and layout specs also run in Playwright's Firefox and WebKit (§15). Under parallel load, WebKit sometimes reports its own
+cancelled fetch of `sw.js` ("Cannot load …/sw.js due to access control checks", no stack) as a page error when a test navigates
+mid-request. That one WebKit message is ignored by the page-error check. Registration errors from app code are caught and written to
+the diagnostics log. Playwright's WebKit is Safari's engine, not iOS Safari, so behaviour on a real iPhone (installed to the Home Screen)
+still needs a manual check.
