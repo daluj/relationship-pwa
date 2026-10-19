@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import { Badge } from './Badge';
+import { Badge, BadgeText } from './Badge';
 import { useRemindersBadge } from './useRemindersBadge';
 import { navItems } from './navItems';
 
@@ -18,15 +18,12 @@ export function BottomTabBar() {
           .filter((i) => i.mobileTab)
           .map(({ to, icon: Icon, labelKey, badge }) => (
             <li key={to} className="flex-1">
-              <NavLink
-                to={to}
-                end={to === '/'}
-                aria-label={t(labelKey)}
-                className="flex h-full items-center justify-center"
-              >
+              <NavLink to={to} end={to === '/'} className="flex h-full items-center justify-center">
                 {({ isActive }) => (
                   <span className="relative">
                     <Icon size={26} strokeWidth={isActive ? 2.5 : 1.75} aria-hidden />
+                    <span className="sr-only">{t(labelKey)}</span>
+                    {badge === 'reminders' && <BadgeText count={remindersDue} />}
                     {badge === 'reminders' && <Badge count={remindersDue} />}
                   </span>
                 )}

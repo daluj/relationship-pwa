@@ -59,7 +59,7 @@ export function createRepository<T extends BaseRecord, D extends keyof T = never
       const now = nowIso();
       const record = validate({
         ...(defaults?.() ?? {}),
-        ...input,
+        ...stripUndefined(input), // an explicit `undefined` must not override a default
         id: input.id ?? crypto.randomUUID(),
         createdAt: now,
         updatedAt: now,

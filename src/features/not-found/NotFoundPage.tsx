@@ -8,7 +8,7 @@ export function NotFoundPage() {
     <>
       <PageHeader title={t('pages.notFound')} />
       <section className="px-8 py-12 text-center">
-        <Link to="/" className="font-bold text-accent hover:underline">
+        <Link to="/" className="font-bold text-accent-text hover:underline">
           {t('placeholder.backHome')}
         </Link>
       </section>

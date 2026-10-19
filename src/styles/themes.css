@@ -9,7 +9,7 @@
   --text-muted: #556470;
   --border: #e6ecec;
   --danger: #d0202c;
-  --success: #00805a;
+  --success: #00704f; /* 5.6:1 on surface-2 */
 }
 
 :root[data-theme='dim'] {
@@ -39,6 +39,8 @@
 :root {
   --accent: #14b8a6;
   --on-accent: #000000;
+  /* Accent for text/icons on --bg, adjusted per theme to keep 4.5:1 contrast (set by applyTheme). */
+  --accent-text: var(--accent);
   --accent-hover: color-mix(in srgb, var(--accent) 88%, var(--text));
   --accent-tint: color-mix(in srgb, var(--accent) 12%, transparent);
   --font-size: 15px;

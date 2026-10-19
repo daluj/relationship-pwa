@@ -7,6 +7,7 @@
       root.dataset.theme = t.theme;
       root.style.setProperty('--accent', t.accent);
       root.style.setProperty('--on-accent', t.onAccent);
+      if (t.accentText) root.style.setProperty('--accent-text', t.accentText);
       root.style.setProperty('--font-size', t.fontSize + 'px');
       return;
     }

@@ -22,7 +22,8 @@
     "closeMenu": "Cerrar menú",
     "toggleTheme": "Cambiar tema (actual: {{theme}})",
     "remindersBadge_one": "{{count}} recordatorio pendiente",
-    "remindersBadge_other": "{{count}} recordatorios pendientes"
+    "remindersBadge_other": "{{count}} recordatorios pendientes",
+    "themeLabel": "Tema: {{theme}}"
   },
   "home": {
     "title": "Inicio",
@@ -854,5 +855,126 @@
     "now": "Hacer copia ahora",
     "later": "Ahora no"
   },
-  "profileExport": "Exportar vCard"
+  "profileExport": "Exportar vCard",
+  "shortcuts": {
+    "title": "Atajos de teclado",
+    "then": "y luego",
+    "actions": {
+      "compose": "Registrar un momento",
+      "search": "Buscar",
+      "home": "Ir a Inicio",
+      "reminders": "Ir a Recordatorios",
+      "contacts": "Ir a Contactos",
+      "next": "Momento siguiente",
+      "previous": "Momento anterior",
+      "star": "Destacar el momento seleccionado",
+      "open": "Abrir el momento seleccionado",
+      "help": "Mostrar esta lista"
+    }
+  },
+  "onboarding": {
+    "welcome": "Te damos la bienvenida a Kin",
+    "tagline": "Un lugar privado para recordar a las personas de tu vida.",
+    "points": {
+      "local": "Todo se queda en este dispositivo. Sin cuenta, sin servidor, sin rastreo.",
+      "install": "Instala la app para abrirla como cualquier otra y usarla sin conexión.",
+      "backup": "Exporta una copia de vez en cuando: es la única copia."
+    },
+    "start": "Empezar",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "step": "Paso {{n}} de {{total}}",
+    "languageTitle": "Elige tu idioma",
+    "themeTitle": "Elige un tema",
+    "storageTitle": "Protege tus datos",
+    "storageBody": "Los navegadores pueden borrar datos de webs cuando falta espacio. Pide que se conserven los datos de Kin.",
+    "storageButton": "Conservar mis datos",
+    "storageGranted": "Listo: tu navegador conservará los datos de Kin.",
+    "storageDenied": "Tu navegador no lo ha permitido. Instalar la app y hacer copias ayuda.",
+    "storageUnsupported": "Este navegador no lo admite. Haz copias con regularidad.",
+    "notificationsTitle": "Recordatorios",
+    "notificationsBody": "Kin puede avisarte de cumpleaños y recordatorios al abrirla (y en segundo plano en navegadores compatibles). Opcional.",
+    "contactsTitle": "Añade a tus primeras personas",
+    "addContact": "Añadir un contacto",
+    "importContacts": "Importar contactos",
+    "importHint": "Desde el móvil, Google Contacts u Outlook (.vcf / .csv), o una copia de Kin",
+    "demo": "Explorar con datos de ejemplo",
+    "demoHint": "15 personas de ejemplo con momentos y recordatorios. Puedes quitarlas cuando quieras en Ajustes.",
+    "startEmpty": "Empezar con la app vacía",
+    "loadingDemo": "Cargando datos de ejemplo…"
+  },
+  "install": {
+    "button": "Instalar app",
+    "iosTitle": "Instalar en iPhone o iPad",
+    "iosSteps": "En Safari, toca el botón Compartir y luego «Añadir a pantalla de inicio».",
+    "iosWhy": "Instalada, Kin funciona sin conexión y Safari conserva sus datos."
+  },
+  "demoData": {
+    "title": "Datos de ejemplo",
+    "body": "Estás usando datos de ejemplo.",
+    "remove": "Quitar datos de ejemplo",
+    "removed": "Datos de ejemplo eliminados"
+  },
+  "lock": {
+    "title": "Bloqueo de la app",
+    "off": "Desactivado",
+    "on": "Activado",
+    "intro": "Pide un PIN (o la llave de acceso del dispositivo) al abrir Kin.",
+    "notEncryption": "Esto bloquea la pantalla de la app. No cifra tus datos: cualquiera con acceso a este perfil del navegador podría leerlos.",
+    "turnOn": "Activar",
+    "turnOff": "Desactivar",
+    "changePin": "Cambiar PIN",
+    "addPasskey": "Añadir llave de acceso",
+    "removePasskey": "Quitar llave de acceso",
+    "passkeyOn": "Llave de acceso activada",
+    "lockNow": "Bloquear ahora",
+    "lockAfter": "Volver a bloquear tras",
+    "minutes_one": "{{count}} minuto en segundo plano",
+    "minutes_other": "{{count}} minutos en segundo plano",
+    "setTitle": "Elige un PIN",
+    "pin": "PIN (4–6 dígitos)",
+    "confirmPin": "Repite el PIN",
+    "mismatch": "Los PIN no coinciden.",
+    "invalidPin": "Usa de 4 a 6 dígitos.",
+    "currentPin": "PIN actual",
+    "wrongPin": "PIN incorrecto.",
+    "offTitle": "Desactivar el bloqueo",
+    "locked": "Kin está bloqueada",
+    "enterPin": "Introduce tu PIN",
+    "unlock": "Desbloquear",
+    "usePasskey": "Usar llave de acceso",
+    "passkeyFailed": "La llave de acceso no ha funcionado. Usa tu PIN.",
+    "tooMany": "Demasiados intentos. Vuelve a probar en {{seconds}} s.",
+    "forgot": "¿Has olvidado el PIN?",
+    "forgotTitle": "¿Restablecer Kin?",
+    "forgotBody": "Tus datos no están cifrados, pero el PIN no se puede recuperar. La única forma de volver a entrar aquí es eliminar todos los datos de este dispositivo (y restaurarlos después desde una copia). Escribe {{word}} para confirmar.",
+    "reset": "Eliminarlo todo"
+  },
+  "storage": {
+    "title": "Almacenamiento",
+    "usage": "Kin usa {{used}} de unos {{quota}} disponibles.",
+    "usageUnknown": "Este navegador no informa del uso de almacenamiento.",
+    "persisted": "Almacenamiento persistente: activado; el navegador no borrará los datos de Kin por su cuenta.",
+    "notPersisted": "Almacenamiento persistente: desactivado; el navegador podría borrar los datos de Kin si falta espacio.",
+    "request": "Solicitar almacenamiento persistente",
+    "denied": "El navegador no lo ha permitido. Instalar la app (y hacer copias) ayuda.",
+    "ios": "En iPhone y iPad, Safari puede borrar los datos de webs que no usas en un tiempo si Kin no está en la pantalla de inicio. Instálala y haz copias."
+  },
+  "about": {
+    "version": "Versión {{version}}",
+    "what": "Kin es un diario privado y sin conexión para las personas de tu vida: un CRM personal. Inspirado en Monica, con un diseño que toma prestado de X.",
+    "privacyTitle": "Privacidad",
+    "privacy": [
+      "Todo lo que introduces se guarda solo en este navegador de este dispositivo (IndexedDB).",
+      "No hay servidor, cuenta, analítica, anuncios ni scripts de terceros. Kin no hace peticiones de red con tus datos.",
+      "Nada sale del dispositivo salvo que lo exportes tú.",
+      "Los navegadores pueden borrar el almacenamiento de las webs: instala la app, permite el almacenamiento persistente y haz copias."
+    ],
+    "diagnosticsTitle": "Diagnóstico",
+    "diagnosticsIntro": "Los errores se registran solo en este dispositivo para que puedas compartirlos si quieres. No se envía nada.",
+    "noErrors": "No hay errores registrados.",
+    "exportLog": "Exportar registro",
+    "clearLog": "Borrar registro",
+    "shortcuts": "Atajos de teclado"
+  }
 }

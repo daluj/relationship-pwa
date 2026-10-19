@@ -53,3 +53,30 @@ test('app shell and data survive offline reloads', async ({ page, context }) => 
     page.getByTestId('moment-card').getByRole('link', { name: '@Offline Olga' }),
   ).toBeVisible();
 });
+
+test('installable: Chromium reports no installability errors; manifest complete (SPEC §9)', async ({
+  page,
+  browserName,
+}) => {
+  test.skip(browserName !== 'chromium', 'Installability is reported through a Chromium-only DevTools API');
+  await page.goto('/');
+  await waitForServiceWorker(page);
+  const cdp = await page.context().newCDPSession(page);
+  const { installabilityErrors } = await cdp.send('Page.getInstallabilityErrors');
+  // Playwright contexts are always incognito, where Chrome never offers install; anything else is a real problem.
+  expect(installabilityErrors.filter((e) => e.errorId !== 'in-incognito')).toEqual([]);
+
+  const manifest = await (await page.request.get('/manifest.webmanifest')).json();
+  expect(manifest).toMatchObject({ start_url: '/', display: 'standalone', short_name: 'Kin' });
+  expect(
+    manifest.icons.map((i: { sizes: string; purpose: string }) => `${i.sizes}/${i.purpose}`),
+  ).toEqual(expect.arrayContaining(['192x192/any', '512x512/any', '512x512/maskable']));
+  expect(manifest.shortcuts.map((s: { url: string }) => s.url)).toEqual([
+    '/compose',
+    '/reminders',
+    '/search',
+  ]);
+  expect(manifest.share_target.action).toBe('/share-target');
+  expect(manifest.file_handlers[0].accept).toHaveProperty('text/vcard');
+  for (const icon of manifest.icons) expect((await page.request.get(icon.src)).ok()).toBe(true);
+});

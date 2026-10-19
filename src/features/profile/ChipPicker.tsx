@@ -83,7 +83,7 @@ export function ChipPicker({
     items.push({
       key: 'create',
       label: labels.create(name),
-      icon: <Plus size={18} className="m-1 text-accent" aria-hidden />,
+      icon: <Plus size={18} className="m-1 text-accent-text" aria-hidden />,
       onSelect: () => void onCreate(name).then(done),
     });
   }
@@ -149,7 +149,7 @@ export function ChipPicker({
               setOpen(true);
               setTimeout(() => inputRef.current?.focus());
             }}
-            className="inline-flex items-center gap-1 rounded-full border border-dashed border-border px-3 py-1 text-sm text-accent hover:bg-accent-tint"
+            className="inline-flex items-center gap-1 rounded-full border border-dashed border-border px-3 py-1 text-sm text-accent-text hover:bg-accent-tint"
           >
             <Plus size={14} aria-hidden /> {labels.add}
           </button>

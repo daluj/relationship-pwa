@@ -53,7 +53,7 @@ export function PeoplePicker({ contacts, exclude, onPick, onCreate }: Props) {
           setOpen(true);
           setTimeout(() => inputRef.current?.focus());
         }}
-        className="inline-flex items-center gap-1 rounded-full border border-dashed border-border px-3 py-1 text-sm text-accent hover:bg-accent-tint"
+        className="inline-flex items-center gap-1 rounded-full border border-dashed border-border px-3 py-1 text-sm text-accent-text hover:bg-accent-tint"
       >
         <UserPlus size={14} aria-hidden /> {t('composer.addPerson')}
       </button>

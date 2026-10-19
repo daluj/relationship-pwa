@@ -218,7 +218,7 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
             {contact.isStarred && (
               <Star
                 size={18}
-                className="text-accent"
+                className="text-accent-text"
                 fill="currentColor"
                 aria-label={t('contacts.filter.starred')}
               />

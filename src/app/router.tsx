@@ -1,24 +1,23 @@
 import { createBrowserRouter, type RouteObject } from 'react-router-dom';
 import { ComposeRoute } from '@/features/compose/ComposeRoute';
-import { ContactsPage } from '@/features/contacts/ContactsPage';
-import { GroupPage } from '@/features/groups/GroupPage';
-import { GroupsPage } from '@/features/groups/GroupsPage';
 import { HomePage } from '@/features/home/HomePage';
-import { MomentPage } from '@/features/moments/MomentPage';
 import { NotFoundPage } from '@/features/not-found/NotFoundPage';
-import { OnboardingPage } from '@/features/onboarding/OnboardingPage';
-import { ProfilePage } from '@/features/profile/ProfilePage';
-import { RemindersPage } from '@/features/reminders/RemindersPage';
-import { SearchPage } from '@/features/search/SearchPage';
-import { StarredPage } from '@/features/starred/StarredPage';
-import { TagPage } from '@/features/tags/TagPage';
-import { TasksPage } from '@/features/tasks/TasksPage';
 import { AppShell } from './layout/AppShell';
 
-const contactForm = () =>
-  import('@/features/contacts/form/ContactFormPage').then((m) => ({
-    Component: m.ContactFormPage,
-  }));
+/**
+ * Code-splitting (SPEC §10): the shell and Home ship in the first-load bundle; every other screen is a
+ * lazy route chunk (all precached by the service worker, so they still open instantly offline).
+ */
+const page =
+  <K extends string>(load: () => Promise<Record<K, React.ComponentType>>, name: K) =>
+  () =>
+    load().then((m) => ({ Component: m[name] }));
+
+const contactForm = page(
+  () => import('@/features/contacts/form/ContactFormPage'),
+  'ContactFormPage',
+);
+const profile = page(() => import('@/features/profile/ProfilePage'), 'ProfilePage');
 
 /** SPEC §7. */
 export const routes: RouteObject[] = [
@@ -28,51 +27,50 @@ export const routes: RouteObject[] = [
     children: [
       { index: true, Component: HomePage },
       { path: 'compose', Component: ComposeRoute },
-      { path: 'moment/:id', Component: MomentPage },
-      { path: 'contacts', Component: ContactsPage },
-      // Contact editing is lazy-loaded (SPEC §10).
-      { path: 'contacts/new', lazy: contactForm },
-      { path: 'c/:id', Component: ProfilePage },
-      { path: 'c/:id/edit', lazy: contactForm },
-      { path: 'c/:id/:tab', Component: ProfilePage },
-      { path: 'reminders', Component: RemindersPage },
-      { path: 'tasks', Component: TasksPage },
-      { path: 'search', Component: SearchPage },
-      { path: 'tags/:id', Component: TagPage },
-      { path: 'groups', Component: GroupsPage },
-      { path: 'groups/:id', Component: GroupPage },
-      { path: 'starred', Component: StarredPage },
       {
-        // Lazy-loaded (SPEC §10 code-splitting).
+        path: 'moment/:id',
+        lazy: page(() => import('@/features/moments/MomentPage'), 'MomentPage'),
+      },
+      {
+        path: 'contacts',
+        lazy: page(() => import('@/features/contacts/ContactsPage'), 'ContactsPage'),
+      },
+      { path: 'contacts/new', lazy: contactForm },
+      { path: 'c/:id', lazy: profile },
+      { path: 'c/:id/edit', lazy: contactForm },
+      { path: 'c/:id/:tab', lazy: profile },
+      {
+        path: 'reminders',
+        lazy: page(() => import('@/features/reminders/RemindersPage'), 'RemindersPage'),
+      },
+      { path: 'tasks', lazy: page(() => import('@/features/tasks/TasksPage'), 'TasksPage') },
+      { path: 'search', lazy: page(() => import('@/features/search/SearchPage'), 'SearchPage') },
+      { path: 'tags/:id', lazy: page(() => import('@/features/tags/TagPage'), 'TagPage') },
+      { path: 'groups', lazy: page(() => import('@/features/groups/GroupsPage'), 'GroupsPage') },
+      { path: 'groups/:id', lazy: page(() => import('@/features/groups/GroupPage'), 'GroupPage') },
+      {
+        path: 'starred',
+        lazy: page(() => import('@/features/starred/StarredPage'), 'StarredPage'),
+      },
+      {
         path: 'settings',
         children: [
           {
             index: true,
-            lazy: () =>
-              import('@/features/settings/SettingsPage').then((m) => ({
-                Component: m.SettingsPage,
-              })),
+            lazy: page(() => import('@/features/settings/SettingsPage'), 'SettingsPage'),
           },
-          {
-            path: 'data',
-            lazy: () => import('@/features/data/DataPage').then((m) => ({ Component: m.DataPage })),
-          },
-          {
-            path: 'trash',
-            lazy: () =>
-              import('@/features/settings/TrashPage').then((m) => ({ Component: m.TrashPage })),
-          },
-          {
-            path: 'about',
-            lazy: () =>
-              import('@/features/settings/AboutPage').then((m) => ({ Component: m.AboutPage })),
-          },
+          { path: 'data', lazy: page(() => import('@/features/data/DataPage'), 'DataPage') },
+          { path: 'trash', lazy: page(() => import('@/features/settings/TrashPage'), 'TrashPage') },
+          { path: 'about', lazy: page(() => import('@/features/settings/AboutPage'), 'AboutPage') },
         ],
       },
       { path: '*', Component: NotFoundPage },
     ],
   },
-  { path: '/onboarding', Component: OnboardingPage },
+  {
+    path: '/onboarding',
+    lazy: page(() => import('@/features/onboarding/OnboardingPage'), 'OnboardingPage'),
+  },
 ];
 
 export const router = createBrowserRouter(routes, {

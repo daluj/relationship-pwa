@@ -24,7 +24,7 @@ async function createContact(
   return page.url();
 }
 
-const navBadge = (page: Page) => page.locator('header nav [aria-label$="due"]');
+const navBadge = (page: Page) => page.locator('header nav').getByTestId('nav-badge');
 
 test('birthday due today: Reminders › Today, nav badge, banner; Done moves it a year (SPEC §8.5 AC)', async ({
   page,
@@ -34,7 +34,10 @@ test('birthday due today: Reminders › Today, nav badge, banner; Done moves it 
   await createContact(page, 'Élise', { birthday: ['18', 'March', '1987'] });
 
   await expect(navBadge(page)).toHaveText('1');
-  await expect(navBadge(page)).toHaveAttribute('aria-label', '1 reminder due');
+  // Screen readers hear it as part of the link name.
+  await expect(
+    page.locator('header nav').getByRole('link', { name: 'Reminders (1 reminder due)' }),
+  ).toBeVisible();
   await page.goto('/');
   await expect(
     page.getByRole('status').filter({ hasText: 'You have 1 reminder due' }),

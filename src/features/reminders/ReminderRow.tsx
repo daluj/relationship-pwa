@@ -148,7 +148,7 @@ export function ReminderRow({ reminder: r, today, onEdit }: Props) {
       {contact ? (
         <Avatar contact={contact} size={40} />
       ) : (
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-tint text-accent">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-tint text-accent-text">
           <Bell size={18} aria-hidden />
         </span>
       )}

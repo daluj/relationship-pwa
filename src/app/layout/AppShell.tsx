@@ -8,6 +8,8 @@ import { BackupNudge } from '@/features/data/BackupNudge';
 import { DueBanner } from '@/features/reminders/DueBanner';
 import { useReminderNotifications } from '@/features/reminders/useReminderNotifications';
 import { useGlobalShortcuts } from '../useGlobalShortcuts';
+import { useOnboardingGate } from '@/features/onboarding/useOnboardingGate';
+import { ShortcutsDialog } from './ShortcutsDialog';
 import { UpdatePrompt } from '../UpdatePrompt';
 import { BottomTabBar } from './BottomTabBar';
 import { Fab } from './Fab';
@@ -21,7 +23,8 @@ export function AppShell() {
   const { t } = useTranslation();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
-  useGlobalShortcuts();
+  const { helpOpen, setHelpOpen } = useGlobalShortcuts();
+  useOnboardingGate();
   useReminderNotifications();
 
   return (
@@ -54,6 +57,7 @@ export function AppShell() {
       <Toaster />
       <UpdatePrompt />
       <ComposerDialog />
+      <ShortcutsDialog open={helpOpen} onClose={() => setHelpOpen(false)} />
     </EntityLookupProvider>
   );
 }

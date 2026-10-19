@@ -92,17 +92,24 @@ export function MomentCard({ moment: m, detail, showPinned }: Props) {
   return (
     <article
       onClick={onCardClick}
+      // Focusable for j/k navigation; Enter opens the moment (SPEC §6.9).
+      tabIndex={detail ? undefined : 0}
+      onKeyDown={(e) => {
+        if (!detail && e.key === 'Enter' && e.target === e.currentTarget)
+          navigate(`/moment/${m.id}`);
+      }}
       aria-labelledby={`moment-${m.id}-who`}
       data-testid="moment-card"
       className={`flex gap-3 border-b border-border px-4 py-3 ${detail ? '' : 'cursor-pointer hover:bg-surface-1'}`}
     >
       <div className="shrink-0">
         {primary ? (
-          <Link to={`/c/${primary.id}`} aria-label={fullName(primary)}>
+          // Duplicate of the name link next to it — hidden from assistive tech and the tab order.
+          <Link to={`/c/${primary.id}`} aria-hidden tabIndex={-1}>
             <Avatar contact={primary} size={40} />
           </Link>
         ) : (
-          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-tint text-accent">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-tint text-accent-text">
             <KindIcon size={20} aria-hidden />
           </span>
         )}
@@ -148,7 +155,7 @@ export function MomentCard({ moment: m, detail, showPinned }: Props) {
           </p>
           <Menu
             label={t('moment.actions.more')}
-            triggerClassName="-mt-1 -mr-2 rounded-full p-1.5 text-muted hover:bg-accent-tint hover:text-accent"
+            triggerClassName="-mt-1 -mr-2 rounded-full p-1.5 text-muted hover:bg-accent-tint hover:text-accent-text"
             trigger={<Ellipsis size={18} aria-hidden />}
             items={[
               { label: t('moment.actions.copy'), icon: Copy, onSelect: () => void copy() },
@@ -175,7 +182,7 @@ export function MomentCard({ moment: m, detail, showPinned }: Props) {
             {others.map((c, i) => (
               <span key={c.id}>
                 {i > 0 && ', '}
-                <Link to={`/c/${c.id}`} className="text-accent hover:underline">
+                <Link to={`/c/${c.id}`} className="text-accent-text hover:underline">
                   @{fullName(c)}
                 </Link>
               </span>
@@ -187,9 +194,10 @@ export function MomentCard({ moment: m, detail, showPinned }: Props) {
           <IconButton
             label={t('moment.actions.star')}
             tone="accent"
+            data-action="star"
             aria-pressed={m.isStarred}
             onClick={() => void setMomentStarred(m.id, !m.isStarred)}
-            className={m.isStarred ? 'text-accent' : action}
+            className={m.isStarred ? 'text-accent-text' : action}
           >
             <Star size={18} fill={m.isStarred ? 'currentColor' : 'none'} aria-hidden />
           </IconButton>
@@ -198,7 +206,7 @@ export function MomentCard({ moment: m, detail, showPinned }: Props) {
             tone="accent"
             aria-pressed={!!m.isPinned}
             onClick={() => void setMomentPinned(m.id, !m.isPinned)}
-            className={m.isPinned ? 'text-accent' : action}
+            className={m.isPinned ? 'text-accent-text' : action}
           >
             <Pin size={18} fill={m.isPinned ? 'currentColor' : 'none'} aria-hidden />
           </IconButton>

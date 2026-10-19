@@ -148,7 +148,7 @@ export function TaskList({ contactId }: { contactId?: string }) {
                   )}
                   {task.dueDate && c && ' · '}
                   {c && (
-                    <Link to={`/c/${c.id}/tasks`} className="text-accent hover:underline">
+                    <Link to={`/c/${c.id}/tasks`} className="text-accent-text hover:underline">
                       {fullName(c)}
                     </Link>
                   )}

@@ -16,6 +16,7 @@ import { downloadBackup, downloadCsv, downloadVCards } from './exporters';
 import { ImportPreview } from './ImportPreview';
 import { ImportFileError, readImportFile } from './readImportFile';
 import { RestoreDialog } from './RestoreDialog';
+import { StorageSection } from './StorageSection';
 import { takeSharedFiles } from './sharedFiles';
 
 type Step =
@@ -219,6 +220,8 @@ export function DataPage() {
           </p>
         )}
       </section>
+
+      <StorageSection />
 
       <section className={section} aria-labelledby="danger-title">
         <h2 id="danger-title" className="mb-1 text-lg font-extrabold text-danger">

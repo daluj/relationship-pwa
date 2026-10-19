@@ -88,7 +88,7 @@ export function DetailsTab({ contact }: { contact: Contact }) {
                   {href ? (
                     <a
                       href={href}
-                      className="break-all text-accent hover:underline"
+                      className="break-all text-accent-text hover:underline"
                       {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
                     >
                       {f.value}
@@ -141,7 +141,7 @@ export function DetailsTab({ contact }: { contact: Contact }) {
         </p>
         {introducer && (
           <p className="text-muted">
-            <Link to={`/c/${introducer.id}`} className="text-accent hover:underline">
+            <Link to={`/c/${introducer.id}`} className="text-accent-text hover:underline">
               {t('details.introducedBy', { name: fullName(introducer) })}
             </Link>
           </p>
@@ -193,7 +193,7 @@ export function DetailsTab({ contact }: { contact: Contact }) {
           <p className="text-muted">{t('details.empty')}</p>
           <Link
             to={`/c/${contact.id}/edit`}
-            className="mt-4 inline-block font-bold text-accent hover:underline"
+            className="mt-4 inline-block font-bold text-accent-text hover:underline"
           >
             {t('details.addDetails')}
           </Link>

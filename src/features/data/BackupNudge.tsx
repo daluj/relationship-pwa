@@ -37,7 +37,7 @@ export function BackupNudge() {
       aria-label={t('nudge.title')}
       className="flex flex-wrap items-center gap-3 border-b border-border bg-surface-1 px-4 py-3 text-sm"
     >
-      <HardDriveDownload size={20} className="shrink-0 text-accent" aria-hidden />
+      <HardDriveDownload size={20} className="shrink-0 text-accent-text" aria-hidden />
       <div className="min-w-0 flex-1">
         <p className="font-bold">{t('nudge.title')}</p>
         <p className="text-muted">{t('nudge.body')}</p>

@@ -50,7 +50,10 @@ export function UpcomingCard() {
       title={t('rail.upcoming')}
       footer={
         next.length > 0 && (
-          <Link to="/reminders" className="block px-4 py-3 text-sm text-accent hover:bg-surface-1">
+          <Link
+            to="/reminders"
+            className="block px-4 py-3 text-sm text-accent-text hover:bg-surface-1"
+          >
             {t('reminders.showAll')}
           </Link>
         )
@@ -71,7 +74,7 @@ export function UpcomingCard() {
                   {c ? (
                     <Avatar contact={c} size={32} />
                   ) : (
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent-tint text-accent">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent-tint text-accent-text">
                       <Bell size={16} aria-hidden />
                     </span>
                   )}

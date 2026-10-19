@@ -17,11 +17,12 @@ export function ThemeToggle({ showLabel }: { showLabel?: boolean }) {
     <button
       type="button"
       onClick={() => void settingsRepo.set('theme', next[current])}
-      aria-label={t('nav.toggleTheme', { theme: label })}
+      // Icon-only: name via aria-label. With a visible label, the visible text *is* the name (WCAG 2.5.3).
+      aria-label={showLabel ? undefined : t('nav.toggleTheme', { theme: label })}
       className="flex items-center gap-4 rounded-full p-3 hover:bg-surface-2"
     >
       <Icon size={24} aria-hidden />
-      {showLabel && <span className="text-lg">{label}</span>}
+      {showLabel && <span className="text-lg">{t('nav.themeLabel', { theme: label })}</span>}
     </button>
   );
 }

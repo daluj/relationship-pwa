@@ -9,7 +9,8 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 /** Round icon-only button; `label` becomes the aria-label (SPEC §6.10). */
 export function IconButton({ label, children, tone = 'default', className = '', ...rest }: Props) {
-  const hover = tone === 'accent' ? 'hover:bg-accent-tint hover:text-accent' : 'hover:bg-surface-2';
+  const hover =
+    tone === 'accent' ? 'hover:bg-accent-tint hover:text-accent-text' : 'hover:bg-surface-2';
   return (
     <button
       type="button"

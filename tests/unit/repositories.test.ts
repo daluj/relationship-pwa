@@ -26,6 +26,11 @@ describe('createRepository (via contactRepo)', () => {
     expect(await contactRepo.get(c.id)).toEqual(c);
   });
 
+  it('explicit undefined in the input does not override defaults', async () => {
+    const c = await contactRepo.create({ firstName: 'A', isStarred: undefined, tagIds: undefined });
+    expect(c).toMatchObject({ isStarred: false, tagIds: [] });
+  });
+
   it('validates with Zod — only firstName is required', async () => {
     await expect(contactRepo.create({ firstName: '   ' })).rejects.toBeInstanceOf(ValidationError);
     await expect(

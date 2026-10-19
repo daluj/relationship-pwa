@@ -1,5 +1,5 @@
 import { partialDateSchema } from '@/domain/schemas';
-import { contrastRatio, onColor } from '@/domain/color';
+import { contrastRatio, onColor, readableAccent } from '@/domain/color';
 import { accents, resolveTheme } from '@/domain/settings';
 import { normalizeTagName } from '@/domain/tags';
 
@@ -27,6 +27,29 @@ describe('resolveTheme', () => {
 describe('normalizeTagName', () => {
   it('is case-insensitive and trims', () => {
     expect(normalizeTagName('  Family ')).toBe('family');
+  });
+});
+
+describe('readableAccent (SPEC §6.10)', () => {
+  it('gives every accent ≥ 4.5:1 text contrast on every surface of every theme', async () => {
+    const { computeTheme } = await import('@/app/theme');
+    const { themeSurfaces, themes } = await import('@/domain/settings');
+    const { mix } = await import('@/domain/color');
+    for (const theme of themes) {
+      for (const accent of Object.keys(accents) as (keyof typeof accents)[]) {
+        const { accentText } = computeTheme(theme, accent, 15);
+        const surfaces = themeSurfaces[theme];
+        for (const bg of [...surfaces, mix(surfaces[0], accents[accent], 0.12)]) {
+          expect(
+            contrastRatio(accentText, bg),
+            `${theme}/${accent} on ${bg}`,
+          ).toBeGreaterThanOrEqual(4.5);
+        }
+      }
+    }
+  });
+  it('keeps the accent unchanged when it already passes', () => {
+    expect(readableAccent('#14B8A6', ['#000000'])).toBe('#14B8A6');
   });
 });
 

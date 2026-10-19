@@ -128,3 +128,19 @@ export async function recordCounts(): Promise<Record<string, number>> {
 export async function dataSince(): Promise<string | undefined> {
   return (await db.contacts.orderBy('updatedAt').first())?.updatedAt;
 }
+
+/** Any contacts or moments at all (onboarding gate, SPEC §8.1). */
+export async function hasAnyData(): Promise<boolean> {
+  return (await db.contacts.count()) + (await db.moments.count()) > 0;
+}
+
+/**
+ * Onboarding state read in one transaction, so the gate never sees a mix of fresh and stale values
+ * (e.g. settings already cleared by "Delete all data" while a count is still the old one).
+ */
+export async function onboardingSnapshot(): Promise<{ onboarded: boolean; hasData: boolean }> {
+  return db.transaction('r', [db.settings, db.contacts, db.moments], async () => ({
+    onboarded: (await db.settings.get('onboarded'))?.value === true,
+    hasData: await hasAnyData(),
+  }));
+}

@@ -182,7 +182,7 @@ function VirtualList({ contacts, showJump }: { contacts: Contact[]; showJump: bo
               type="button"
               aria-label={t('contacts.jumpLetter', { letter })}
               onClick={() => virtualizer.scrollToIndex(index, { align: 'start' })}
-              className="px-1.5 py-0.5 text-[11px] font-bold text-accent"
+              className="px-1.5 py-0.5 text-[11px] font-bold text-accent-text"
             >
               {letter}
             </button>
@@ -210,7 +210,7 @@ export function StarButton({ contact }: { contact: Contact }) {
       aria-pressed={contact.isStarred}
       tone="accent"
       onClick={() => void contactRepo.update(contact.id, { isStarred: !contact.isStarred })}
-      className={contact.isStarred ? 'text-accent' : 'text-muted'}
+      className={contact.isStarred ? 'text-accent-text' : 'text-muted'}
     >
       <Star size={18} fill={contact.isStarred ? 'currentColor' : 'none'} aria-hidden />
     </IconButton>

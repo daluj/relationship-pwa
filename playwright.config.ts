@@ -11,6 +11,17 @@ export default defineConfig({
   // Full Chromium (new headless): the headless shell always denies notification permission.
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'], channel: 'chromium' } },
+    // SPEC §15 cross-browser check: the offline + responsive specs in Firefox and WebKit (Safari's engine).
+    {
+      name: 'firefox',
+      testMatch: /(offline|layout)\.spec\.ts$/,
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'webkit',
+      testMatch: /(offline|layout)\.spec\.ts$/,
+      use: { ...devices['Desktop Safari'] },
+    },
     // Performance checks (SPEC §8.6) run alone, after everything else.
     {
       name: 'perf',

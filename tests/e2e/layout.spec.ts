@@ -23,7 +23,10 @@ test.describe('responsive shell (SPEC §6.1–6.3)', () => {
     await page.setViewportSize({ width: 1100, height: 900 });
     await page.goto('/');
     expect((await leftNav(page).boundingBox())?.width).toBe(88);
-    await expect(leftNav(page).getByText('Reminders', { exact: true })).toBeHidden();
+    // Labels are visually hidden at this width but still read by screen readers (1px sr-only box).
+    expect(
+      (await leftNav(page).getByText('Reminders', { exact: true }).boundingBox())?.width,
+    ).toBeLessThanOrEqual(1);
     await expect(rail(page)).toBeVisible();
 
     await page.setViewportSize({ width: 900, height: 900 });

@@ -38,7 +38,7 @@ export function TagsGroupsBlocks({ contact }: { contact: Contact }) {
           await setContactTags(contact.id, [...contact.tagIds, tag.id]);
         }}
         renderChip={(o) => (
-          <Link to={`/tags/${o.id}`} className="text-accent hover:underline">
+          <Link to={`/tags/${o.id}`} className="text-accent-text hover:underline">
             #{o.label}
           </Link>
         )}

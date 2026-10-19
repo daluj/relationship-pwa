@@ -33,7 +33,7 @@ export function contactSuggestions(
     items.push({
       key: 'create-contact',
       label: t('composer.createContact', { name }),
-      icon: <UserRoundPlus size={20} className="m-1.5 text-accent" aria-hidden />,
+      icon: <UserRoundPlus size={20} className="m-1.5 text-accent-text" aria-hidden />,
       onSelect: () => onCreate(name),
     });
   }
@@ -59,7 +59,7 @@ export function tagSuggestions(
     items.push({
       key: 'create-tag',
       label: t('composer.createTag', { name }),
-      icon: <Hash size={20} className="m-1.5 text-accent" aria-hidden />,
+      icon: <Hash size={20} className="m-1.5 text-accent-text" aria-hidden />,
       onSelect: () => onCreate(name),
     });
   }

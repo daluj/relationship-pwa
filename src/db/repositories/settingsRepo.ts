@@ -11,6 +11,10 @@ export const settingsRepo = {
     await db.settings.put({ key, value });
   },
 
+  async remove(key: keyof AppSettings): Promise<void> {
+    await db.settings.delete(key);
+  },
+
   /** All known settings merged over defaults. */
   async getAll(): Promise<AppSettings> {
     const rows = await db.settings.toArray();

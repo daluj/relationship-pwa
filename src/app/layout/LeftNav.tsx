@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Link, NavLink } from 'react-router-dom';
 import { Database, Ellipsis, Feather, Info, Trash2 } from 'lucide-react';
 import { Logo } from '@/components/Logo';
+import { InstallMenuItem } from '@/components/InstallButton';
 import { useComposer } from '../stores/composer';
-import { Badge } from './Badge';
+import { Badge, BadgeText } from './Badge';
 import { useRemindersBadge } from './useRemindersBadge';
 import { navItems } from './navItems';
 import { ThemeToggle } from './ThemeToggle';
@@ -29,21 +30,19 @@ export function LeftNav() {
         <ul>
           {navItems.map(({ to, icon: Icon, labelKey, badge }) => (
             <li key={to}>
-              <NavLink
-                to={to}
-                end={to === '/'}
-                className="group block py-0.5"
-                aria-label={t(labelKey)}
-              >
+              <NavLink to={to} end={to === '/'} className="group block py-0.5">
                 {({ isActive }) => (
                   <span className="inline-flex items-center gap-5 rounded-full p-3 group-hover:bg-surface-2 xl:pr-6">
                     <span className="relative">
                       <Icon size={26} strokeWidth={isActive ? 2.5 : 1.75} aria-hidden />
                       {badge === 'reminders' && <Badge count={remindersDue} />}
                     </span>
-                    <span className={`hidden text-xl xl:inline ${isActive ? 'font-bold' : ''}`}>
+                    <span
+                      className={`sr-only text-xl xl:not-sr-only ${isActive ? 'font-bold' : ''}`}
+                    >
                       {t(labelKey)}
                     </span>
+                    {badge === 'reminders' && <BadgeText count={remindersDue} />}
                   </span>
                 )}
               </NavLink>
@@ -81,6 +80,7 @@ export function LeftNav() {
                     <Icon size={20} aria-hidden /> {label}
                   </Link>
                 ))}
+                <InstallMenuItem />
               </div>
             )}
           </li>

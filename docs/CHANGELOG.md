@@ -1,5 +1,20 @@
 # Changelog
 
+## M8 — Polish (2026-10-19)
+- Onboarding (language, theme, persistent storage, notifications, first contacts or demo data). It opens only when the database is
+  empty and onboarding was never completed. Load and remove demo data from Settings › Your data.
+- Keyboard shortcuts with a `?` help dialog: n, /, g h, g r, g c, j/k, s, Enter.
+- Settings: storage usage and persistence (with the iOS note), and an app lock with a PIN (PBKDF2) and optional passkey (WebAuthn,
+  verified on the device). It is clearly labelled as a screen lock, not encryption, and locks out after 5 wrong PINs.
+- Install prompt (More menu, onboarding, iOS instructions). About page with privacy details and a local diagnostics log. The update
+  toast waits while the composer is open.
+- Accessibility: axe finds zero WCAG 2.1 AA violations across the main screens in all three themes, plus onboarding, the lock screen
+  and mobile. Accent text uses a computed `--accent-text` (≥ 4.5:1). Fixed accessible-name mismatches in the nav and cards.
+- Every screen except Home is lazy-loaded (main bundle 204 KB gzipped). Lighthouse on mobile: Performance 94, Accessibility 100,
+  Best practices 100. Chromium reports the app as installable (apart from the test's incognito context).
+- The offline and layout E2E tests pass in Chromium, Firefox and WebKit.
+- Fixed: the onboarding gate race after "Delete all data", and explicit `undefined` overriding repository defaults.
+
 ## M7 — Import / export (2026-10-19)
 
 - Settings › Your data: full JSON backup (optionally without photos, streamed), vCard and CSV export, import by file picker or

@@ -335,7 +335,7 @@ export function Composer({ momentId, prefill, variant, onDone, onDirtyChange }: 
                 setKind(k);
                 touch();
               }}
-              className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-bold ${selected ? 'border-accent bg-accent-tint text-accent' : 'border-border text-muted hover:bg-surface-2'}`}
+              className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-bold ${selected ? 'border-accent bg-accent-tint text-accent-text' : 'border-border text-muted hover:bg-surface-2'}`}
             >
               <Icon size={14} aria-hidden /> {t(`moment.kinds.${k}`)}
             </button>
@@ -498,7 +498,7 @@ export function Composer({ momentId, prefill, variant, onDone, onDirtyChange }: 
               role="radio"
               aria-checked={extra.mood === m}
               onClick={() => setX({ mood: extra.mood === m ? undefined : m })}
-              className={`rounded-full border px-3 py-1 text-sm ${extra.mood === m ? 'border-accent bg-accent-tint font-bold text-accent' : 'border-border text-muted hover:bg-surface-2'}`}
+              className={`rounded-full border px-3 py-1 text-sm ${extra.mood === m ? 'border-accent bg-accent-tint font-bold text-accent-text' : 'border-border text-muted hover:bg-surface-2'}`}
             >
               {t(`moment.moods.${m}`)}
             </button>
@@ -566,7 +566,7 @@ export function Composer({ momentId, prefill, variant, onDone, onDirtyChange }: 
 
       {/* Toolbar */}
       <div className="flex items-center justify-between border-t border-border pt-2">
-        <div className="-ml-2 flex items-center text-accent">
+        <div className="-ml-2 flex items-center text-accent-text">
           <IconButton
             label={photos.length >= MAX_PHOTOS ? t('composer.maxPhotos') : t('composer.addPhoto')}
             tone="accent"

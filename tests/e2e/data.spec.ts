@@ -80,8 +80,9 @@ test('backup round trip: export → delete all → restore gives the same data (
   await expect(confirm.getByRole('button', { name: 'Delete all data' })).toBeDisabled();
   await confirm.getByLabel('Type DELETE').fill('DELETE');
   await confirm.getByRole('button', { name: 'Delete all data' }).click();
-  await expect(page).toHaveURL(/\/$/);
-  await expect(page.getByText('Nothing logged yet. What happened?')).toBeVisible();
+  // Everything is gone, so the app starts over with onboarding (SPEC §8.1).
+  await expect(page).toHaveURL(/\/onboarding$/);
+  await expect(page.getByRole('heading', { name: 'Welcome to Kin' })).toBeVisible();
 
   // Restore with "Replace everything".
   await page.goto('/settings/data');

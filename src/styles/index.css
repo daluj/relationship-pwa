@@ -9,6 +9,7 @@
   --color-muted: var(--text-muted);
   --color-border: var(--border);
   --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
   --color-accent-hover: var(--accent-hover);
   --color-accent-tint: var(--accent-tint);
   --color-on-accent: var(--on-accent);

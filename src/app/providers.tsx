@@ -8,6 +8,8 @@ import {
 } from '@/db/repositories';
 import { resolveTheme } from '@/domain/settings';
 import i18n from '@/i18n';
+import { IosInstallDialog } from '@/components/InstallButton';
+import { LockGate } from '@/features/lock/LockGate';
 import { applyTheme, computeTheme } from './theme';
 
 const DARK_QUERY = '(prefers-color-scheme: dark)';
@@ -54,7 +56,8 @@ export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <I18nextProvider i18n={i18n}>
       <SettingsSync />
-      {children}
+      <LockGate>{children}</LockGate>
+      <IosInstallDialog />
     </I18nextProvider>
   );
 }

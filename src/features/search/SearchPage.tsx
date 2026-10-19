@@ -137,7 +137,7 @@ export function SearchPage() {
                 <button
                   type="button"
                   onClick={() => setRecent(clearRecent())}
-                  className="text-sm font-bold text-accent hover:underline"
+                  className="text-sm font-bold text-accent-text hover:underline"
                 >
                   {t('search.clearRecent')}
                 </button>
@@ -208,7 +208,7 @@ export function SearchPage() {
                 <button
                   type="button"
                   onClick={() => setTab('people')}
-                  className="block w-full px-4 py-3 text-left text-accent hover:bg-surface-1"
+                  className="block w-full px-4 py-3 text-left text-accent-text hover:bg-surface-1"
                 >
                   {t('search.showAllPeople')}
                 </button>

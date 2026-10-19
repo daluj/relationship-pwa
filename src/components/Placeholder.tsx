@@ -18,7 +18,7 @@ export function Placeholder({
       <PageHeader title={title} back={back} />
       <section className="px-8 py-12 text-center">
         <p className="text-muted">{t('placeholder.comingIn', { milestone: `M${milestone}` })}</p>
-        <Link to="/" className="mt-4 inline-block font-bold text-accent hover:underline">
+        <Link to="/" className="mt-4 inline-block font-bold text-accent-text hover:underline">
           {t('placeholder.backHome')}
         </Link>
       </section>

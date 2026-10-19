@@ -36,9 +36,9 @@ export function DueBanner() {
       role="status"
       className="flex items-center gap-3 border-b border-border bg-accent-tint px-4 py-2.5 text-sm"
     >
-      <Bell size={18} className="shrink-0 text-accent" aria-hidden />
+      <Bell size={18} className="shrink-0 text-accent-text" aria-hidden />
       <p className="flex-1 font-bold">{t('reminders.due', { count: due.length })}</p>
-      <Link to="/reminders" className="font-bold text-accent hover:underline">
+      <Link to="/reminders" className="font-bold text-accent-text hover:underline">
         {t('reminders.view')}
       </Link>
       <button

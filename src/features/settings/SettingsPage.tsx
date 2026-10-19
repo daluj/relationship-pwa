@@ -6,6 +6,7 @@ import { PageHeader } from '@/components/PageHeader';
 import { settingsRepo, useSettings } from '@/db/repositories';
 import { accents, fontSizes, locales, type Accent, type ThemePreference } from '@/domain/settings';
 import { CurrencySelect } from '@/features/money/CurrencySelect';
+import { AppLockSection } from '@/features/lock/AppLockSection';
 import { NotificationsSection } from './NotificationsSection';
 
 const themeOptions: ThemePreference[] = ['system', 'light', 'dim', 'lights-out'];
@@ -119,6 +120,8 @@ export function SettingsPage() {
       </Section>
 
       <NotificationsSection />
+
+      <AppLockSection />
 
       <nav aria-label={t('settings.sections')}>
         {[

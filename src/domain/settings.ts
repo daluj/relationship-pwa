@@ -1,3 +1,5 @@
+import type { AppLockConfig } from './appLock';
+
 // Typed app settings (stored in the `settings` table as key/value rows).
 
 export const themes = ['light', 'dim', 'lights-out'] as const;
@@ -31,6 +33,19 @@ export interface AppSettings {
   /** Last full JSON export (backup nudge, SPEC §8.9). */
   lastBackupAt?: string;
   backupNudgeDismissedAt?: string;
+  /** Ids created by "Load demo data", so "Remove demo data" removes exactly those (SPEC §8.1). */
+  demo?: DemoIds;
+  /** Screen lock (not encryption). */
+  appLock?: AppLockConfig;
+}
+
+export interface DemoIds {
+  contacts: string[];
+  moments: string[];
+  tags: string[];
+  groups: string[];
+  reminders: string[];
+  tasks: string[];
 }
 
 export const defaultSettings: AppSettings = {
@@ -47,6 +62,13 @@ export function resolveTheme(pref: ThemePreference, prefersDark: boolean): Theme
   if (pref !== 'system') return pref;
   return prefersDark ? 'lights-out' : 'light';
 }
+
+/** Page and card backgrounds per theme — must match styles/themes.css (used for contrast maths). */
+export const themeSurfaces: Record<Theme, [bg: string, surface1: string, surface2: string]> = {
+  light: ['#FFFFFF', '#F5F8F8', '#EFF3F3'],
+  dim: ['#15202B', '#1C2834', '#1F2C38'],
+  'lights-out': ['#000000', '#0B0C0D', '#17191B'],
+};
 
 export const themeBackground: Record<Theme, string> = {
   light: '#FFFFFF',

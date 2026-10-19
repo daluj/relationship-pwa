@@ -96,9 +96,12 @@ export {
   dataSince,
   deleteAllData,
   exportBackup,
+  hasAnyData,
+  onboardingSnapshot,
   importBackup,
   recordCounts,
 } from './backupService';
 export type { ImportSummary } from './backupService';
 export { commitImport, contactsForExport, knownContacts } from './importService';
 export type { CommitOptions, RowAction } from './importService';
+export { loadDemoData, removeDemoData } from './demoService';

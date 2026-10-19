@@ -190,7 +190,7 @@ export function ContactFormPage() {
               </div>
               <Link
                 to={`/c/${duplicate.contact.id}`}
-                className="text-sm font-bold text-accent hover:underline"
+                className="text-sm font-bold text-accent-text hover:underline"
               >
                 {t('merge.open')}
               </Link>

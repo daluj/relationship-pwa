@@ -22,7 +22,8 @@
     "closeMenu": "Close menu",
     "toggleTheme": "Switch theme (current: {{theme}})",
     "remindersBadge_one": "{{count}} reminder due",
-    "remindersBadge_other": "{{count}} reminders due"
+    "remindersBadge_other": "{{count}} reminders due",
+    "themeLabel": "Theme: {{theme}}"
   },
   "home": {
     "title": "Home",
@@ -854,5 +855,126 @@
     "now": "Back up now",
     "later": "Not now"
   },
-  "profileExport": "Export vCard"
+  "profileExport": "Export vCard",
+  "shortcuts": {
+    "title": "Keyboard shortcuts",
+    "then": "then",
+    "actions": {
+      "compose": "Log a moment",
+      "search": "Search",
+      "home": "Go to Home",
+      "reminders": "Go to Reminders",
+      "contacts": "Go to Contacts",
+      "next": "Next moment",
+      "previous": "Previous moment",
+      "star": "Star the focused moment",
+      "open": "Open the focused moment",
+      "help": "Show this list"
+    }
+  },
+  "onboarding": {
+    "welcome": "Welcome to Kin",
+    "tagline": "A private place to remember the people in your life.",
+    "points": {
+      "local": "Everything stays on this device. No account, no server, no tracking.",
+      "install": "Install the app so it opens like any other and works offline.",
+      "backup": "Export a backup now and then — it's the only copy."
+    },
+    "start": "Get started",
+    "next": "Next",
+    "back": "Back",
+    "step": "Step {{n}} of {{total}}",
+    "languageTitle": "Choose your language",
+    "themeTitle": "Choose a theme",
+    "storageTitle": "Keep your data safe",
+    "storageBody": "Browsers can clear website data when space runs low. Ask to keep Kin's data permanently.",
+    "storageButton": "Keep my data",
+    "storageGranted": "Done — your browser will keep Kin's data.",
+    "storageDenied": "Your browser didn't allow it. Installing the app and making backups helps.",
+    "storageUnsupported": "This browser doesn't support it. Make regular backups.",
+    "notificationsTitle": "Reminders",
+    "notificationsBody": "Kin can notify you about birthdays and reminders when you open it (and in the background on supported browsers). Optional.",
+    "contactsTitle": "Add your first people",
+    "addContact": "Add a contact",
+    "importContacts": "Import contacts",
+    "importHint": "From your phone, Google Contacts or Outlook (.vcf / .csv), or a Kin backup",
+    "demo": "Explore with demo data",
+    "demoHint": "15 sample people with moments and reminders. Remove them any time in Settings.",
+    "startEmpty": "Start with an empty app",
+    "loadingDemo": "Loading demo data…"
+  },
+  "install": {
+    "button": "Install app",
+    "iosTitle": "Install on iPhone or iPad",
+    "iosSteps": "In Safari, tap the Share button, then “Add to Home Screen”.",
+    "iosWhy": "Installed, Kin works offline and Safari keeps its data."
+  },
+  "demoData": {
+    "title": "Demo data",
+    "body": "You're using sample data.",
+    "remove": "Remove demo data",
+    "removed": "Demo data removed"
+  },
+  "lock": {
+    "title": "App lock",
+    "off": "Off",
+    "on": "On",
+    "intro": "Ask for a PIN (or your device's passkey) when Kin opens.",
+    "notEncryption": "This locks the app's screen. It does not encrypt your data — anyone with access to this browser profile could still read it.",
+    "turnOn": "Turn on",
+    "turnOff": "Turn off",
+    "changePin": "Change PIN",
+    "addPasskey": "Add passkey",
+    "removePasskey": "Remove passkey",
+    "passkeyOn": "Passkey enabled",
+    "lockNow": "Lock now",
+    "lockAfter": "Lock again after",
+    "minutes_one": "{{count}} minute in the background",
+    "minutes_other": "{{count}} minutes in the background",
+    "setTitle": "Set a PIN",
+    "pin": "PIN (4–6 digits)",
+    "confirmPin": "Repeat PIN",
+    "mismatch": "The PINs don't match.",
+    "invalidPin": "Use 4 to 6 digits.",
+    "currentPin": "Current PIN",
+    "wrongPin": "Wrong PIN.",
+    "offTitle": "Turn off app lock",
+    "locked": "Kin is locked",
+    "enterPin": "Enter your PIN",
+    "unlock": "Unlock",
+    "usePasskey": "Use passkey",
+    "passkeyFailed": "Passkey didn't work. Use your PIN.",
+    "tooMany": "Too many attempts. Try again in {{seconds}} s.",
+    "forgot": "Forgot your PIN?",
+    "forgotTitle": "Reset Kin?",
+    "forgotBody": "Your data isn't encrypted, but the PIN can't be recovered. The only way back in here is to delete all data on this device (restore it afterwards from a backup). Type {{word}} to confirm.",
+    "reset": "Delete everything"
+  },
+  "storage": {
+    "title": "Storage",
+    "usage": "Using {{used}} of about {{quota}} available to Kin.",
+    "usageUnknown": "This browser doesn't report storage usage.",
+    "persisted": "Persistent storage: on — the browser won't clear Kin's data on its own.",
+    "notPersisted": "Persistent storage: off — the browser may clear Kin's data if space runs low.",
+    "request": "Request persistent storage",
+    "denied": "The browser declined. Installing the app (and making backups) helps.",
+    "ios": "On iPhone and iPad, Safari may delete data of websites you haven't used for a while unless Kin is added to the Home Screen. Install it and keep backups."
+  },
+  "about": {
+    "version": "Version {{version}}",
+    "what": "Kin is a private, offline-first journal for the people in your life — a personal CRM. Inspired by Monica, with a layout borrowed from X.",
+    "privacyTitle": "Privacy",
+    "privacy": [
+      "Everything you enter is stored only in this browser on this device (IndexedDB).",
+      "There is no server, no account, no analytics, no ads and no third-party scripts. Kin makes no network requests with your data.",
+      "Nothing leaves the device unless you export it yourself.",
+      "Browsers can clear website storage — install the app, allow persistent storage, and keep backups."
+    ],
+    "diagnosticsTitle": "Diagnostics",
+    "diagnosticsIntro": "Errors are recorded only on this device so you can share them if you choose. Nothing is sent anywhere.",
+    "noErrors": "No errors recorded.",
+    "exportLog": "Export log",
+    "clearLog": "Clear log",
+    "shortcuts": "Keyboard shortcuts"
+  }
 }
