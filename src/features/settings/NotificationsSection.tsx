@@ -5,7 +5,11 @@ import { Button } from '@/components/Button';
 import { listReminders } from '@/db/repositories';
 import { isOpen } from '@/domain/reminders';
 import { useLookup } from '@/features/moments/useLookup';
-import { notificationsSupported, registerPeriodicCheck } from '@/features/reminders/notify';
+import {
+  activeRegistration,
+  notificationsSupported,
+  registerPeriodicCheck,
+} from '@/features/reminders/notify';
 import { exportIcs } from '@/features/reminders/reminderIcs';
 
 type Status = NotificationPermission | 'unsupported';
@@ -25,7 +29,7 @@ export function NotificationsSection() {
 
   const enable = async () => setStatus(await Notification.requestPermission());
   const test = async () => {
-    const reg = await navigator.serviceWorker.getRegistration();
+    const reg = await activeRegistration(1000);
     const options = {
       body: t('notifications.testBody'),
       icon: '/icons/icon-192.png',

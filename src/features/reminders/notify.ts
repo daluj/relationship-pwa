@@ -24,6 +24,20 @@ export function notificationFor(n: DueNotification, t: TFunction, locale: string
 export const notificationsSupported = () =>
   typeof Notification !== 'undefined' && 'serviceWorker' in navigator;
 
+/**
+ * The active service-worker registration, waiting briefly for it after a reload (when
+ * `getRegistration()` can still come back empty). Resolves `undefined` where there's no SW (dev).
+ */
+export async function activeRegistration(
+  timeoutMs = 3000,
+): Promise<ServiceWorkerRegistration | undefined> {
+  if (!('serviceWorker' in navigator)) return undefined;
+  return Promise.race([
+    navigator.serviceWorker.ready,
+    new Promise<undefined>((resolve) => setTimeout(() => resolve(undefined), timeoutMs)),
+  ]);
+}
+
 /** Sets the OS app badge where supported (SPEC §8.5). */
 export function setAppBadge(count: number): void {
   const nav = navigator as Navigator & {
@@ -41,7 +55,7 @@ export function setAppBadge(count: number): void {
 /** Registers Periodic Background Sync (installed Chromium only); never relied on (SPEC §8.5). */
 export async function registerPeriodicCheck(): Promise<boolean> {
   try {
-    const reg = await navigator.serviceWorker?.getRegistration();
+    const reg = await activeRegistration();
     const periodic = (
       reg as ServiceWorkerRegistration & {
         periodicSync?: { register: (tag: string, o: { minInterval: number }) => Promise<void> };

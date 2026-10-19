@@ -491,10 +491,10 @@
       "snoozed": "Snoozed until {{date}}",
       "deleted": "Reminder deleted",
       "saved": "Reminder saved",
-      "exported": "Calendar file ready"
+      "exported": "Calendar file ready",
+      "checkedIn": "Done. Next check-in: {{date}}"
     },
     "snoozeTitle": "Snooze until",
-    "snoozedUntil": "Snoozed until {{date}}",
     "due_one": "You have {{count}} reminder due",
     "due_other": "You have {{count}} reminders due",
     "view": "View",
@@ -503,7 +503,8 @@
     "auto": "Automatic",
     "showAll": "Show all",
     "notifToday": "Due today",
-    "notifOverdue": "Overdue since {{date}}"
+    "notifOverdue": "Overdue since {{date}}",
+    "snoozed": "Snoozed"
   },
   "importantDates": {
     "title": "Important dates",

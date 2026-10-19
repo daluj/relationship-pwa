@@ -128,7 +128,10 @@ export function ChipPicker({
                 if (!handleListKeys(e, items, active, setActive, done) && e.key === 'Escape')
                   done();
               }}
-              onBlur={() => setTimeout(done, 150)}
+              onBlur={(e) => {
+                const el = e.currentTarget;
+                setTimeout(() => document.activeElement !== el && done(), 150); // ignore if refocused
+              }}
               className={`${inputClass} py-1.5 text-sm`}
             />
             <SuggestionList

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { runReminderCheck } from '@/db/repositories/reminderCheck';
 import {
+  activeRegistration,
   notificationFor,
   notificationsSupported,
   registerPeriodicCheck,
@@ -28,7 +29,7 @@ export function useReminderNotifications(): void {
       running = true;
       try {
         const canNotify = notificationsSupported() && Notification.permission === 'granted';
-        const reg = canNotify ? await navigator.serviceWorker.getRegistration() : undefined;
+        const reg = canNotify ? await activeRegistration() : undefined;
         await runReminderCheck(
           new Date(),
           reg

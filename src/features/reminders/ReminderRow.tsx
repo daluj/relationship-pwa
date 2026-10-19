@@ -51,10 +51,16 @@ export function ReminderRow({ reminder: r, today, onEdit }: Props) {
   const contact = r.contactId ? lookup.contact(r.contactId) : undefined;
   const title = reminderTitle(r, contact, t);
   const locale = i18n.language;
-  const fmtDate = (iso: string) =>
-    new Intl.DateTimeFormat(locale, { weekday: 'short', month: 'short', day: 'numeric' }).format(
-      parseIsoDate(iso),
-    );
+  // Include the year when it isn't this year, so "Next: Tue, Oct 19" can't be mistaken for today.
+  const fmtDate = (iso: string) => {
+    const d = parseIsoDate(iso);
+    return new Intl.DateTimeFormat(locale, {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      ...(d.getFullYear() !== today.getFullYear() && { year: 'numeric' }),
+    }).format(d);
+  };
   const due = effectiveDate(r);
   const overdue = !r.completedAt && due < toIsoDate(today);
 
@@ -64,9 +70,9 @@ export function ReminderRow({ reminder: r, today, onEdit }: Props) {
       : `${formatRelativeDay(parseIsoDate(due), today, locale)} · ${fmtDate(due)}`,
     r.dueTime,
     r.recurrence !== 'none' && repeatLabel(r, t),
-    r.snoozedUntil &&
-      !r.completedAt &&
-      t('reminders.snoozedUntil', { date: fmtDate(r.snoozedUntil) }),
+    // The date above is already the snoozed one. Stay-in-touch "Done" also postpones via snooze,
+    // but that's a check-in, not a snooze, so it isn't labelled.
+    r.snoozedUntil && !r.completedAt && r.source !== 'stay-in-touch' && t('reminders.snoozed'),
     r.source !== 'manual' && t('reminders.auto'),
   ]
     .filter(Boolean)
@@ -75,8 +81,10 @@ export function ReminderRow({ reminder: r, today, onEdit }: Props) {
   const done = async () => {
     const after = await completeReminder(r.id);
     if (after.completedAt) showToast({ message: t('reminders.toast.done') });
-    else if (after.snoozedUntil)
-      showToast({ message: t('reminders.toast.snoozed', { date: fmtDate(after.snoozedUntil) }) });
+    else if (after.source === 'stay-in-touch')
+      showToast({
+        message: t('reminders.toast.checkedIn', { date: fmtDate(effectiveDate(after)) }),
+      });
     else showToast({ message: t('reminders.toast.next', { date: fmtDate(after.dueDate) }) });
   };
   const snooze = async (until: string) => {

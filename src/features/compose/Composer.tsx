@@ -364,7 +364,12 @@ export function Composer({ momentId, prefill, variant, onDone, onDirtyChange }: 
             touch();
           }}
           onSelect={(e) => updateTrigger(e.currentTarget.value, e.currentTarget.selectionStart)}
-          onBlur={() => setTimeout(() => setTrigger(null), 150)}
+          // Close suggestions shortly after blur (so a click on an option still lands), but only if focus
+          // hasn't come back — a stale timer must not close a list opened by typing after refocusing.
+          onBlur={(e) => {
+            const el = e.currentTarget;
+            setTimeout(() => document.activeElement !== el && setTrigger(null), 150);
+          }}
           onKeyDown={onKeyDown}
           className="min-h-14 w-full resize-none bg-transparent text-xl placeholder:text-muted focus:outline-none"
         />

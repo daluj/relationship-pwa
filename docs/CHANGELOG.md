@@ -1,5 +1,20 @@
 # Changelog
 
+## Fix — Reminders "Done" wording (2026-10-19)
+
+- Done on a stay-in-touch reminder said "Snoozed until …". Done there means "I was in touch", so it now says
+  "Done. Next check-in: …" and the row no longer shows a snooze label. Explicit snoozes show "Snoozed" next to the date
+  instead of repeating it.
+- Dates in reminder rows and toasts include the year when it isn't this year (e.g. a birthday's "Next: Thu, Mar 18, 2027").
+- Found while hunting intermittent test failures:
+  - A reminder could be notified twice when two checks overlapped (an effect re-run, another tab, or the service
+    worker). Reminders are now claimed in one transaction before they're shown, so each is notified exactly once.
+  - Composer `@`/`#` suggestions (and the people/tag/group pickers) could close by themselves if you clicked away and
+    back within 150 ms. Enter then added a newline instead of picking the person. Stale blur timers are now ignored.
+  - Notifications now wait briefly for the service worker after a reload instead of silently skipping.
+- E2E: the notification test records the app's `showNotification` calls (Chromium's `getNotifications()` is unreliable
+  headless) and runs on a mocked clock. The full suite passed 4×, and the formerly flaky tests 20× each.
+
 ## M6 — Search (2026-10-19)
 
 - Client-side full-text index (`searchIndex`) with accent- and case-insensitive tokens for contacts (names, nickname, work, notes,

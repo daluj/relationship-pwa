@@ -86,4 +86,19 @@ describe('Composer autocomplete (SPEC §6.5, §6.10)', () => {
     await userEvent.keyboard('{Escape}');
     expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
   });
+
+  it('a stale blur timer does not close suggestions opened right after refocusing', async () => {
+    await contactRepo.create({ firstName: 'Marc' });
+    renderComposer();
+    const box = await screen.findByRole('combobox', { name: 'What happened?' });
+    await userEvent.click(box);
+    await userEvent.click(screen.getByRole('radio', { name: 'Call' })); // blur → 150 ms close timer
+    await userEvent.click(box); // refocus within 150 ms
+    await userEvent.keyboard('Called @mar');
+    expect(await screen.findByRole('listbox')).toBeInTheDocument();
+    await new Promise((r) => setTimeout(r, 250)); // let the old timer fire
+    expect(screen.getByRole('listbox')).toBeInTheDocument();
+    await userEvent.keyboard('{Enter}');
+    expect(box).toHaveValue('Called @Marc ');
+  });
 });

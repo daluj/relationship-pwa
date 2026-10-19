@@ -491,10 +491,10 @@
       "snoozed": "Pospuesto hasta {{date}}",
       "deleted": "Recordatorio eliminado",
       "saved": "Recordatorio guardado",
-      "exported": "Archivo de calendario listo"
+      "exported": "Archivo de calendario listo",
+      "checkedIn": "Hecho. Próximo contacto: {{date}}"
     },
     "snoozeTitle": "Posponer hasta",
-    "snoozedUntil": "Pospuesto hasta {{date}}",
     "due_one": "Tienes {{count}} recordatorio pendiente",
     "due_other": "Tienes {{count}} recordatorios pendientes",
     "view": "Ver",
@@ -503,7 +503,8 @@
     "auto": "Automático",
     "showAll": "Ver todos",
     "notifToday": "Para hoy",
-    "notifOverdue": "Vencido desde el {{date}}"
+    "notifOverdue": "Vencido desde el {{date}}",
+    "snoozed": "Pospuesto"
   },
   "importantDates": {
     "title": "Fechas importantes",

@@ -184,7 +184,8 @@ Instead of being computed on the fly, each contact with `stayInTouchDays` has on
 synced in the same transaction as contact saves and `lastInteractionAt` changes. Its due date is last interaction (or the date the
 contact was added, if there's none) + N days. That way snooze, badges, notifications, the service worker and ICS treat it like any
 other reminder. There's none for archived or deceased contacts. "Log" opens the composer, and logging a moment moves it forward.
-"Done" means "I reached out elsewhere" and snoozes it for one full period.
+"Done" means "I reached out elsewhere" and snoozes it for one full period. In the UI this is a check-in ("Done. Next check-in: …"),
+never labelled as a snooze.
 
 ## D-033 — Reminder groups (M4)
 
@@ -198,7 +199,9 @@ included). The banner hides on `/reminders`. Dismissing it lasts for that day an
 
 ## D-035 — Notification rule (M4)
 
-A reminder is notified once per effective due date: when it's due and `lastNotifiedAt` is before that date. This covers
+A reminder is notified once per effective due date: when it's due and `lastNotifiedAt` is before that date. Checks claim
+reminders (stamp `lastNotifiedAt` in one transaction) before showing them, so overlapping checks can't double-notify; if showing
+then fails, that notification is skipped rather than repeated. This covers
 overdue ones never shown (the app wasn't opened). Snoozing or editing the date re-arms it. Page and service worker share
 `db/repositories/reminderCheck.ts`. The service worker includes the locale files so periodic-sync notifications are translated.
 

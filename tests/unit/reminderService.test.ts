@@ -207,3 +207,28 @@ describe('important dates', () => {
     expect(await db.importantDates.get(d.id)).toHaveProperty('deletedAt');
   });
 });
+
+describe('runReminderCheck', () => {
+  it('notifies each due reminder exactly once, even with concurrent checks (SPEC §8.5)', async () => {
+    const { runReminderCheck } = await import('@/db/repositories/reminderCheck');
+    await saveReminder(undefined, {
+      title: 'Water the plants',
+      dueDate: '2026-03-18',
+      recurrence: 'none',
+    });
+    await saveReminder(undefined, { title: 'Later', dueDate: '2026-03-20', recurrence: 'none' });
+    const shown: string[] = [];
+    const show = async (items: { reminder: { title: string } }[]) => {
+      shown.push(...items.map((i) => i.reminder.title));
+    };
+    const counts = await Promise.all([
+      runReminderCheck(new Date(), show),
+      runReminderCheck(new Date(), show),
+      runReminderCheck(new Date(), show),
+    ]);
+    expect(counts).toEqual([1, 1, 1]);
+    expect(shown).toEqual(['Water the plants']);
+    await runReminderCheck(new Date(), show);
+    expect(shown).toEqual(['Water the plants']);
+  });
+});

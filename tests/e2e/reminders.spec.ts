@@ -47,7 +47,7 @@ test('birthday due today: Reminders › Today, nav badge, banner; Done moves it 
   await expect(today.getByText(/today · Wed, Mar 18 · Every year · Automatic/)).toBeVisible();
 
   await today.getByRole('button', { name: 'Done' }).click();
-  await expect(page.getByText('Next: Thu, Mar 18')).toBeVisible();
+  await expect(page.getByText('Next: Thu, Mar 18, 2027', { exact: true })).toBeVisible(); // year shown
   await expect(navBadge(page)).toHaveCount(0);
   await expect(
     page.getByRole('region', { name: 'Later' }).getByText('Élise turns 40'),
@@ -74,8 +74,11 @@ test('manual reminders: create, snooze, overdue, done, reopen, delete with undo'
 
   await today.getByRole('button', { name: 'Snooze' }).click();
   await page.getByRole('menuitem', { name: 'Tomorrow' }).click();
+  await expect(page.getByText('Snoozed until Tue, Oct 20')).toBeVisible(); // toast
   await expect(
-    page.getByRole('region', { name: 'This week' }).getByText(/Snoozed until Tue, Oct 20/),
+    page
+      .getByRole('region', { name: 'This week' })
+      .getByText('tomorrow · Tue, Oct 20 · Every 2 weeks · Snoozed'),
   ).toBeVisible();
 
   await page.getByRole('button', { name: 'New reminder' }).click();
@@ -117,6 +120,20 @@ test('stay in touch: Reach out card with Log; logging a moment clears it (SPEC �
   await expect(reachOut.getByText('No moments logged yet')).toBeVisible();
   await page.goto('/reminders?tab=overdue');
   await expect(page.getByText('Reach out to Marc')).toBeVisible();
+
+  // "Done" means "I was in touch": it's a check-in, never reported as a snooze.
+  await page.getByTestId('reminder-row').getByRole('button', { name: 'Done' }).click();
+  await expect(page.getByText('Done. Next check-in: Mon, Oct 19')).toBeVisible();
+  await expect(page.getByText(/Snoozed/)).toHaveCount(0);
+  await page.getByRole('tab', { name: 'Upcoming' }).click();
+  await expect(
+    page.getByRole('region', { name: 'This month' }).getByTestId('reminder-row'),
+  ).toContainText('in 7 days · Mon, Oct 19 · Automatic');
+  await expect(page.getByText(/Snoozed/)).toHaveCount(0);
+
+  // Back to overdue a week later; logging a moment clears it.
+  await page.clock.setFixedTime(new Date('2026-10-20T10:00:00'));
+  await page.reload();
 
   await page.goto('/');
   await reachOut.getByRole('button', { name: 'Log' }).click();
@@ -168,46 +185,46 @@ test('system notifications for due reminders, once per due date (SPEC §8.5)', a
   context,
 }) => {
   await context.grantPermissions(['notifications']);
+  // Record every notification the app shows (persisted across reloads). Chromium's own
+  // getNotifications() is unreliable in headless runs, so we observe the app's calls instead.
+  await page.addInitScript(() => {
+    const original = ServiceWorkerRegistration.prototype.showNotification;
+    ServiceWorkerRegistration.prototype.showNotification = function (title, options) {
+      const log = JSON.parse(localStorage.getItem('test.notifications') ?? '[]') as string[][];
+      localStorage.setItem(
+        'test.notifications',
+        JSON.stringify([...log, [title, options?.body ?? '']]),
+      );
+      return original.call(this, title, options);
+    };
+  });
+  const shown = () =>
+    page.evaluate(
+      () => JSON.parse(localStorage.getItem('test.notifications') ?? '[]') as string[][],
+    );
+
+  await page.clock.setFixedTime(new Date('2026-10-19T10:00:00'));
   await page.setViewportSize(desktop);
   await page.goto('/settings');
   await expect(page.getByTestId('notification-status')).toHaveText('Allowed');
   await expect(page.getByText(/There is no server/)).toBeVisible();
-  await page.evaluate(async () => {
-    await navigator.serviceWorker.ready;
-  });
 
   await page.goto('/reminders');
   await page.getByRole('button', { name: 'New reminder' }).click();
   await page.getByRole('dialog').getByLabel('Title').fill('Water the plants');
+  await page.getByRole('dialog').getByLabel('Date').fill('2026-10-20'); // not due yet → nothing shown now
   await page.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
   await expect(page.getByTestId('reminder-row')).toContainText('Water the plants');
+  expect(await shown()).toEqual([]);
 
-  // Re-opening the app runs the check.
+  // Next day: opening the app notifies once…
+  await page.clock.setFixedTime(new Date('2026-10-20T09:00:00'));
   await page.reload();
-  const shown = async () =>
-    page.evaluate(async () => {
-      const reg = await navigator.serviceWorker.ready;
-      return (await reg.getNotifications()).map((n) => [n.title, n.body]);
-    });
   await expect.poll(shown).toEqual([['Water the plants', 'Due today']]);
 
-  const lastNotified = () =>
-    page.evaluate(
-      () =>
-        new Promise<string | undefined>((resolve) => {
-          const req = indexedDB.open('kin');
-          req.onsuccess = () => {
-            const q = req.result.transaction('reminders').objectStore('reminders').getAll();
-            q.onsuccess = () => resolve(q.result[0]?.lastNotifiedAt);
-          };
-        }),
-    );
-  const first = await lastNotified();
-  expect(first).toBeTruthy();
-
-  // Opening the app again the same day doesn't notify again.
+  // …and opening it again the same day doesn't notify again.
   await page.reload();
   await expect(page.getByTestId('reminder-row')).toBeVisible();
   await page.waitForTimeout(500);
-  expect(await lastNotified()).toBe(first);
+  expect(await shown()).toEqual([['Water the plants', 'Due today']]);
 });
