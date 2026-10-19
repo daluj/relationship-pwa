@@ -1,0 +1,105 @@
+{
+  "app": {
+    "name": "Kin",
+    "skipToContent": "Skip to content"
+  },
+  "nav": {
+    "back": "Back",
+    "main": "Main navigation",
+    "home": "Home",
+    "search": "Search",
+    "reminders": "Reminders",
+    "tasks": "Tasks",
+    "groups": "Groups",
+    "starred": "Starred",
+    "contacts": "Contacts",
+    "settings": "Settings",
+    "more": "More",
+    "trash": "Trash",
+    "data": "Your data",
+    "logMoment": "Log moment",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "toggleTheme": "Switch theme (current: {{theme}})",
+    "remindersBadge_one": "{{count}} reminder due",
+    "remindersBadge_other": "{{count}} reminders due"
+  },
+  "home": {
+    "title": "Home",
+    "tabs": {
+      "all": "All",
+      "activities": "Activities",
+      "notes": "Notes",
+      "calls": "Calls",
+      "journal": "Journal"
+    }
+  },
+  "rail": {
+    "searchPlaceholder": "Search",
+    "upcoming": "Upcoming",
+    "upcomingEmpty": "No birthdays or reminders coming up.",
+    "reachOut": "Reach out",
+    "reachOutEmpty": "You're up to date with everyone.",
+    "about": "About",
+    "export": "Export data",
+    "privacy": "Privacy"
+  },
+  "pages": {
+    "compose": "Log moment",
+    "moment": "Moment",
+    "contacts": "Contacts",
+    "newContact": "New contact",
+    "profile": "Profile",
+    "editContact": "Edit contact",
+    "reminders": "Reminders",
+    "tasks": "Tasks",
+    "search": "Search",
+    "tag": "Tag",
+    "groups": "Groups",
+    "group": "Group",
+    "starred": "Starred",
+    "settings": "Settings",
+    "data": "Your data",
+    "trash": "Trash",
+    "about": "About",
+    "onboarding": "Welcome to Kin",
+    "notFound": "This page doesn't exist"
+  },
+  "placeholder": {
+    "comingIn": "Coming in milestone {{milestone}}.",
+    "backHome": "Back to Home"
+  },
+  "settings": {
+    "display": "Display",
+    "theme": "Theme",
+    "themes": {
+      "system": "System",
+      "light": "Light",
+      "dim": "Dim",
+      "lights-out": "Lights out"
+    },
+    "accent": "Accent color",
+    "accents": {
+      "teal": "Teal",
+      "blue": "Blue",
+      "yellow": "Yellow",
+      "pink": "Pink",
+      "purple": "Purple",
+      "orange": "Orange"
+    },
+    "fontSize": "Font size",
+    "fontSizeValue": "{{size}}px",
+    "language": "Language",
+    "languages": {
+      "en": "English",
+      "es": "Español"
+    },
+    "sections": "More settings"
+  },
+  "pwa": {
+    "updateAvailable": "Update available",
+    "reload": "Reload",
+    "dismiss": "Dismiss",
+    "offlineReady": "Ready to work offline"
+  }
+}

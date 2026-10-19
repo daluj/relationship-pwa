@@ -1,0 +1,45 @@
+/* Theme tokens (SPEC §6.8). Neutral palettes are our own; accent is set at runtime. */
+:root,
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #ffffff;
+  --surface-1: #f5f8f8;
+  --surface-2: #eff3f3;
+  --text: #0e1418;
+  --text-muted: #556470;
+  --border: #e6ecec;
+  --danger: #d0202c;
+  --success: #00805a;
+}
+
+:root[data-theme='dim'] {
+  color-scheme: dark;
+  --bg: #15202b;
+  --surface-1: #1c2834;
+  --surface-2: #1f2c38;
+  --text: #f5f8f8;
+  --text-muted: #94a2ae;
+  --border: #36444f;
+  --danger: #ff5a64;
+  --success: #2fd39a;
+}
+
+:root[data-theme='lights-out'] {
+  color-scheme: dark;
+  --bg: #000000;
+  --surface-1: #0b0c0d;
+  --surface-2: #17191b;
+  --text: #e8eaeb;
+  --text-muted: #7c8287;
+  --border: #2e3235;
+  --danger: #ff5a64;
+  --success: #2fd39a;
+}
+
+:root {
+  --accent: #14b8a6;
+  --on-accent: #000000;
+  --accent-hover: color-mix(in srgb, var(--accent) 88%, var(--text));
+  --accent-tint: color-mix(in srgb, var(--accent) 12%, transparent);
+  --font-size: 15px;
+}

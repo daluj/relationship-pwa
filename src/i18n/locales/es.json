@@ -1,0 +1,105 @@
+{
+  "app": {
+    "name": "Kin",
+    "skipToContent": "Saltar al contenido"
+  },
+  "nav": {
+    "back": "Atrás",
+    "main": "Navegación principal",
+    "home": "Inicio",
+    "search": "Buscar",
+    "reminders": "Recordatorios",
+    "tasks": "Tareas",
+    "groups": "Grupos",
+    "starred": "Destacados",
+    "contacts": "Contactos",
+    "settings": "Ajustes",
+    "more": "Más",
+    "trash": "Papelera",
+    "data": "Tus datos",
+    "logMoment": "Registrar momento",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "toggleTheme": "Cambiar tema (actual: {{theme}})",
+    "remindersBadge_one": "{{count}} recordatorio pendiente",
+    "remindersBadge_other": "{{count}} recordatorios pendientes"
+  },
+  "home": {
+    "title": "Inicio",
+    "tabs": {
+      "all": "Todo",
+      "activities": "Actividades",
+      "notes": "Notas",
+      "calls": "Llamadas",
+      "journal": "Diario"
+    }
+  },
+  "rail": {
+    "searchPlaceholder": "Buscar",
+    "upcoming": "Próximamente",
+    "upcomingEmpty": "No hay cumpleaños ni recordatorios próximos.",
+    "reachOut": "Ponte en contacto",
+    "reachOutEmpty": "Estás al día con todo el mundo.",
+    "about": "Acerca de",
+    "export": "Exportar datos",
+    "privacy": "Privacidad"
+  },
+  "pages": {
+    "compose": "Registrar momento",
+    "moment": "Momento",
+    "contacts": "Contactos",
+    "newContact": "Nuevo contacto",
+    "profile": "Perfil",
+    "editContact": "Editar contacto",
+    "reminders": "Recordatorios",
+    "tasks": "Tareas",
+    "search": "Buscar",
+    "tag": "Etiqueta",
+    "groups": "Grupos",
+    "group": "Grupo",
+    "starred": "Destacados",
+    "settings": "Ajustes",
+    "data": "Tus datos",
+    "trash": "Papelera",
+    "about": "Acerca de",
+    "onboarding": "Te damos la bienvenida a Kin",
+    "notFound": "Esta página no existe"
+  },
+  "placeholder": {
+    "comingIn": "Disponible en el hito {{milestone}}.",
+    "backHome": "Volver al inicio"
+  },
+  "settings": {
+    "display": "Pantalla",
+    "theme": "Tema",
+    "themes": {
+      "system": "Sistema",
+      "light": "Claro",
+      "dim": "Atenuado",
+      "lights-out": "Apagado"
+    },
+    "accent": "Color de acento",
+    "accents": {
+      "teal": "Verde azulado",
+      "blue": "Azul",
+      "yellow": "Amarillo",
+      "pink": "Rosa",
+      "purple": "Morado",
+      "orange": "Naranja"
+    },
+    "fontSize": "Tamaño de letra",
+    "fontSizeValue": "{{size}} px",
+    "language": "Idioma",
+    "languages": {
+      "en": "English",
+      "es": "Español"
+    },
+    "sections": "Más ajustes"
+  },
+  "pwa": {
+    "updateAvailable": "Actualización disponible",
+    "reload": "Recargar",
+    "dismiss": "Descartar",
+    "offlineReady": "Lista para funcionar sin conexión"
+  }
+}
