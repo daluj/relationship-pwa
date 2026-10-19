@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom';
 import { Toaster } from '@/components/Toaster';
 import { ComposerDialog } from '@/features/compose/ComposerDialog';
 import { EntityLookupProvider } from '@/features/moments/lookup';
+import { BackupNudge } from '@/features/data/BackupNudge';
 import { DueBanner } from '@/features/reminders/DueBanner';
 import { useReminderNotifications } from '@/features/reminders/useReminderNotifications';
 import { useGlobalShortcuts } from '../useGlobalShortcuts';
@@ -41,6 +42,7 @@ export function AppShell() {
           >
             <MobileTopBar onOpenMenu={() => setDrawerOpen(true)} />
             <DueBanner />
+            <BackupNudge />
             <Outlet />
           </main>
         </div>

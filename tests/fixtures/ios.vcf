@@ -1,0 +1,25 @@
+BEGIN:VCARD
+VERSION:3.0
+PRODID:-//Apple Inc.//iPhone OS 17.0//EN
+N:Aubert;Élise;;;
+FN:Élise Aubert
+NICKNAME:lise
+ORG:Le Petit Sud;
+TITLE:Chef
+item1.EMAIL;type=INTERNET;type=pref:lise@example.com
+item1.X-ABLabel:_$!<Other>!$_
+TEL;type=CELL;type=VOICE;type=pref:+34 600 11 22 33
+TEL;type=HOME;type=VOICE:+33 4 72 00 00 00
+item2.ADR;type=HOME;type=pref:;;12 Rue de la Ré\, 2e;Lyon;;69002;France
+item2.X-ABADR:fr
+BDAY;X-APPLE-OMIT-YEAR=1604:1604-03-18
+NOTE:Met at Marc's wedding.\nLoves jazz\, hates mornings.
+PHOTO;ENCODING=b;TYPE=JPEG:/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP
+ //////////////////////////////////////////////////////////////8
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+N:;Marc;;;
+FN:Marc
+BDAY:1985-11-02
+END:VCARD

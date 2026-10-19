@@ -1,9 +1,9 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Plus, X } from 'lucide-react';
+import { AlertTriangle, Plus, X } from 'lucide-react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useToasts } from '@/app/stores/toast';
 import { Button } from '@/components/Button';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
@@ -15,11 +15,14 @@ import { TextField } from '@/components/form/TextField';
 import {
   contactDetails,
   contactRepo,
+  knownContacts,
+  mergeContacts,
   saveContact,
   useBlobUrl,
   useLiveList,
 } from '@/db/repositories';
 import { avatarPalette, fullName } from '@/domain/contact';
+import { candidateOf, findDuplicates, type KnownContact } from '@/domain/duplicates';
 import { contactFieldTypes } from '@/domain/schemas';
 import type { Contact } from '@/domain/types';
 import {
@@ -61,6 +64,7 @@ export function ContactFormPage() {
     control,
     handleSubmit,
     reset,
+    watch,
     formState: { errors, isDirty, isSubmitting },
   } = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -83,6 +87,32 @@ export function ContactFormPage() {
       cancelled = true;
     };
   }, [id, reset]);
+
+  // Possible duplicates while creating (SPEC §8.2): same normalized name, email or phone.
+  const [known, setKnown] = useState<KnownContact[]>([]);
+  useEffect(() => {
+    if (!id) void knownContacts().then(setKnown);
+  }, [id]);
+  const [wFirst, wLast, wFields] = watch(['firstName', 'lastName', 'fields']);
+  const watchedKey = JSON.stringify([wFirst, wLast, wFields]);
+  const duplicate = useMemo(() => {
+    if (id || !known.length || !wFirst?.trim()) return undefined;
+    const fieldsWithValues = (wFields ?? []).filter((f) => f.value.trim());
+    return findDuplicates(
+      candidateOf(fullName({ firstName: wFirst, lastName: wLast }), fieldsWithValues),
+      known,
+    )[0];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, known, watchedKey]);
+
+  /** "Save and merge": create the contact, then merge it into the existing one. */
+  const saveAndMerge = (targetId: string) =>
+    handleSubmit(async (values) => {
+      const saved = await saveContact(undefined, { ...toDraft(values), avatar, banner });
+      await mergeContacts(targetId, saved.id);
+      showToast({ message: t('merge.done') });
+      navigate(`/c/${targetId}`, { replace: true });
+    })();
 
   const dirty = isDirty || avatar !== undefined || banner !== undefined;
   const leave = () => navigate(id ? `/c/${id}` : '/contacts', { replace: true });
@@ -142,6 +172,37 @@ export function ContactFormPage() {
             />
             <TextField label={t('form.lastName')} autoComplete="off" {...register('lastName')} />
           </div>
+          {duplicate && (
+            <div
+              role="status"
+              data-testid="duplicate-warning"
+              className="flex flex-wrap items-center gap-3 rounded-md border border-danger/40 bg-danger/5 p-3"
+            >
+              <AlertTriangle size={18} className="text-danger" aria-hidden />
+              <div className="min-w-0 flex-1">
+                <p className="font-bold">{t('merge.duplicateTitle')}</p>
+                <p className="text-sm text-muted">
+                  {t('merge.duplicateBody', {
+                    name: fullName(duplicate.contact),
+                    reason: t(`importPreview.reasons.${duplicate.reason}`),
+                  })}
+                </p>
+              </div>
+              <Link
+                to={`/c/${duplicate.contact.id}`}
+                className="text-sm font-bold text-accent hover:underline"
+              >
+                {t('merge.open')}
+              </Link>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => void saveAndMerge(duplicate.contact.id)}
+              >
+                {t('merge.mergeIntoIt')}
+              </Button>
+            </div>
+          )}
           <TextField
             label={t('form.nickname')}
             hint={t('form.nicknameHint')}

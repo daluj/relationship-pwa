@@ -45,7 +45,7 @@ function kindFields(d: MomentDraft): KindFields {
 const tables = () => [db.moments, db.contacts, db.blobs, db.reminders, ...searchTables()];
 
 /** Denormalized `Contact.lastInteractionAt` = newest live moment mentioning them (SPEC §5.1). */
-async function refreshLastInteraction(contactIds: Iterable<string>): Promise<void> {
+export async function refreshLastInteraction(contactIds: Iterable<string>): Promise<void> {
   for (const id of new Set(contactIds)) {
     const contact = await db.contacts.get(id);
     if (!contact) continue;

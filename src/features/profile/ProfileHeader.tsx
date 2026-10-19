@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -14,6 +15,8 @@ import {
   Users,
   Star,
   Trash2,
+  Download,
+  Merge,
   type LucideIcon,
 } from 'lucide-react';
 import { useComposer } from '@/app/stores/composer';
@@ -35,6 +38,8 @@ import {
 } from '@/db/repositories';
 import { avatarColors, fullName } from '@/domain/contact';
 import { countByGroup, relationshipGroups } from '@/domain/relationships';
+import { MergeDialog } from '@/features/data/MergeDialog';
+import { downloadVCards } from '@/features/data/vcardExport';
 import { ageOn, formatPartialDate, formatRelativeDay, nextOccurrence } from '@/domain/partialDate';
 import type { Contact, PartialDate } from '@/domain/types';
 
@@ -53,6 +58,7 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
   const navigate = useNavigate();
   const showToast = useToasts((s) => s.show);
   const openComposer = useComposer((s) => s.openComposer);
+  const [merging, setMerging] = useState(false);
   const bannerUrl = useBlobUrl(contact.bannerBlobId);
   const addresses = useLiveQuery(() => contactDetails.addresses(contact.id), [contact.id]);
   const introducer = useLiveQuery(
@@ -178,6 +184,12 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
                     }),
                 },
                 {
+                  label: t('profileExport'),
+                  icon: Download,
+                  onSelect: () => void downloadVCards([contact.id]),
+                },
+                { label: t('merge.menu'), icon: Merge, onSelect: () => setMerging(true) },
+                {
                   label: t('profile.menu.delete'),
                   icon: Trash2,
                   onSelect: () => void remove(),
@@ -275,6 +287,7 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
           </Link>
         )}
       </div>
+      <MergeDialog contact={contact} open={merging} onClose={() => setMerging(false)} />
     </div>
   );
 }

@@ -62,6 +62,8 @@ export const contactFieldSchema = baseRecordSchema.extend({
   label: z.string().optional(),
   value: z.string().min(1),
   isPrimary: z.boolean().optional(),
+  /** Display order as entered (not indexed; DECISIONS D-058). */
+  position: z.number().int().nonnegative().optional(),
 });
 
 export const addressSchema = baseRecordSchema.extend({
@@ -73,6 +75,7 @@ export const addressSchema = baseRecordSchema.extend({
   postalCode: z.string().optional(),
   country: z.string().optional(),
   isCurrent: z.boolean(),
+  position: z.number().int().nonnegative().optional(),
 });
 
 export const relationshipTypes = [

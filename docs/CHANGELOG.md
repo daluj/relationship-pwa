@@ -1,5 +1,22 @@
 # Changelog
 
+## M7 — Import / export (2026-10-19)
+
+- Settings › Your data: full JSON backup (optionally without photos, streamed), vCard and CSV export, import by file picker or
+  drag-and-drop, and "Delete all data" with typed confirmation. Shows the last backup date.
+- Restore a backup by merging (newer wins) or replacing everything (typed confirmation). Validated, migratable, and all-or-nothing.
+  The round-trip AC (export → delete all → import = identical counts and content) is checked in unit and E2E tests.
+- vCard import (2.1/3.0/4.0 from iOS, Google, Outlook) and export (all contacts, or one from the profile ⋯ menu).
+  Inline photos become avatars and NOTE becomes a note moment.
+- CSV import with a column-mapping step (Google/Outlook headers auto-detected) and CSV export.
+- Import preview with per-row Import / Merge / Skip and duplicate warnings (vs existing contacts and within the file).
+- Duplicate detection when creating a contact ("Save and merge"), and "Merge with…" on profiles (§8.2 merge rules).
+- Backup nudge after 30 days without an export. Web Share Target (files → import, text → composer) and file handlers
+  for .vcf/.json/.csv.
+- Fixed: contact fields and addresses didn't keep their entered order (found by the CSV export test).
+- Faster start-up: repairing automatic reminders no longer locks every contact. The first search after launch went from
+  about 130 ms to about 40 ms with 2k contacts and 20k moments (the perf test had started failing on this machine).
+
 ## Fix — Reminders "Done" wording (2026-10-19)
 
 - Done on a stay-in-touch reminder said "Snoozed until …". Done there means "I was in touch", so it now says

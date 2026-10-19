@@ -121,22 +121,59 @@ export async function syncImportantDateReminder(
   }
 }
 
-/** Re-derives every auto reminder (app start): repairs data created before a sync existed. */
+/**
+ * Re-derives auto reminders on app start (repairs data created before a sync existed). A read-only pass
+ * decides what needs work; the write transaction only runs, and only touches those contacts, when
+ * something is missing or stale — so start-up doesn't hold a write lock over every contact.
+ */
 export async function ensureAutoReminders(): Promise<void> {
+  const { contacts, autos, dates } = await db.transaction('r', tables(), async () => ({
+    contacts: await db.contacts
+      .filter((c) => !c.deletedAt && (!!c.birthday || !!c.stayInTouchDays))
+      .toArray(),
+    autos: await db.reminders
+      .where('source')
+      .anyOf('birthday', 'stay-in-touch', 'important-date')
+      .filter((r) => !r.deletedAt)
+      .toArray(),
+    dates: await db.importantDates.filter((d) => !d.deletedAt && d.remind).toArray(),
+  }));
+  const auto = new Map(autos.map((r) => [`${r.source}|${r.sourceId}`, r]));
+  const qualifies = (c: Contact) => !!c.stayInTouchDays && !c.isArchived && !c.isDeceased;
+
+  const birthdays = contacts.filter((c) => {
+    const r = c.birthday && auto.get(`birthday|${c.id}`);
+    return c.birthday && (!r || r.title !== fullName(c));
+  });
+  const stayInTouch = contacts.filter((c) => {
+    const r = auto.get(`stay-in-touch|${c.id}`);
+    return qualifies(c) ? !r || r.dueDate !== stayInTouchDue(c) || r.title !== fullName(c) : !!r;
+  });
+  // Stay-in-touch reminders whose contact no longer qualifies (or is gone).
+  const byId = new Set(contacts.filter(qualifies).map((c) => c.id));
+  const orphanStay = autos.filter(
+    (r) =>
+      r.source === 'stay-in-touch' &&
+      !byId.has(r.sourceId!) &&
+      !stayInTouch.some((c) => c.id === r.sourceId),
+  );
+  const missingDates = dates.filter((d) => !auto.has(`important-date|${d.id}`));
+  if (!birthdays.length && !stayInTouch.length && !orphanStay.length && !missingDates.length)
+    return;
+
   await db.transaction('rw', tables(), async () => {
-    const contacts = await db.contacts.filter((c) => !c.deletedAt).toArray();
-    for (const c of contacts) {
-      if (c.birthday) {
-        const existing = await findAuto('birthday', c.id);
-        if (!existing) await syncBirthdayReminder(c);
-        else if (existing.title !== fullName(c))
-          await reminderRepo.update(existing.id, { title: fullName(c) });
-      }
-      await syncStayInTouchReminder(c);
+    for (const c of birthdays) {
+      const existing = await findAuto('birthday', c.id);
+      if (!existing) await syncBirthdayReminder(c);
+      else await reminderRepo.update(existing.id, { title: fullName(c) });
     }
-    const dates = await db.importantDates.filter((d) => !d.deletedAt && d.remind).toArray();
-    for (const d of dates)
-      if (!(await findAuto('important-date', d.id))) await syncImportantDateReminder(d);
+    for (const c of stayInTouch) await syncStayInTouchReminder(c);
+    for (const r of orphanStay) {
+      const c = r.sourceId ? await db.contacts.get(r.sourceId) : undefined;
+      if (c) await syncStayInTouchReminder(c);
+      else await reminderRepo.purge(r.id);
+    }
+    for (const d of missingDates) await syncImportantDateReminder(d);
   });
 }
 

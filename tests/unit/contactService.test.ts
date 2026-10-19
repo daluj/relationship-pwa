@@ -1,6 +1,7 @@
 import { db } from '@/db/db';
 import {
   addressRepo,
+  contactDetails,
   contactFieldRepo,
   contactRepo,
   deleteContact,
@@ -110,6 +111,40 @@ describe('saveContact', () => {
     ]);
     expect(live.find((f) => f.type === 'phone')?.id).toBe(phone!.id);
     expect((await contactFieldRepo.listDeleted()).map((f) => f.type)).toEqual(['email']);
+  });
+
+  it('keeps contact fields and addresses in the order they were entered', async () => {
+    const values = ['+1 111', 'a@example.com', '+2 222', 'b@example.com', '+3 333'];
+    const c = await saveContact(
+      undefined,
+      draft(
+        {},
+        {
+          fields: values.map((value) => ({ type: value.includes('@') ? 'email' : 'phone', value })),
+          addresses: [
+            { city: 'Lyon', isCurrent: true },
+            { city: 'Paris', isCurrent: false },
+            { city: 'Nantes', isCurrent: false },
+          ],
+        },
+      ),
+    );
+    expect((await contactDetails.fields(c.id)).map((f) => f.value)).toEqual(values);
+    expect((await contactDetails.addresses(c.id)).map((a) => a.city)).toEqual([
+      'Lyon',
+      'Paris',
+      'Nantes',
+    ]);
+    // Re-saving in a new order (e.g. after removing one) keeps the new order.
+    const stored = await contactDetails.fields(c.id);
+    await saveContact(
+      c.id,
+      draft(
+        {},
+        { fields: [stored[4]!, stored[0]!].map(({ id, type, value }) => ({ id, type, value })) },
+      ),
+    );
+    expect((await contactDetails.fields(c.id)).map((f) => f.value)).toEqual(['+3 333', '+1 111']);
   });
 
   it('replaces and removes images, deleting old blobs', async () => {

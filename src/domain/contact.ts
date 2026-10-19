@@ -63,3 +63,11 @@ export function sortContacts(list: Contact[], sort: ContactSort, locale: string)
       return copy.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   }
 }
+
+/** Entered order for contact fields/addresses: `position`, then creation time (older data). */
+export const byPosition = (
+  a: { position?: number; createdAt: string },
+  b: { position?: number; createdAt: string },
+) =>
+  (a.position ?? Number.MAX_SAFE_INTEGER) - (b.position ?? Number.MAX_SAFE_INTEGER) ||
+  a.createdAt.localeCompare(b.createdAt);

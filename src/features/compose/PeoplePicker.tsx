@@ -12,7 +12,8 @@ interface Props {
   contacts: Contact[];
   exclude: string[];
   onPick: (c: Contact) => void;
-  onCreate: (name: string) => Promise<void>;
+  /** Omit to hide "Create contact" (e.g. picking an existing contact to merge with). */
+  onCreate?: (name: string) => Promise<void>;
 }
 
 /** Explicit "add person" picker next to the @mention flow (SPEC §5.1 contactIds). */
@@ -39,7 +40,7 @@ export function PeoplePicker({ contacts, exclude, onPick, onCreate }: Props) {
             onPick(c);
             done();
           },
-          (name) => void onCreate(name).then(done),
+          onCreate ? (name) => void onCreate(name).then(done) : undefined,
           exclude,
         )
       : [];

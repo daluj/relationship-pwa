@@ -28,6 +28,9 @@ export interface AppSettings {
   locale: Locale;
   currency: string;
   onboarded: boolean;
+  /** Last full JSON export (backup nudge, SPEC §8.9). */
+  lastBackupAt?: string;
+  backupNudgeDismissedAt?: string;
 }
 
 export const defaultSettings: AppSettings = {

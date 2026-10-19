@@ -55,8 +55,7 @@ export const routes: RouteObject[] = [
           },
           {
             path: 'data',
-            lazy: () =>
-              import('@/features/settings/DataPage').then((m) => ({ Component: m.DataPage })),
+            lazy: () => import('@/features/data/DataPage').then((m) => ({ Component: m.DataPage })),
           },
           {
             path: 'trash',

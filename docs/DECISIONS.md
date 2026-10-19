@@ -287,8 +287,8 @@ or outdated (data from M1–M5, or after a tokenizer change). Tag rename now goe
 
 People come first (archived last, then best name match), then tags, then moments newest first. Moments come 50 at a time.
 The newest page is fetched with whichever strategy is cheaper: load and sort few hits, or walk the `happenedAt` index from the newest
-end for many hits (n² > limit·N). Measured in Chromium with 2,000 contacts and 20,000 moments: about 35 ms typical and
-about 70 ms for the first (cold) query, against the < 100 ms AC.
+end for many hits (n² > limit·N). Measured in Chromium with 2,000 contacts and 20,000 moments: about 35 ms typical. The first
+(cold) query is about 35–50 ms since D-060, against the < 100 ms AC.
 
 ## D-050 — Measuring search time (M6)
 
@@ -313,3 +313,54 @@ offer suggestions only once their data has loaded (`Lookup.loaded`).
 Every E2E test now fails on any uncaught page error (`pageErrors` fixture). The search perf test lives in `*.perf.ts`
 and runs in its own Playwright project after all others, so parallel workers don't skew timings (under contention a cold
 query measured 130 ms; alone it's about 70 ms).
+
+## D-054 — Backup format and restore (M7)
+
+`{ app: "kin", schemaVersion, exportedAt, includesPhotos, data: { <table>: [...], blobs: [{ id, mime, width, height, size, base64 }] } }`
+covers every table except the search index (rebuilt on import), including soft-deleted records and settings. Export is
+streamed into a `Blob` part by part (records from cursors, each photo base64-encoded separately). Import validates
+everything with the entity Zod schemas, runs `backupMigrations` for older versions, rejects newer versions, and never
+partially accepts an invalid file. _Merge_ goes by id with newer `updatedAt` winning and keeps local settings. _Replace_
+wipes first and needs "REPLACE" typed. "Delete all data" needs "DELETE" typed (these confirmation words aren't translated).
+
+## D-055 — vCard and CSV (M7)
+
+vCard: the hand-written reader handles 2.1/3.0/4.0 (folding, grouped props, escapes, quoted-printable, Apple's
+year-less `1604` BDAY, `--MMDD`, `data:` and `ENCODING=b` photos; URL photos are skipped since there's no network). The writer
+produces 3.0 (most widely imported). NOTE becomes a note moment (§8.9), and the bio is exported as NOTE. CSV import uses PapaParse
+with an editable column mapping auto-detected from Google and Outlook headers. Google's `:::` multi-values and Outlook's
+`M/D/YYYY` dates are understood. CSV export uses Google-style headers and a UTF-8 BOM (so Excel reads it). Files without a
+telling extension are recognized by content (`{` → backup, `BEGIN:VCARD` → vCard).
+
+## D-056 — Duplicates and merge (M7)
+
+Possible duplicates = same normalized full name, same email (case-insensitive), or same phone (digits only, the last 9 compared,
+7+ digits). They show up when creating a contact ("Save and merge") and in the import preview (default: merge into the
+existing contact; a repeat within the same file defaults to skip). The profile ⋯ menu has "Merge with…" with a choice of
+which contact to keep. `mergeContacts` keeps the primary's values, fills gaps, unions tags and groups, moves fields, addresses
+and dependents (dropping exact duplicates), rewrites moment `contactIds` and mention tokens, re-points relationships (dropping
+self-links and duplicates) and "introduced by" links, drops the secondary's auto reminders, and soft-deletes the secondary.
+
+## D-057 — Share target and file handlers (M7)
+
+The manifest declares one POST `share_target` (`/share-target`, multipart). The service worker puts shared files in the `kin-share`
+cache and redirects to `/settings/data?shared=1`, where they're imported. Shared text redirects to `/compose?text=`.
+`file_handlers` (Chromium, installed) open `/settings/data`, which consumes `window.launchQueue`. Both are feature-detected.
+
+## D-058 — Order of contact fields and addresses (M7)
+
+These rows had no stored order and were read back in key (UUID) order, so two phone numbers could swap places in the profile,
+the edit form and exports. Both schemas gain an optional, non-indexed `position` (set on save from the form order), and reads sort by
+`position`, then `createdAt` (older data). No Dexie version bump is needed because indexes didn't change.
+
+## D-059 — Backup nudge (M7)
+
+Shown when contacts exist and there has been no export in 30 days (counting from the oldest contact if never exported).
+"Not now" hides it for 30 days. It's hidden on the Data page itself. Tracked in settings `lastBackupAt` / `backupNudgeDismissedAt`.
+
+## D-060 — Start-up maintenance must not block reads (M7)
+
+`ensureAutoReminders()` used to open one write transaction over all contacts and query reminders per contact on every
+start. A search typed right after launch had to wait for it: the cold query took 120–150 ms with 2k/20k records. It now does a
+read-only pass, and only opens a write transaction (touching only the affected contacts) when something is missing or stale.
+The cold search is now about 35–50 ms. The backup nudge's "data since" also became one indexed read instead of a scan.

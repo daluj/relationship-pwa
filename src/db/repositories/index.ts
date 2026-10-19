@@ -91,3 +91,14 @@ export {
 export type { DebtDraft, GiftDraft, PetDraft, TaskDraft } from './profileItems';
 export { ensureSearchIndex, rebuildSearchIndex, search, trendingTags } from './searchService';
 export type { SearchResults } from './searchService';
+export { mergeContacts } from './mergeService';
+export {
+  dataSince,
+  deleteAllData,
+  exportBackup,
+  importBackup,
+  recordCounts,
+} from './backupService';
+export type { ImportSummary } from './backupService';
+export { commitImport, contactsForExport, knownContacts } from './importService';
+export type { CommitOptions, RowAction } from './importService';

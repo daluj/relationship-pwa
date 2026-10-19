@@ -1,0 +1,10 @@
+BEGIN:VCARD
+VERSION:4.0
+FN:Zoé Martin
+N:Martin;Zoé;;;
+EMAIL;TYPE=work:zoe@work.example
+TEL;VALUE=uri;TYPE="voice,cell":tel:+44-20-7946-0000
+BDAY:--0702
+URL:https://zoe.example
+PHOTO:data:image/png;base64,iVBORw0KGgo=
+END:VCARD

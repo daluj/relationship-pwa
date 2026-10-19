@@ -12,7 +12,7 @@ export function contactSuggestions(
   query: string,
   t: TFunction,
   onPick: (c: Contact) => void,
-  onCreate: (name: string) => void,
+  onCreate: ((name: string) => void) | undefined,
   exclude: string[] = [],
 ): Suggestion[] {
   const matches = fuzzyFilter(
@@ -29,7 +29,7 @@ export function contactSuggestions(
     onSelect: () => onPick(c),
   }));
   const name = query.trim();
-  if (name) {
+  if (name && onCreate) {
     items.push({
       key: 'create-contact',
       label: t('composer.createContact', { name }),

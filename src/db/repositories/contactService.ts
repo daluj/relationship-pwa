@@ -1,4 +1,5 @@
 import type { Table } from 'dexie';
+import { byPosition } from '@/domain/contact';
 import type { Address, BaseRecord, Contact, ContactField } from '@/domain/types';
 import { db } from '../db';
 import { blobRepo } from './blobRepo';
@@ -75,9 +76,10 @@ async function syncChildren<
   );
   const keep = new Set(drafts.map((d) => d.id).filter(Boolean));
   for (const row of current) if (!keep.has(row.id)) await repo.softDelete(row.id);
-  for (const { id, ...rest } of drafts) {
-    if (id && current.some((r) => r.id === id)) await repo.update(id, rest as never);
-    else await repo.create({ ...rest, contactId } as never);
+  for (const [position, { id, ...rest }] of drafts.entries()) {
+    if (id && current.some((r) => r.id === id))
+      await repo.update(id, { ...rest, position } as never);
+    else await repo.create({ ...rest, contactId, position } as never);
   }
 }
 
@@ -244,16 +246,20 @@ export async function listTrashedContacts(): Promise<Contact[]> {
 }
 
 export const contactDetails = {
-  fields: (contactId: string) =>
-    db.contactFields
-      .where('contactId')
-      .equals(contactId)
-      .filter((r) => !r.deletedAt)
-      .toArray(),
-  addresses: (contactId: string) =>
-    db.addresses
-      .where('contactId')
-      .equals(contactId)
-      .filter((r) => !r.deletedAt)
-      .toArray(),
+  fields: async (contactId: string) =>
+    (
+      await db.contactFields
+        .where('contactId')
+        .equals(contactId)
+        .filter((r) => !r.deletedAt)
+        .toArray()
+    ).sort(byPosition),
+  addresses: async (contactId: string) =>
+    (
+      await db.addresses
+        .where('contactId')
+        .equals(contactId)
+        .filter((r) => !r.deletedAt)
+        .toArray()
+    ).sort(byPosition),
 };
