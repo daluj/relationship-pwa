@@ -22,7 +22,7 @@ export interface CommitOptions {
 }
 
 /**
- * Save previewed contacts (SPEC §8.9): "import" creates a contact; "merge" creates it and merges it into
+ * Save previewed contacts (features §8.9): "import" creates a contact; "merge" creates it and merges it into
  * the chosen existing contact; NOTE becomes a note moment with that person.
  */
 export async function commitImport(

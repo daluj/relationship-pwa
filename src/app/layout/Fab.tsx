@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Feather, Plus } from 'lucide-react';
 import { useComposer } from '../stores/composer';
 
-/** Mobile floating "Log moment" button, above the tab bar (SPEC §6.3). */
+/** Mobile floating "Log moment" button, above the tab bar (ui §6.3). */
 export function Fab() {
   const { t } = useTranslation();
   const openComposer = useComposer((s) => s.openComposer);

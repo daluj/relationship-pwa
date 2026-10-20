@@ -15,9 +15,9 @@ import { Dialog } from './Dialog';
 
 interface Props {
   file: File | null;
-  /** width / height — 1 for avatars, 3 for banners (SPEC §8.2). */
+  /** width / height — 1 for avatars, 3 for banners (features §8.2). */
   aspect: 1 | 3;
-  /** Output width in px; height follows the aspect (avatars ≤ 400px, SPEC §3). */
+  /** Output width in px; height follows the aspect (avatars ≤ 400px, tech-stack §3). */
   outputWidth: number;
   onCancel: () => void;
   onDone: (image: NewImage) => void;

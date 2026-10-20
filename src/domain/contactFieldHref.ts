@@ -13,7 +13,7 @@ function safeHttp(url: string): string | undefined {
 }
 
 /**
- * Link for a contact field (SPEC §6.6 Details). Only http(s), tel: and mailto: are ever produced,
+ * Link for a contact field (ui §6.6 Details). Only http(s), tel: and mailto: are ever produced,
  * so user text can't become a `javascript:` URL.
  */
 export function contactFieldHref(field: Pick<ContactField, 'type' | 'value'>): string | undefined {

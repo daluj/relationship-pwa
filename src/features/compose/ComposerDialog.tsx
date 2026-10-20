@@ -6,7 +6,7 @@ import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { IconButton } from '@/components/IconButton';
 import { Composer } from './Composer';
 
-/** Composer as a modal on desktop and a full-screen sheet on mobile (SPEC §6.5). */
+/** Composer as a modal on desktop and a full-screen sheet on mobile (ui §6.5). */
 export function ComposerDialog() {
   const { t } = useTranslation();
   const { open, momentId, prefill, session, close } = useComposer();

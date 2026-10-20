@@ -19,7 +19,7 @@ const asymmetric: Partial<Record<RelationshipType, RelationshipType>> = {
   protege: 'mentor',
 };
 
-/** Type of the auto-created inverse row (SPEC §8.3); symmetric types mirror. */
+/** Type of the auto-created inverse row (features §8.3); symmetric types mirror. */
 export const inverseOf = (t: RelationshipType): RelationshipType => asymmetric[t] ?? t;
 
 export const relationshipGroups = ['family', 'love', 'friends', 'work', 'other'] as const;
@@ -52,10 +52,10 @@ const groupOfType: Record<RelationshipType, RelationshipGroup> = {
   other: 'other',
 };
 
-/** Details grouping: Family / Love / Friends / Work / Other (SPEC §8.3). */
+/** Details grouping: Family / Love / Friends / Work / Other (features §8.3). */
 export const groupOfRelationship = (t: RelationshipType): RelationshipGroup => groupOfType[t];
 
-/** Counts per group for the profile "Following/Followers"-style row (SPEC §6.6). */
+/** Counts per group for the profile "Following/Followers"-style row (ui §6.6). */
 export function countByGroup(
   types: RelationshipType[],
 ): Partial<Record<RelationshipGroup, number>> {

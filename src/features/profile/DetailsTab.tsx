@@ -47,7 +47,7 @@ function Block({ title, children }: { title: string; children: ReactNode }) {
 const addressLines = (a: Address) =>
   [a.street, [a.postalCode, a.city].filter(Boolean).join(' '), a.region, a.country].filter(Boolean);
 
-/** Profile › Details (SPEC §6.6). Relationships, pets, dates, tags and groups join in M3–M5. */
+/** Profile › Details (ui §6.6). Relationships, pets, dates, tags and groups join in M3–M5. */
 export function DetailsTab({ contact }: { contact: Contact }) {
   const { t, i18n } = useTranslation();
   const fields = useLiveQuery(() => contactDetails.fields(contact.id), [contact.id]);

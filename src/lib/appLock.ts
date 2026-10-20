@@ -1,5 +1,5 @@
 /**
- * App lock (SPEC §8.10): a 4–6 digit PIN and optionally a passkey gate the UI on open.
+ * App lock (features §8.10): a 4–6 digit PIN and optionally a passkey gate the UI on open.
  * This is a screen lock, not encryption — data in IndexedDB stays readable to anyone with access to the
  * browser profile. Everything runs locally: the PIN is stored only as a salted PBKDF2 hash, and the
  * passkey assertion is verified against the stored public key with WebCrypto.

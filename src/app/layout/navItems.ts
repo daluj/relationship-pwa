@@ -14,7 +14,7 @@ export interface NavItem {
   to: string;
   icon: LucideIcon;
   labelKey: `nav.${'home' | 'search' | 'reminders' | 'tasks' | 'groups' | 'starred' | 'contacts' | 'settings'}`;
-  /** Shown in the mobile bottom tab bar (SPEC §6.3). */
+  /** Shown in the mobile bottom tab bar (ui §6.3). */
   mobileTab?: boolean;
   badge?: 'reminders';
 }

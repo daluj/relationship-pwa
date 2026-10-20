@@ -21,7 +21,7 @@ export default tseslint.config(
       ],
     },
   },
-  // SPEC §4: domain/ is pure TS — no React, no Dexie.
+  // tech-stack §4: domain/ is pure TS — no React, no Dexie.
   {
     files: ['src/domain/**/*.{ts,tsx}'],
     rules: {
@@ -31,7 +31,7 @@ export default tseslint.config(
           patterns: [
             {
               group: ['react', 'react-*', 'dexie', 'dexie-*'],
-              message: 'domain/ must stay pure (SPEC §4).',
+              message: 'domain/ must stay pure (tech-stack §4).',
             },
             {
               group: ['@/db/*', '@/features/*', '@/app/*', '@/components/*'],
@@ -42,7 +42,7 @@ export default tseslint.config(
       ],
     },
   },
-  // SPEC §4: UI never touches Dexie directly — go through db/repositories.
+  // tech-stack §4: UI never touches Dexie directly — go through db/repositories.
   {
     files: ['src/features/**/*.{ts,tsx}', 'src/components/**/*.{ts,tsx}', 'src/app/**/*.{ts,tsx}'],
     rules: {
@@ -52,11 +52,11 @@ export default tseslint.config(
           patterns: [
             {
               group: ['dexie', 'dexie-react-hooks'],
-              message: 'Use db/repositories instead of Dexie (SPEC §4).',
+              message: 'Use db/repositories instead of Dexie (tech-stack §4).',
             },
             {
               group: ['@/db/db', '@/db/schema'],
-              message: 'Use db/repositories instead (SPEC §4).',
+              message: 'Use db/repositories instead (tech-stack §4).',
             },
           ],
         },

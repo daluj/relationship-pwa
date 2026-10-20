@@ -20,7 +20,7 @@
 }
 
 @theme {
-  /* Right rail appears at 1000px (SPEC §6.2). md = 768px, xl = 1280px match the spec. */
+  /* Right rail appears at 1000px (ui §6.2). md = 768px, xl = 1280px match the spec. */
   --breakpoint-rail: 1000px;
 }
 

@@ -13,7 +13,7 @@ const PAGE = 50;
 const tabs = ['top', 'people', 'moments', 'tags'] as const;
 type Tab = (typeof tabs)[number];
 
-/** Runs a search and records its duration as a `kin-search` performance measure (SPEC §8.6 perf). */
+/** Runs a search and records its duration as a `kin-search` performance measure (features §8.6 perf). */
 async function timedSearch(q: string, limit: number): Promise<SearchResults> {
   const start = performance.now();
   const results = await search(q, limit);
@@ -21,7 +21,7 @@ async function timedSearch(q: string, limit: number): Promise<SearchResults> {
   return results;
 }
 
-/** `/search?q=`: Top · People · Moments · Tags; recent searches and tag trends when empty (SPEC §6.7). */
+/** `/search?q=`: Top · People · Moments · Tags; recent searches and tag trends when empty (ui §6.7). */
 export function SearchPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();

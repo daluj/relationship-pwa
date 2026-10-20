@@ -23,7 +23,7 @@ interface Props {
   contactId?: string;
 }
 
-/** Create/edit a manual reminder (SPEC §8.5). */
+/** Create/edit a manual reminder (features §8.5). */
 export function ReminderDialog({ open, onClose, reminder, contactId }: Props) {
   const { t } = useTranslation();
   const lookup = useLookup();

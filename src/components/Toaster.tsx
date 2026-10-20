@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { X } from 'lucide-react';
 import { useToasts } from '@/app/stores/toast';
 
-/** Bottom-center toasts on the accent color (SPEC §6.9). */
+/** Bottom-center toasts on the accent color (ui §6.9). */
 export function Toaster() {
   const { t } = useTranslation();
   const { toasts, dismiss } = useToasts();

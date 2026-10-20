@@ -109,7 +109,7 @@ async function snapshot() {
 
 const readJson = async (blob: Blob) => JSON.parse(await blob.text()) as unknown;
 
-describe('JSON backup (SPEC §8.9)', () => {
+describe('JSON backup (features §8.9)', () => {
   it('round trip: export → clear all → import gives identical counts and content (AC)', async () => {
     await seed();
     const before = { counts: await recordCounts(), snap: await snapshot() };
@@ -163,7 +163,7 @@ describe('JSON backup (SPEC §8.9)', () => {
   });
 });
 
-describe('duplicates (SPEC §8.2)', () => {
+describe('duplicates (features §8.2)', () => {
   it('matches on normalized name, email or phone', async () => {
     await seed();
     const known = await knownContacts();
@@ -180,7 +180,7 @@ describe('duplicates (SPEC §8.2)', () => {
   });
 });
 
-describe('mergeContacts (SPEC §8.2)', () => {
+describe('mergeContacts (features §8.2)', () => {
   it('unions data, rewrites moments and relationships, soft-deletes the secondary', async () => {
     const { lise, marc } = await seed();
     const dupe = await saveContact(undefined, {
@@ -255,7 +255,7 @@ describe('mergeContacts (SPEC §8.2)', () => {
   });
 });
 
-describe('CSV mapping (SPEC §8.9)', () => {
+describe('CSV mapping (features §8.9)', () => {
   it('auto-detects Google Contacts headers', () => {
     const headers = [
       'Name',

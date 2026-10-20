@@ -58,7 +58,7 @@ export function resize(bitmap: ImageBitmap, maxDim: number): Promise<NewImage> {
   return encode(canvas);
 }
 
-/** Moment photo (≤ 1600px) plus feed thumbnail (≤ 600px) (SPEC §3, §10). */
+/** Moment photo (≤ 1600px) plus feed thumbnail (≤ 600px) (tech-stack §3, §10). */
 export async function prepareMomentPhoto(
   file: Blob,
 ): Promise<{ image: NewImage; thumb: NewImage }> {

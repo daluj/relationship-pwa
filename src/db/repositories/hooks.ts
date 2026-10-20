@@ -33,7 +33,7 @@ export function useSettings(): AppSettings {
   return useSettingsQuery() ?? defaultSettings;
 }
 
-/** Object URL for a stored image blob; revoked on change/unmount (SPEC §10). */
+/** Object URL for a stored image blob; revoked on change/unmount (tech-stack §10). */
 export function useBlobUrl(blobId: string | undefined): string | undefined {
   const record = useLiveQuery(() => (blobId ? blobRepo.get(blobId) : undefined), [blobId]);
   const [url, setUrl] = useState<string>();

@@ -16,7 +16,7 @@ interface ComposerState {
   close: () => void;
 }
 
-/** Modal/full-screen composer state (SPEC §3: Zustand for ephemeral UI state). */
+/** Modal/full-screen composer state (tech-stack §3: Zustand for ephemeral UI state). */
 export const useComposer = create<ComposerState>((set) => ({
   open: false,
   session: 0,

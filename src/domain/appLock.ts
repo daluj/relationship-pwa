@@ -1,4 +1,4 @@
-/** App lock settings (SPEC §8.10). Logic lives in `lib/appLock.ts`. */
+/** App lock settings (features §8.10). Logic lives in `lib/appLock.ts`. */
 
 export interface PinHash {
   salt: string;

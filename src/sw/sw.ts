@@ -15,14 +15,14 @@ import es from '@/i18n/locales/es.json';
 
 declare const self: ServiceWorkerGlobalScope;
 
-// Precache the full app shell and static assets so the app loads offline (SPEC §9).
+// Precache the full app shell and static assets so the app loads offline (pwa §9).
 precacheAndRoute(self.__WB_MANIFEST);
 cleanupOutdatedCaches();
 
 // SPA navigation fallback. No runtime caching: there are no external origins.
 registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')));
 
-// ── Web Share Target (SPEC §9) ───────────────────────────────────────────────
+// ── Web Share Target (pwa §9) ───────────────────────────────────────────────
 // Shared files are parked in a cache for the Data page to import; shared text opens the composer.
 const SHARE_CACHE = 'kin-share'; // keep in sync with features/data/sharedFiles.ts
 
@@ -61,7 +61,7 @@ self.addEventListener('message', (event) => {
 
 clientsClaim();
 
-// ── Reminders (SPEC §8.5) ───────────────────────────────────────────────────
+// ── Reminders (features §8.5) ───────────────────────────────────────────────────
 
 interface PeriodicSyncEvent extends ExtendableEvent {
   tag: string;

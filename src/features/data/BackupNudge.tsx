@@ -10,7 +10,7 @@ import { downloadBackup } from './backupDownload';
 const DAYS_30 = 30 * 86_400_000;
 
 /**
- * "Back up your data" banner (SPEC §8.9): when data exists and nothing was exported in 30 days.
+ * "Back up your data" banner (features §8.9): when data exists and nothing was exported in 30 days.
  * Dismissing hides it for 30 days. Important because browsers may evict local storage.
  */
 export function BackupNudge() {

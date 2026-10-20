@@ -45,7 +45,7 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-/** Create (`/contacts/new`) and edit (`/c/:id/edit`) contact form (SPEC §8.2). */
+/** Create (`/contacts/new`) and edit (`/c/:id/edit`) contact form (features §8.2). */
 export function ContactFormPage() {
   const { id } = useParams();
   const { t } = useTranslation();
@@ -88,7 +88,7 @@ export function ContactFormPage() {
     };
   }, [id, reset]);
 
-  // Possible duplicates while creating (SPEC §8.2): same normalized name, email or phone.
+  // Possible duplicates while creating (features §8.2): same normalized name, email or phone.
   const [known, setKnown] = useState<KnownContact[]>([]);
   useEffect(() => {
     if (!id) void knownContacts().then(setKnown);

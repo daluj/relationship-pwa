@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-// E2E runs against the production build so the service worker is real (SPEC §9).
+// E2E runs against the production build so the service worker is real (pwa §9).
 export default defineConfig({
   testDir: 'tests/e2e',
   fullyParallel: true,
@@ -11,7 +11,7 @@ export default defineConfig({
   // Full Chromium (new headless): the headless shell always denies notification permission.
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'], channel: 'chromium' } },
-    // SPEC §15 cross-browser check: the offline + responsive specs in Firefox and WebKit (Safari's engine).
+    // roadmap §15 cross-browser check: the offline + responsive specs in Firefox and WebKit (Safari's engine).
     {
       name: 'firefox',
       testMatch: /(offline|layout)\.spec\.ts$/,
@@ -22,7 +22,7 @@ export default defineConfig({
       testMatch: /(offline|layout)\.spec\.ts$/,
       use: { ...devices['Desktop Safari'] },
     },
-    // Performance checks (SPEC §8.6) run alone, after everything else.
+    // Performance checks (features §8.6) run alone, after everything else.
     {
       name: 'perf',
       testMatch: /.*\.perf\.ts$/,

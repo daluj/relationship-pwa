@@ -13,7 +13,7 @@ interface Props {
   linkTo?: string | null;
 }
 
-/** X "Following"-style row: avatar, name, @nickname, bio snippet (SPEC §6.7). */
+/** X "Following"-style row: avatar, name, @nickname, bio snippet (ui §6.7). */
 export function ContactRow({ contact, actions, badges, secondary, linkTo }: Props) {
   const name = fullName(contact);
   const body = (

@@ -41,7 +41,7 @@ export async function groupMembers(groupId: string): Promise<Contact[]> {
     .toArray();
 }
 
-/** Group timeline: moments mentioning any member, newest first (SPEC §6.7). */
+/** Group timeline: moments mentioning any member, newest first (ui §6.7). */
 export async function groupTimeline(groupId: string): Promise<Moment[]> {
   const ids = (await groupMembers(groupId)).map((c) => c.id);
   if (!ids.length) return [];

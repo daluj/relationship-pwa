@@ -18,7 +18,7 @@ interface Props {
   date?: ImportantDate;
 }
 
-/** Add/edit an important date with an optional yearly reminder (SPEC §5.1, §8.5). */
+/** Add/edit an important date with an optional yearly reminder (data-model §5.1, §8.5). */
 export function ImportantDateDialog({ open, onClose, contactId, date }: Props) {
   const { t } = useTranslation();
   const [label, setLabel] = useState('');

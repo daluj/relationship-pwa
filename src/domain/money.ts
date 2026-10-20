@@ -1,7 +1,7 @@
 import type { Debt } from './types';
 
 /**
- * Net unsettled balance per currency (SPEC §8.7): positive = they owe you, negative = you owe.
+ * Net unsettled balance per currency (features §8.7): positive = they owe you, negative = you owe.
  * Amounts are summed in minor units to avoid floating-point drift.
  */
 export function balances(debts: Debt[]): Record<string, number> {

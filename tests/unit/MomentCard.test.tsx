@@ -19,7 +19,7 @@ function LiveCard({ id }: { id: string }) {
   return m ? <MomentCard moment={m} /> : null;
 }
 
-it('renders the post: who, kind line, body links, people, and toggles star (SPEC §6.4)', async () => {
+it('renders the post: who, kind line, body links, people, and toggles star (ui §6.4)', async () => {
   const lise = await contactRepo.create({
     firstName: 'Élise',
     lastName: 'Aubert',

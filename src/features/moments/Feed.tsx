@@ -10,7 +10,7 @@ interface Props {
   showPinned?: boolean;
 }
 
-/** Virtualized moment list (SPEC §6.9). */
+/** Virtualized moment list (ui §6.9). */
 export function Feed({ moments, onEndReached, showPinned }: Props) {
   const listRef = useRef<HTMLDivElement>(null);
   const [offset, setOffset] = useState(0);

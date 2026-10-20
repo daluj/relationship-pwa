@@ -4,7 +4,7 @@ import { ageOn, inYear } from '@/domain/partialDate';
 import { parseIsoDate } from '@/domain/recurrence';
 import type { Contact, Reminder } from '@/domain/types';
 
-/** Display title for a reminder; auto reminders are worded from their source (SPEC §8.5). */
+/** Display title for a reminder; auto reminders are worded from their source (features §8.5). */
 export function reminderTitle(r: Reminder, contact: Contact | undefined, t: TFunction): string {
   const name = contact ? fullName(contact) : r.title;
   switch (r.source) {

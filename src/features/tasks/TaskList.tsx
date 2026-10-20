@@ -22,7 +22,7 @@ import { parseIsoDate } from '@/domain/recurrence';
 import type { Task } from '@/domain/types';
 import { useLookup } from '@/features/moments/useLookup';
 
-/** Checklist with open/done filter and quick add (SPEC §6.7 Tasks, §6.6 profile Tasks). */
+/** Checklist with open/done filter and quick add (ui §6.7 Tasks, §6.6 profile Tasks). */
 export function TaskList({ contactId }: { contactId?: string }) {
   const { t, i18n } = useTranslation();
   const lookup = useLookup();

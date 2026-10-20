@@ -12,7 +12,7 @@ interface Props {
   onDone: (contacts: ParsedContact[]) => void;
 }
 
-/** CSV column-mapping step with auto-detected Google/Outlook headers (SPEC §8.9). */
+/** CSV column-mapping step with auto-detected Google/Outlook headers (features §8.9). */
 export function CsvMapping({ headers, rows, onCancel, onDone }: Props) {
   const { t } = useTranslation();
   const [mapping, setMapping] = useState<CsvTarget[]>(() => autoMap(headers));

@@ -1,4 +1,4 @@
-// Per-contact collections shown on profile tabs (SPEC §8.7): gifts, debts, tasks, pets, tags.
+// Per-contact collections shown on profile tabs (features §8.7): gifts, debts, tasks, pets, tags.
 import type { Debt, Gift, Pet, Task } from '@/domain/types';
 import { db } from '../db';
 import { nowIso } from './createRepository';
@@ -44,7 +44,7 @@ export const saveTask = (id: string | undefined, d: TaskDraft) =>
 export const savePet = (id: string | undefined, d: PetDraft) =>
   id ? petRepo.update(id, d) : petRepo.create(d);
 
-/** Settling removes a debt from the balance and records when (SPEC §8.7 AC). */
+/** Settling removes a debt from the balance and records when (features §8.7 AC). */
 export const settleDebt = (id: string, settled: boolean) =>
   debtRepo.update(id, { settledAt: settled ? nowIso() : undefined });
 
@@ -64,7 +64,7 @@ export const setContactTags = (contactId: string, tagIds: string[]) =>
     return c;
   });
 
-/** Starred contacts and moments (SPEC §6.7 Starred). Booleans aren't indexable, so these filter. */
+/** Starred contacts and moments (ui §6.7 Starred). Booleans aren't indexable, so these filter. */
 export const starredContacts = () =>
   db.contacts.filter((c) => c.isStarred && !c.deletedAt && !c.isArchived).toArray();
 export const starredMoments = async () =>

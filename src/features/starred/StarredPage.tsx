@@ -6,7 +6,7 @@ import { starredContacts, starredMoments, useLiveQuery } from '@/db/repositories
 import { fullName } from '@/domain/contact';
 import { Feed } from '@/features/moments/Feed';
 
-/** `/starred`: starred people row + starred moments feed (SPEC §6.7). */
+/** `/starred`: starred people row + starred moments feed (ui §6.7). */
 export function StarredPage() {
   const { t } = useTranslation();
   const contacts = useLiveQuery(starredContacts, []);

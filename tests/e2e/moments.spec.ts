@@ -20,7 +20,7 @@ async function mention(page: Page, box: ReturnType<Page['getByRole']>, query: st
   await box.press('Enter');
 }
 
-test('log a moment with @mention: shows on Home and profile instantly (SPEC §6.5 AC)', async ({
+test('log a moment with @mention: shows on Home and profile instantly (ui §6.5 AC)', async ({
   page,
 }) => {
   const profile = await createContact(page, 'Élise', 'Aubert');
@@ -44,7 +44,7 @@ test('log a moment with @mention: shows on Home and profile instantly (SPEC §6.
   await expect(page.getByText(/Last spoke (now|today)/)).toBeVisible();
   await expect(page.getByTestId('moment-card')).toContainText('she might move back to Lyon');
 
-  // Tag page via the #tag link; rename re-renders bodies (SPEC §8.8 AC).
+  // Tag page via the #tag link; rename re-renders bodies (features §8.8 AC).
   await page.getByRole('link', { name: '#family' }).click();
   await expect(page.getByRole('heading', { name: '#family', level: 1 })).toBeVisible();
   await expect(page.getByText('1 moment')).toBeVisible();
@@ -58,7 +58,7 @@ test('log a moment with @mention: shows on Home and profile instantly (SPEC §6.
   ).toBeVisible();
 });
 
-test('a moment with 3 contacts is on all 3 profiles; delete + undo (SPEC §8.4 AC)', async ({
+test('a moment with 3 contacts is on all 3 profiles; delete + undo (features §8.4 AC)', async ({
   page,
 }) => {
   const profiles = [

@@ -12,7 +12,7 @@ export interface AppliedTheme {
   theme: Theme;
   accent: string;
   onAccent: string;
-  /** Accent for text/links, ≥ 4.5:1 on every surface of the theme (SPEC §6.10). */
+  /** Accent for text/links, ≥ 4.5:1 on every surface of the theme (ui §6.10). */
   accentText: string;
   fontSize: FontSize;
 }

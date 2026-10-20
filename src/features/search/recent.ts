@@ -1,4 +1,4 @@
-// Recent searches are a per-device convenience (SPEC §6.7), kept in localStorage.
+// Recent searches are a per-device convenience (ui §6.7), kept in localStorage.
 const KEY = 'kin.recentSearches';
 const MAX = 8;
 

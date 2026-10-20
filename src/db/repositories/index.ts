@@ -1,4 +1,4 @@
-// The only db/ entry point UI code may import (SPEC §4).
+// The only db/ entry point UI code may import (tech-stack §4).
 export * from './entities';
 export { settingsRepo } from './settingsRepo';
 export { blobRepo } from './blobRepo';
@@ -17,7 +17,7 @@ export {
 } from './contactService';
 export type { ContactDraft, NewImage } from './contactService';
 export { useBlobUrl } from './hooks';
-/** Sanctioned way for UI to compose repository reads into a live query (SPEC §4). */
+/** Sanctioned way for UI to compose repository reads into a live query (tech-stack §4). */
 export { useLiveQuery } from 'dexie-react-hooks';
 export { purgeExpiredTrash } from './trashService';
 export {

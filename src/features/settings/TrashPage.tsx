@@ -23,7 +23,7 @@ import { kindIcon } from '@/features/moments/kindMeta';
 
 type Pending = { kind: 'contact'; item: Contact } | { kind: 'moment'; item: Moment } | null;
 
-/** Settings › Trash (SPEC §6.7): restore or delete forever; auto-purged after 30 days. */
+/** Settings › Trash (ui §6.7): restore or delete forever; auto-purged after 30 days. */
 export function TrashPage() {
   const { t, i18n } = useTranslation();
   const showToast = useToasts((s) => s.show);

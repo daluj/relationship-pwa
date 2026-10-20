@@ -41,7 +41,7 @@ const img = () => ({
 });
 
 describe('saveMoment', () => {
-  it('resolves @mentions and #tags from tokens and merges explicit people (SPEC §8.4)', async () => {
+  it('resolves @mentions and #tags from tokens and merges explicit people (features §8.4)', async () => {
     const lise = await contactRepo.create({ firstName: 'Élise' });
     const marc = await contactRepo.create({ firstName: 'Marc' });
     const fam = await findOrCreateTag('family');
@@ -56,7 +56,7 @@ describe('saveMoment', () => {
     expect(m.tagIds).toEqual([fam.id]);
   });
 
-  it('updates lastInteractionAt for mentioned contacts (SPEC §6.5 AC)', async () => {
+  it('updates lastInteractionAt for mentioned contacts (ui §6.5 AC)', async () => {
     const lise = await contactRepo.create({ firstName: 'Élise' });
     await saveMoment(
       undefined,
@@ -130,7 +130,7 @@ describe('saveMoment', () => {
   });
 });
 
-describe('a moment with 3 contacts (SPEC §8.4 AC)', () => {
+describe('a moment with 3 contacts (features §8.4 AC)', () => {
   it('appears on all 3 profiles and disappears from all on delete; undo restores', async () => {
     const ids = await Promise.all(
       ['A', 'B', 'C'].map(async (n) => (await contactRepo.create({ firstName: n })).id),
@@ -162,7 +162,7 @@ describe('queries', () => {
     expect((await feed({ limit: 30 })).map((m) => m.body)).toEqual(['call', 'old']);
     expect((await feed({ limit: 1 })).map((m) => m.body)).toEqual(['call']);
     expect((await feed({ kind: 'call', limit: 30 })).map((m) => m.id)).toEqual([call.id]);
-    // Editing the date re-sorts (SPEC §8.4).
+    // Editing the date re-sorts (features §8.4).
     await setMomentDate(call.id, '2025-01-01T00:00:00.000Z');
     expect((await feed({ limit: 30 })).map((m) => m.body)).toEqual(['old', 'call']);
   });
@@ -184,7 +184,7 @@ describe('queries', () => {
   });
 });
 
-describe('tags (SPEC §8.8)', () => {
+describe('tags (features §8.8)', () => {
   it('rename changes rendering without rewriting bodies', async () => {
     const tag = await findOrCreateTag('family');
     const m = await saveMoment(undefined, draft({ body: `hi ${tagToken(tag.id, 'family')}` }));

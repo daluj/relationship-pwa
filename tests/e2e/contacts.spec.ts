@@ -12,7 +12,7 @@ async function createContact(page: Page, firstName: string, lastName = '') {
   await expect(page).toHaveURL(/\/c\/[0-9a-f-]{36}$/);
 }
 
-test('create a full contact and see it on the profile (SPEC §8.2, §6.6)', async ({ page }) => {
+test('create a full contact and see it on the profile (features §8.2, §6.6)', async ({ page }) => {
   await page.goto('/contacts');
   await expect(page.getByText('No contacts yet')).toBeVisible();
   await page.getByRole('link', { name: 'New contact' }).click();

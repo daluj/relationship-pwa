@@ -159,7 +159,7 @@ describe('saveContact', () => {
   });
 });
 
-describe('birthday reminder (SPEC §8.2 AC)', () => {
+describe('birthday reminder (features §8.2 AC)', () => {
   it('is created yearly on create, updated on edit, removed when cleared', async () => {
     vi.useFakeTimers({ toFake: ['Date'] });
     vi.setSystemTime(new Date('2026-05-01T12:00:00'));
@@ -193,7 +193,7 @@ describe('birthday reminder (SPEC §8.2 AC)', () => {
   });
 });
 
-describe('delete / restore / purge (SPEC §5.2)', () => {
+describe('delete / restore / purge (data-model §5.2)', () => {
   async function seed() {
     const a = await saveContact(
       undefined,

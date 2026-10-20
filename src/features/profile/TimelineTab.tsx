@@ -4,7 +4,7 @@ import { fullName } from '@/domain/contact';
 import type { Contact } from '@/domain/types';
 import { Feed } from '@/features/moments/Feed';
 
-/** Profile › Timeline: pinned first, then every moment mentioning this contact (SPEC §6.6). */
+/** Profile › Timeline: pinned first, then every moment mentioning this contact (ui §6.6). */
 export function TimelineTab({ contact }: { contact: Contact }) {
   const { t } = useTranslation();
   const moments = useLiveQuery(() => momentsForContact(contact.id), [contact.id]);

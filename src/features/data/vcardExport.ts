@@ -25,7 +25,7 @@ async function vcards(ids?: string[]): Promise<{ text: string; first?: string }>
   return { text: cards.join(''), first: rows[0] && fullName(rows[0].contact) };
 }
 
-/** vCard export: one contact (profile menu) or everyone (SPEC §8.9). */
+/** vCard export: one contact (profile menu) or everyone (features §8.9). */
 export async function downloadVCards(ids?: string[]): Promise<boolean> {
   const { text, first } = await vcards(ids);
   const name =

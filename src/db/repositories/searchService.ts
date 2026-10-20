@@ -11,7 +11,7 @@ import type { Contact, Moment, Tag } from '@/domain/types';
 import { db } from '../db';
 
 /**
- * Client-side full-text index (SPEC §8.6). Rows are `{ entity, entityId, tokens }` with a multi-entry
+ * Client-side full-text index (features §8.6). Rows are `{ entity, entityId, tokens }` with a multi-entry
  * index on tokens. Writers call these inside their own transactions, which must include
  * `searchTables()`, so the index never drifts from the data.
  */
@@ -121,7 +121,7 @@ export interface SearchResults {
 const keyOf = (pk: [string, string]) => `${pk[0]}|${pk[1]}`;
 
 /**
- * Newest `limit` moments among `ids`, picking the cheaper strategy (SPEC §8.6 < 100 ms):
+ * Newest `limit` moments among `ids`, picking the cheaper strategy (features §8.6 < 100 ms):
  * - few hits: load them and sort;
  * - many hits: walk the `happenedAt` index from the newest end and stop once `limit` hits are found.
  *   With n hits among N moments that touches about limit·N/n keys, so it wins when n² > limit·N.
@@ -146,7 +146,7 @@ async function newestMoments(ids: string[], limit: number): Promise<Moment[]> {
 
 /**
  * Tokenize, intersect matches (exact for all but the last token, prefix for the last), rank people
- * above moments (SPEC §8.6). People: best name match first; moments: newest first.
+ * above moments (features §8.6). People: best name match first; moments: newest first.
  */
 export async function search(q: string, momentLimit = 50): Promise<SearchResults> {
   const parsed = parseQuery(q);
@@ -202,7 +202,7 @@ export async function search(q: string, momentLimit = 50): Promise<SearchResults
   };
 }
 
-/** Tag "trends" for the empty search page: tags by number of moments (SPEC §6.7). */
+/** Tag "trends" for the empty search page: tags by number of moments (ui §6.7). */
 export async function trendingTags(limit = 10): Promise<{ tag: Tag; count: number }[]> {
   const tags = (await db.tags.toArray()).filter(live);
   const counts = await Promise.all(

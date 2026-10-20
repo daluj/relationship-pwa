@@ -6,7 +6,7 @@ import { inputClass } from '@/components/form/fieldClass';
 import { addDays } from '@/domain/recurrence';
 import { toIsoDate } from '@/domain/partialDate';
 
-/** "Pick a date…" for snooze (SPEC §6.7 Snooze custom). */
+/** "Pick a date…" for snooze (ui §6.7 Snooze custom). */
 export function SnoozeDialog({
   open,
   onClose,

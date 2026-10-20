@@ -2,7 +2,7 @@ import { z } from 'zod';
 import * as s from './schemas';
 
 /**
- * Full JSON backup format (SPEC §8.9):
+ * Full JSON backup format (features §8.9):
  * `{ app: "kin", schemaVersion, exportedAt, includesPhotos, data: { contacts: [...], …, blobs: [{ id, mime, base64, … }] } }`.
  */
 export const BACKUP_SCHEMA_VERSION = 1; // tracks the Dexie schema version (db/schema.ts)
@@ -56,7 +56,7 @@ export const envelopeSchema = z.object({
 });
 export type BackupEnvelope = z.infer<typeof envelopeSchema>;
 
-/** Migrations from version n to n + 1, applied in order (SPEC §8.9 "if schemaVersion older"). */
+/** Migrations from version n to n + 1, applied in order (features §8.9 "if schemaVersion older"). */
 export const backupMigrations: Record<
   number,
   (data: BackupEnvelope['data']) => BackupEnvelope['data']

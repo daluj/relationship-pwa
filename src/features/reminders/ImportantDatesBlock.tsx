@@ -8,7 +8,7 @@ import { formatPartialDate } from '@/domain/partialDate';
 import type { ImportantDate } from '@/domain/types';
 import { ImportantDateDialog } from './ImportantDateDialog';
 
-/** Profile › Details › Important dates (SPEC §6.6). */
+/** Profile › Details › Important dates (ui §6.6). */
 export function ImportantDatesBlock({ contactId }: { contactId: string }) {
   const { t, i18n } = useTranslation();
   const dates = useLiveQuery(() => importantDatesFor(contactId), [contactId]);

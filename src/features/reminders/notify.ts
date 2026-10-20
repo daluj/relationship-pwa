@@ -38,7 +38,7 @@ export async function activeRegistration(
   ]);
 }
 
-/** Sets the OS app badge where supported (SPEC §8.5). */
+/** Sets the OS app badge where supported (features §8.5). */
 export function setAppBadge(count: number): void {
   const nav = navigator as Navigator & {
     setAppBadge?: (n?: number) => Promise<void>;
@@ -52,7 +52,7 @@ export function setAppBadge(count: number): void {
   }
 }
 
-/** Registers Periodic Background Sync (installed Chromium only); never relied on (SPEC §8.5). */
+/** Registers Periodic Background Sync (installed Chromium only); never relied on (features §8.5). */
 export async function registerPeriodicCheck(): Promise<boolean> {
   try {
     const reg = await activeRegistration();

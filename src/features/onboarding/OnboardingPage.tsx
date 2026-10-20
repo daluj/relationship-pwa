@@ -15,7 +15,7 @@ const STEPS = 5; // language, theme, storage, notifications, first contacts
 
 type StorageState = 'idle' | 'granted' | 'denied' | 'unsupported';
 
-/** First run (SPEC §8.1): welcome → language → theme → storage → notifications → first contacts. */
+/** First run (features §8.1): welcome → language → theme → storage → notifications → first contacts. */
 export function OnboardingPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();

@@ -4,7 +4,7 @@ import { LookupContext, type Lookup } from './useLookup';
 
 /**
  * One live query for all contacts and tags, shared by every moment card, so renamed contacts and
- * tags re-render everywhere without rewriting bodies (SPEC §8.4, §8.8).
+ * tags re-render everywhere without rewriting bodies (features §8.4, §8.8).
  */
 export function EntityLookupProvider({ children }: { children: ReactNode }) {
   const contacts = useLiveList(contactRepo);

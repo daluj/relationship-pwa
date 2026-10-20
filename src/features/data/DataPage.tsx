@@ -33,7 +33,7 @@ const errorKey = (code: ImportFileError['code']) =>
         ? 'data.unsupported'
         : 'data.readError';
 
-/** Settings › Your data: export, import (file, drop, share target, file handler), delete all (SPEC §8.9–8.10). */
+/** Settings › Your data: export, import (file, drop, share target, file handler), delete all (features §8.9–8.10). */
 export function DataPage() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();

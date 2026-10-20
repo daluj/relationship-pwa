@@ -34,7 +34,7 @@ export function RailCard({
   );
 }
 
-/** Right rail "Upcoming": next 5 birthdays/reminders (SPEC §6.1). */
+/** Right rail "Upcoming": next 5 birthdays/reminders (ui §6.1). */
 export function UpcomingCard() {
   const { t, i18n } = useTranslation();
   const lookup = useLookup();
@@ -96,7 +96,7 @@ export function UpcomingCard() {
 
 /**
  * Right rail "Reach out": stay-in-touch reminders that are due, max 3, each with "Log" where X has
- * "Follow" (SPEC §6.1). Ordered by due date only — never a ranking of people.
+ * "Follow" (ui §6.1). Ordered by due date only — never a ranking of people.
  */
 export function ReachOutCard() {
   const { t, i18n } = useTranslation();

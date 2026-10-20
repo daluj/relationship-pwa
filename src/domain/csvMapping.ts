@@ -3,7 +3,7 @@ import type { ParsedContact } from './parsedContact';
 import { partialDateFromParts } from './partialDate';
 import type { Address, Contact, ContactField, PartialDate } from './types';
 
-/** Kin fields a CSV column can be mapped to (SPEC §8.9 column-mapping step). */
+/** Kin fields a CSV column can be mapped to (features §8.9 column-mapping step). */
 export const csvTargets = [
   'ignore',
   'firstName',

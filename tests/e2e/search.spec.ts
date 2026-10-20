@@ -11,7 +11,7 @@ async function createContact(page: Page, firstName: string, lastName = '') {
   await expect(page).toHaveURL(/\/c\/[0-9a-f-]{36}$/);
 }
 
-test('search page: people, moments, tags; recent searches; trends (SPEC §6.7, §8.6)', async ({
+test('search page: people, moments, tags; recent searches; trends (ui §6.7, §8.6)', async ({
   page,
 }) => {
   await createContact(page, 'Élise', 'Aubert');

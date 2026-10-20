@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import type { Plugin } from 'vite';
 
-// SPEC §11. Build-only: Vite's dev server injects inline scripts for HMR.
+// tech-stack §11. Build-only: Vite's dev server injects inline scripts for HMR.
 const CSP = [
   "default-src 'self'",
   "img-src 'self' blob: data:",
@@ -45,7 +45,7 @@ export default defineConfig({
       filename: 'sw.ts',
       registerType: 'prompt',
       injectRegister: false,
-      manifest: false, // hand-written in public/manifest.webmanifest (SPEC §9)
+      manifest: false, // hand-written in public/manifest.webmanifest (pwa §9)
       injectManifest: {
         globPatterns: ['**/*.{js,css,html,svg,png,ico,webmanifest,woff2}'],
       },

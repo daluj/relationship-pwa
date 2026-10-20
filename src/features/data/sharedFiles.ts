@@ -1,4 +1,4 @@
-/** Cache the service worker uses to hand shared files to the page (Web Share Target, SPEC §9). */
+/** Cache the service worker uses to hand shared files to the page (Web Share Target, pwa §9). */
 export const SHARE_CACHE = 'kin-share';
 
 /** Read and remove files the service worker stored from a share. */

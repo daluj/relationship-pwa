@@ -39,7 +39,7 @@ async function download(page: Page, click: () => Promise<void>) {
   };
 }
 
-test('backup round trip: export → delete all → restore gives the same data (SPEC §8.9 AC)', async ({
+test('backup round trip: export → delete all → restore gives the same data (features §8.9 AC)', async ({
   page,
 }) => {
   // Data: a contact with a photo and a moment.
@@ -80,7 +80,7 @@ test('backup round trip: export → delete all → restore gives the same data (
   await expect(confirm.getByRole('button', { name: 'Delete all data' })).toBeDisabled();
   await confirm.getByLabel('Type DELETE').fill('DELETE');
   await confirm.getByRole('button', { name: 'Delete all data' }).click();
-  // Everything is gone, so the app starts over with onboarding (SPEC §8.1).
+  // Everything is gone, so the app starts over with onboarding (features §8.1).
   await expect(page).toHaveURL(/\/onboarding$/);
   await expect(page.getByRole('heading', { name: 'Welcome to Kin' })).toBeVisible();
 
@@ -223,7 +223,7 @@ test('backup nudge after 30 days without a backup; "Not now" hides it', async ({
   await expect(nudge).toHaveCount(0);
 });
 
-test('share target: shared .vcf files open the import preview; shared text opens the composer (SPEC §9)', async ({
+test('share target: shared .vcf files open the import preview; shared text opens the composer (pwa §9)', async ({
   page,
 }) => {
   await page.goto('/');

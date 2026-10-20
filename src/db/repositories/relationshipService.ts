@@ -14,7 +14,7 @@ const live = (r: Relationship) => !r.deletedAt;
 
 /**
  * Create or edit a relationship together with its inverse, linked both ways via `inverseId`
- * (SPEC §8.3). Editing keeps both rows in sync.
+ * (features §8.3). Editing keeps both rows in sync.
  */
 export async function saveRelationship(
   id: string | undefined,
@@ -61,7 +61,7 @@ export async function saveRelationship(
   });
 }
 
-/** Deleting one side deletes the inverse (SPEC §8.3 AC). */
+/** Deleting one side deletes the inverse (features §8.3 AC). */
 export async function deleteRelationship(id: string): Promise<void> {
   await db.transaction('rw', db.relationships, async () => {
     const r = await db.relationships.get(id);

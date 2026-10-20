@@ -4,7 +4,7 @@ import { Badge, BadgeText } from './Badge';
 import { useRemindersBadge } from './useRemindersBadge';
 import { navItems } from './navItems';
 
-/** Mobile bottom tabs: Home · Search · Reminders · Contacts (SPEC §6.3). */
+/** Mobile bottom tabs: Home · Search · Reminders · Contacts (ui §6.3). */
 export function BottomTabBar() {
   const { t } = useTranslation();
   const remindersDue = useRemindersBadge();

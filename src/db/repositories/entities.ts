@@ -20,7 +20,7 @@ import { createRepository, nowIso, type CreateInput } from './createRepository';
 import { DuplicateError } from './errors';
 
 // Per-entity repositories. Cross-entity behaviour (cascading soft delete, inverse relationships,
-// birthday reminders, lastInteractionAt, search index) lands with the milestone that owns it (SPEC §14).
+// birthday reminders, lastInteractionAt, search index) lands with the milestone that owns it (roadmap §14).
 
 export const contactRepo = createRepository<
   Contact,

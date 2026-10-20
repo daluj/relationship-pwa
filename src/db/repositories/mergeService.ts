@@ -48,7 +48,7 @@ const scalarKeys = [
 ] as const satisfies readonly (keyof Contact)[];
 
 /**
- * Merge `secondaryId` into `primaryId` (SPEC §8.2): the primary keeps its values and gains anything it is
+ * Merge `secondaryId` into `primaryId` (features §8.2): the primary keeps its values and gains anything it is
  * missing; fields, addresses, relationships, moments (incl. mention tokens), reminders, important dates,
  * gifts, debts, tasks and pets move over (exact duplicates are dropped); the secondary is soft-deleted.
  */

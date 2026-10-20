@@ -14,7 +14,7 @@ vi.mock('virtual:pwa-register/react', () => ({
   }),
 }));
 
-describe('update flow (SPEC §9)', () => {
+describe('update flow (pwa §9)', () => {
   it('offers "Reload", never reloads by itself, and waits while the composer is open', async () => {
     render(
       <>

@@ -30,7 +30,7 @@ describe('normalizeTagName', () => {
   });
 });
 
-describe('readableAccent (SPEC §6.10)', () => {
+describe('readableAccent (ui §6.10)', () => {
   it('gives every accent ≥ 4.5:1 text contrast on every surface of every theme', async () => {
     const { computeTheme } = await import('@/app/theme');
     const { themeSurfaces, themes } = await import('@/domain/settings');

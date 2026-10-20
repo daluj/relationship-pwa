@@ -17,7 +17,7 @@ const LISE = '11111111-1111-4111-8111-111111111111';
 const MARC = '22222222-2222-4222-8222-222222222222';
 const FAM = '33333333-3333-4333-8333-333333333333';
 
-describe('tokens (SPEC §8.4)', () => {
+describe('tokens (features §8.4)', () => {
   const body = `Coffee with ${mentionToken(LISE, 'Élise Aubert')} and ${mentionToken(MARC, 'Marc')} ${tagToken(FAM, 'family')}\nhttps://example.com/x.`;
 
   it('parses mentions, tags, links and text', () => {
@@ -127,7 +127,7 @@ describe('fuzzy', () => {
   });
 });
 
-describe('shortRelative (SPEC §12)', () => {
+describe('shortRelative (tech-stack §12)', () => {
   const now = new Date('2026-10-19T12:00:00');
   it('is compact and localized', () => {
     expect(shortRelative(new Date('2026-10-19T10:00:00'), now, 'en')).toBe('2h ago');

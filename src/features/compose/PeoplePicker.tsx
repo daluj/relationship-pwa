@@ -16,7 +16,7 @@ interface Props {
   onCreate?: (name: string) => Promise<void>;
 }
 
-/** Explicit "add person" picker next to the @mention flow (SPEC §5.1 contactIds). */
+/** Explicit "add person" picker next to the @mention flow (data-model §5.1 contactIds). */
 export function PeoplePicker({ contacts, exclude, onPick, onCreate }: Props) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);

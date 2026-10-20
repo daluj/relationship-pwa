@@ -6,7 +6,7 @@ import { fuzzyFilter, normalizeText } from '@/domain/fuzzy';
 import type { Contact, Tag } from '@/domain/types';
 import type { Suggestion } from './SuggestionList';
 
-/** Contact suggestions + "Create contact 'X'" at the bottom (SPEC §6.5). */
+/** Contact suggestions + "Create contact 'X'" at the bottom (ui §6.5). */
 export function contactSuggestions(
   contacts: Contact[],
   query: string,
@@ -40,7 +40,7 @@ export function contactSuggestions(
   return items;
 }
 
-/** Tag suggestions; a new tag is offered unless the name already exists (SPEC §6.5). */
+/** Tag suggestions; a new tag is offered unless the name already exists (ui §6.5). */
 export function tagSuggestions(
   tags: Tag[],
   query: string,

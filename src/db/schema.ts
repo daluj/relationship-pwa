@@ -20,7 +20,7 @@ import type {
 
 export const DB_NAME = 'kin';
 
-/** SPEC §5.2. Tables are typed with explicit string keys: repositories always assign UUIDs.
+/** data-model §5.2. Tables are typed with explicit string keys: repositories always assign UUIDs.
  * Never edit a released version: add `this.version(n).stores(...).upgrade(...)`. */
 export class KinDB extends Dexie {
   contacts!: Table<Contact, string>;

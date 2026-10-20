@@ -1,7 +1,7 @@
 import { db } from '@/db/db';
 import { SCHEMA_VERSION } from '@/db/schema';
 
-describe('Dexie schema v1 (SPEC §5.2)', () => {
+describe('Dexie schema v1 (data-model §5.2)', () => {
   it('opens at the current version with every table', async () => {
     await db.open();
     expect(db.verno).toBe(SCHEMA_VERSION);

@@ -20,7 +20,7 @@ function Photo({
   );
 }
 
-/** X-style photo grid: 1 / 2 side by side / 1+2 / 2×2 (SPEC §6.4). Feed uses thumbnails. */
+/** X-style photo grid: 1 / 2 side by side / 1+2 / 2×2 (ui §6.4). Feed uses thumbnails. */
 export function PhotoGrid({ ids, full }: { ids: string[]; full?: boolean }) {
   const { t } = useTranslation();
   if (ids.length === 0) return null;

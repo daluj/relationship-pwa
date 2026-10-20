@@ -10,7 +10,7 @@ import { RecordNotFoundError } from './errors';
 import { syncStayInTouchReminder } from './reminderService';
 import { indexMoment, removeMomentFromIndex, searchTables } from './searchService';
 
-/** Blob id of the feed thumbnail stored next to a full-size photo (SPEC §10). */
+/** Blob id of the feed thumbnail stored next to a full-size photo (tech-stack §10). */
 export const thumbId = (photoId: string) => `${photoId}:thumb`;
 
 export type MomentPhotoDraft = { existingId: string } | { image: NewImage; thumb: NewImage };
@@ -30,7 +30,7 @@ export interface MomentDraft extends KindFields {
   photos: MomentPhotoDraft[];
 }
 
-/** Fields that only make sense for some kinds (SPEC §5.1); others are cleared on save. */
+/** Fields that only make sense for some kinds (data-model §5.1); others are cleared on save. */
 function kindFields(d: MomentDraft): KindFields {
   return {
     location: d.location?.trim() || undefined,
@@ -44,7 +44,7 @@ function kindFields(d: MomentDraft): KindFields {
 
 const tables = () => [db.moments, db.contacts, db.blobs, db.reminders, ...searchTables()];
 
-/** Denormalized `Contact.lastInteractionAt` = newest live moment mentioning them (SPEC §5.1). */
+/** Denormalized `Contact.lastInteractionAt` = newest live moment mentioning them (data-model §5.1). */
 export async function refreshLastInteraction(contactIds: Iterable<string>): Promise<void> {
   for (const id of new Set(contactIds)) {
     const contact = await db.contacts.get(id);
@@ -60,7 +60,7 @@ export async function refreshLastInteraction(contactIds: Iterable<string>): Prom
     const { lastInteractionAt: _, ...rest } = contact;
     const updated = { ...rest, ...(latest && { lastInteractionAt: latest }), updatedAt: nowIso() };
     await db.contacts.put(updated);
-    await syncStayInTouchReminder(updated); // logging a moment clears "stay in touch" (SPEC §8.5)
+    await syncStayInTouchReminder(updated); // logging a moment clears "stay in touch" (features §8.5)
   }
 }
 
@@ -116,7 +116,7 @@ async function patch(id: string, change: Partial<Moment>, refresh = false): Prom
 export const setMomentStarred = (id: string, isStarred: boolean) => patch(id, { isStarred });
 export const setMomentPinned = (id: string, isPinned: boolean) =>
   patch(id, { isPinned: isPinned || undefined });
-/** "Change date" — re-sorts feeds and may change lastInteractionAt (SPEC §8.4). */
+/** "Change date" — re-sorts feeds and may change lastInteractionAt (features §8.4). */
 export const setMomentDate = (id: string, happenedAt: string) => patch(id, { happenedAt }, true);
 
 export async function deleteMoment(id: string): Promise<void> {
@@ -151,7 +151,7 @@ export async function purgeMoment(id: string): Promise<void> {
 
 // ── Queries ──────────────────────────────────────────────────────────────────
 
-/** Home feed, newest first; `limit` grows as the user scrolls (SPEC §8.4: pages of 30). */
+/** Home feed, newest first; `limit` grows as the user scrolls (features §8.4: pages of 30). */
 export function feed({ kind, limit }: { kind?: MomentKind; limit: number }): Promise<Moment[]> {
   const coll = kind
     ? db.moments
@@ -167,7 +167,7 @@ export function feed({ kind, limit }: { kind?: MomentKind; limit: number }): Pro
 
 const newestFirst = (a: Moment, b: Moment) => b.happenedAt.localeCompare(a.happenedAt);
 
-/** Profile timeline: pinned moments first, then newest first (SPEC §6.6). */
+/** Profile timeline: pinned moments first, then newest first (ui §6.6). */
 export async function momentsForContact(contactId: string): Promise<Moment[]> {
   const list = await db.moments
     .where('contactIds')

@@ -11,7 +11,7 @@ beforeEach(resetDb);
 const renderComposer = () =>
   renderRoutes([{ path: '/', element: <Composer variant="inline" /> }], '/');
 
-describe('Composer autocomplete (SPEC §6.5, §6.10)', () => {
+describe('Composer autocomplete (ui §6.5, §6.10)', () => {
   it('@ opens an ARIA combobox of contacts; Enter inserts the mention and saves a token', async () => {
     const lise = await contactRepo.create({
       firstName: 'Élise',

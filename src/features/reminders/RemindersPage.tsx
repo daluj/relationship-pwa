@@ -17,7 +17,7 @@ const tabs = ['upcoming', 'overdue', 'done'] as const;
 type Tab = (typeof tabs)[number];
 const upcomingGroups: ReminderGroup[] = ['today', 'week', 'month', 'later'];
 
-/** `/reminders`: Upcoming · Overdue · Done, grouped by when (SPEC §6.7). */
+/** `/reminders`: Upcoming · Overdue · Done, grouped by when (ui §6.7). */
 export function RemindersPage() {
   const { t } = useTranslation();
   const lookup = useLookup();

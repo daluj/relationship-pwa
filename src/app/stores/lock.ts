@@ -17,7 +17,7 @@ interface LockState {
   unlock: () => void;
 }
 
-/** App lock UI state (SPEC §8.10). Starts locked whenever the lock is enabled. */
+/** App lock UI state (features §8.10). Starts locked whenever the lock is enabled. */
 export const useLock = create<LockState>((set) => ({
   locked: flagged(),
   lock: () => set({ locked: true }),

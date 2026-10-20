@@ -34,7 +34,7 @@ const moment = (body: string, extra: Record<string, unknown> = {}) =>
     ...extra,
   });
 
-describe('tokenizer (SPEC §8.6)', () => {
+describe('tokenizer (features §8.6)', () => {
   it('lowercases, strips diacritics, splits on non-alphanumerics', () => {
     expect(tokenize('Élise Aubert, café-crème @Lyon!')).toEqual([
       'elise',

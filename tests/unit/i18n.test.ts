@@ -6,7 +6,7 @@ const keys = (obj: object, prefix = ''): string[] =>
     v && typeof v === 'object' ? keys(v as object, `${prefix}${k}.`) : [`${prefix}${k}`],
   );
 
-describe('locales (SPEC §12)', () => {
+describe('locales (tech-stack §12)', () => {
   it('es has exactly the same keys as en', () => {
     expect(keys(es).sort()).toEqual(keys(en).sort());
   });

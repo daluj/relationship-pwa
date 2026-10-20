@@ -7,7 +7,7 @@ import { saveGroup } from '@/db/repositories';
 import { avatarPalette } from '@/domain/contact';
 import type { Group } from '@/domain/types';
 
-/** Create/edit a group: name, description, emoji, banner color (SPEC §5.1 Group). */
+/** Create/edit a group: name, description, emoji, banner color (data-model §5.1 Group). */
 export function GroupDialog({
   open,
   group,

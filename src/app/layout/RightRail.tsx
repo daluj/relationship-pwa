@@ -5,7 +5,7 @@ import { Search } from 'lucide-react';
 import { MoneyCard } from '@/features/money/MoneyCard';
 import { ReachOutCard, UpcomingCard } from '@/features/reminders/RailCards';
 
-/** Right rail ≥1000px: search, Upcoming, Reach out, footer (SPEC §6.1). Hidden search box on /search. */
+/** Right rail ≥1000px: search, Upcoming, Reach out, footer (ui §6.1). Hidden search box on /search. */
 export function RightRail() {
   const { t } = useTranslation();
   const navigate = useNavigate();

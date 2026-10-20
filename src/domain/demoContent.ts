@@ -1,5 +1,5 @@
 /**
- * Demo dataset content (SPEC §8.1 "Load demo data": ~15 contacts with moments, reminders, gifts,
+ * Demo dataset content (features §8.1 "Load demo data": ~15 contacts with moments, reminders, gifts,
  * relationships). Pure data; `db/repositories/demoService.ts` saves it through the normal services so every
  * derived record (reminders, index, lastInteractionAt) is consistent. Text exists in English and Spanish.
  */

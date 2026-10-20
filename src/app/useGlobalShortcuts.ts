@@ -6,7 +6,7 @@ const isTyping = (el: EventTarget | null) =>
   el instanceof HTMLElement &&
   (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName));
 
-/** Shortcut reference shown on `?` (SPEC §6.9). Keys are literal; descriptions are i18n keys. */
+/** Shortcut reference shown on `?` (ui §6.9). Keys are literal; descriptions are i18n keys. */
 export const shortcuts = [
   { keys: ['n'], action: 'compose' },
   { keys: ['/'], action: 'search' },
@@ -41,7 +41,7 @@ function moveCard(step: 1 | -1) {
 }
 
 /**
- * Global keyboard shortcuts (SPEC §6.9): n, /, g h, g r, g c, j/k, s, ?.
+ * Global keyboard shortcuts (ui §6.9): n, /, g h, g r, g c, j/k, s, ?.
  * Ignored while typing, with modifier keys, or when a dialog is open.
  */
 export function useGlobalShortcuts(): { helpOpen: boolean; setHelpOpen: (v: boolean) => void } {

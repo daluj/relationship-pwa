@@ -1,6 +1,6 @@
 /**
  * Saves a file locally: File System Access API where available, otherwise `<a download>`
- * (SPEC §8.9). Nothing leaves the device.
+ * (features §8.9). Nothing leaves the device.
  */
 export async function saveFile(name: string, mime: string, content: BlobPart): Promise<boolean> {
   const blob = new Blob([content], { type: mime });

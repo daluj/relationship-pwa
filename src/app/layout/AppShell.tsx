@@ -18,7 +18,7 @@ import { MobileDrawer } from './MobileDrawer';
 import { MobileTopBar } from './MobileTopBar';
 import { RightRail } from './RightRail';
 
-/** X-style responsive shell (SPEC §6.1–6.3). */
+/** X-style responsive shell (ui §6.1–6.3). */
 export function AppShell() {
   const { t } = useTranslation();
   const [drawerOpen, setDrawerOpen] = useState(false);

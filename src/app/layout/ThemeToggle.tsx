@@ -6,7 +6,7 @@ import { resolveTheme, type Theme } from '@/domain/settings';
 const next: Record<Theme, Theme> = { light: 'dim', dim: 'lights-out', 'lights-out': 'light' };
 const icons = { light: Sun, dim: Moon, 'lights-out': MoonStar } as const;
 
-/** Cycles Light → Dim → Lights out (SPEC §6.1 bottom of left nav). */
+/** Cycles Light → Dim → Lights out (ui §6.1 bottom of left nav). */
 export function ThemeToggle({ showLabel }: { showLabel?: boolean }) {
   const { t } = useTranslation();
   const { theme } = useSettings();

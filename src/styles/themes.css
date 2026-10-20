@@ -1,4 +1,4 @@
-/* Theme tokens (SPEC §6.8). Neutral palettes are our own; accent is set at runtime. */
+/* Theme tokens (ui §6.8). Neutral palettes are our own; accent is set at runtime. */
 :root,
 :root[data-theme='light'] {
   color-scheme: light;

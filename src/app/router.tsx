@@ -5,7 +5,7 @@ import { NotFoundPage } from '@/features/not-found/NotFoundPage';
 import { AppShell } from './layout/AppShell';
 
 /**
- * Code-splitting (SPEC §10): the shell and Home ship in the first-load bundle; every other screen is a
+ * Code-splitting (tech-stack §10): the shell and Home ship in the first-load bundle; every other screen is a
  * lazy route chunk (all precached by the service worker, so they still open instantly offline).
  */
 const page =
@@ -19,7 +19,7 @@ const contactForm = page(
 );
 const profile = page(() => import('@/features/profile/ProfilePage'), 'ProfilePage');
 
-/** SPEC §7. */
+/** ui §7. */
 export const routes: RouteObject[] = [
   {
     path: '/',

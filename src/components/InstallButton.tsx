@@ -19,7 +19,7 @@ const startInstall = () => {
 };
 
 /**
- * "Install app" button (SPEC §9, onboarding and storage notes). Renders nothing when already installed or
+ * "Install app" button (pwa §9, onboarding and storage notes). Renders nothing when already installed or
  * not installable.
  */
 export function InstallButton({
@@ -36,7 +36,7 @@ export function InstallButton({
   );
 }
 
-/** "Install app" entry for the left-nav More menu (SPEC §9). */
+/** "Install app" entry for the left-nav More menu (pwa §9). */
 export function InstallMenuItem() {
   const { t } = useTranslation();
   if (!useCanInstall()) return null;

@@ -14,7 +14,7 @@ interface Props {
   actions?: ReactNode;
 }
 
-/** Sticky translucent header with blur and optional tabs (SPEC §6.1). */
+/** Sticky translucent header with blur and optional tabs (ui §6.1). */
 export function PageHeader({
   title,
   subtitle,

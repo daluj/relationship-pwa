@@ -1,9 +1,9 @@
 /**
- * Deterministic dataset generator for performance tests (SPEC §13), e.g. 2,000 contacts and 20,000 moments.
+ * Deterministic dataset generator for performance tests (tech-stack §13), e.g. 2,000 contacts and 20,000 moments.
  *
  *   npx tsx scripts/seed.ts --contacts 2000 --moments 20000 > seed.json
  *
- * Output uses the backup shape `{ app, schemaVersion, exportedAt, data }` (SPEC §8.9). Imports are relative
+ * Output uses the backup shape `{ app, schemaVersion, exportedAt, data }` (features §8.9). Imports are relative
  * (no `@/` alias) so Node and Playwright can load it directly.
  */
 import { fullName } from '../src/domain/contact';

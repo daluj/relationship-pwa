@@ -7,7 +7,7 @@ import { ContactRow } from '@/features/contacts/ContactRow';
 import { useLookup } from './useLookup';
 import { MomentCard } from './MomentCard';
 
-/** `/moment/:id`: full text, full-size photos and linked contacts (SPEC §6.4). */
+/** `/moment/:id`: full text, full-size photos and linked contacts (ui §6.4). */
 export function MomentPage() {
   const { id } = useParams();
   const { t } = useTranslation();

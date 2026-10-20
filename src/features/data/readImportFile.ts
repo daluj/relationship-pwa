@@ -16,7 +16,7 @@ export class ImportFileError extends Error {
 
 const ext = (name: string) => name.toLowerCase().split('.').pop() ?? '';
 
-/** Identify and parse an import file: Kin backup (.json), vCard (.vcf) or CSV (SPEC §8.9). */
+/** Identify and parse an import file: Kin backup (.json), vCard (.vcf) or CSV (features §8.9). */
 export async function readImportFile(file: File): Promise<ImportFile> {
   const e = ext(file.name);
   const type = file.type.toLowerCase();

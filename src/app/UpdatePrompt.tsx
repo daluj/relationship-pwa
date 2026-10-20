@@ -8,7 +8,7 @@ import { useToasts } from './stores/toast';
 const TOAST_ID = 'sw-update';
 
 /**
- * Shows "Update available — Reload" when a new SW is waiting (SPEC §9).
+ * Shows "Update available — Reload" when a new SW is waiting (pwa §9).
  * Never auto-reloads, and the prompt waits while the composer is open, so a draft can't be lost by
  * reloading mid-composition.
  */
@@ -20,7 +20,7 @@ export function UpdatePrompt() {
     needRefresh: [needRefresh],
     updateServiceWorker,
   } = useRegisterSW({
-    // Kept in the local diagnostics log (SPEC §11); e.g. a registration interrupted by navigation.
+    // Kept in the local diagnostics log (tech-stack §11); e.g. a registration interrupted by navigation.
     onRegisterError: (e: unknown) =>
       logError({
         kind: 'error',

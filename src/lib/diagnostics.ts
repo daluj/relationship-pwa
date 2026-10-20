@@ -1,5 +1,5 @@
 /**
- * Local error log (SPEC §11): no error-reporting service — uncaught errors are kept on this device only,
+ * Local error log (tech-stack §11): no error-reporting service — uncaught errors are kept on this device only,
  * viewable and exportable in Settings › About › Diagnostics. A small ring buffer in localStorage.
  */
 export interface LogEntry {

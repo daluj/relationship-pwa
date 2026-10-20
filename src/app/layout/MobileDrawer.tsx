@@ -6,7 +6,7 @@ import { Logo } from '@/components/Logo';
 import { navItems } from './navItems';
 import { ThemeToggle } from './ThemeToggle';
 
-/** Full navigation for mobile, opened from the top bar (SPEC §6.3). */
+/** Full navigation for mobile, opened from the top bar (ui §6.3). */
 export function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t } = useTranslation();
   const panelRef = useRef<HTMLDivElement>(null);

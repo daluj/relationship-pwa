@@ -17,7 +17,7 @@ const statuses = ['idea', 'bought', 'given', 'received'] as const;
 
 const safeUrl = (url?: string) => (url && /^https?:\/\//i.test(url) ? url : undefined);
 
-/** Profile › Gifts, grouped Ideas / Bought / Given / Received (SPEC §6.6). */
+/** Profile › Gifts, grouped Ideas / Bought / Given / Received (ui §6.6). */
 export function GiftsTab({ contactId }: { contactId: string }) {
   const { t, i18n } = useTranslation();
   const showToast = useToasts((s) => s.show);

@@ -12,7 +12,7 @@ export const isOpen = (r: Reminder) => !r.completedAt && !r.deletedAt;
 export type ReminderGroup = 'overdue' | 'today' | 'week' | 'month' | 'later';
 
 /**
- * Groups for the Reminders page (SPEC §6.7): Today / This week (next 6 days) / This month
+ * Groups for the Reminders page (ui §6.7): Today / This week (next 6 days) / This month
  * (within 30 days) / Later; anything before today is overdue.
  */
 export function groupOf(r: Reminder, today: Date): ReminderGroup {
@@ -24,13 +24,13 @@ export function groupOf(r: Reminder, today: Date): ReminderGroup {
   return 'later';
 }
 
-/** Open reminders due today or earlier — the nav/app badge count (SPEC §6.7, §8.5). */
+/** Open reminders due today or earlier — the nav/app badge count (ui §6.7, §8.5). */
 export function dueReminders(reminders: Reminder[], today: Date): Reminder[] {
   const limit = toIsoDate(today);
   return reminders.filter((r) => isOpen(r) && effectiveDate(r) <= limit);
 }
 
-/** Due and not yet notified for its current due date (SPEC §8.5 `lastNotifiedAt`). */
+/** Due and not yet notified for its current due date (features §8.5 `lastNotifiedAt`). */
 export function needsNotification(r: Reminder, today: Date): boolean {
   if (!isOpen(r) || effectiveDate(r) > toIsoDate(today)) return false;
   return !r.lastNotifiedAt || toIsoDate(new Date(r.lastNotifiedAt)) < effectiveDate(r);

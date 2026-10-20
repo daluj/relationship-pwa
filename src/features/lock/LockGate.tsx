@@ -4,7 +4,7 @@ import { useSettingsQuery } from '@/db/repositories';
 import { LockScreen } from './LockScreen';
 
 /**
- * Gates the whole UI behind the app lock when it is enabled (SPEC §8.10): on open, and again after the
+ * Gates the whole UI behind the app lock when it is enabled (features §8.10): on open, and again after the
  * app has been in the background for `lockAfterMinutes`. Nothing behind it renders while locked.
  */
 export function LockGate({ children }: { children: ReactNode }) {

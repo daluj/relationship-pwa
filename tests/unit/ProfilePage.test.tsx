@@ -17,7 +17,7 @@ function renderAt(path: string) {
   );
 }
 
-describe('ProfilePage tabs (SPEC §6.6)', () => {
+describe('ProfilePage tabs (ui §6.6)', () => {
   it('defaults to Timeline and navigates to Details', async () => {
     const c = await saveContact(undefined, {
       contact: { firstName: 'Élise', lastName: 'Aubert', foodPreferences: 'Vegetarian' },

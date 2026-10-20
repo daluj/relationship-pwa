@@ -1,5 +1,5 @@
 /**
- * Compact X-style timestamp (SPEC §6.4/§12): "5m ago" / "hace 2 h" under a week,
+ * Compact X-style timestamp (ui §6.4, tech-stack §12): "5m ago" / "hace 2 h" under a week,
  * then "Mar 18", or "Mar 18, 2024" for other years.
  */
 export function shortRelative(date: Date, now: Date, locale: string): string {

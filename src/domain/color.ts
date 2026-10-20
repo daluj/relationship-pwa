@@ -43,7 +43,7 @@ export function mix(a: string, b: string, t: number): string {
 
 /**
  * The accent, darkened (light themes) or lightened (dark themes) just enough to reach `target` contrast on
- * every given background — for accent-coloured text and links (WCAG 1.4.3, SPEC §6.10).
+ * every given background — for accent-coloured text and links (WCAG 1.4.3, ui §6.10).
  */
 export function readableAccent(accent: string, backgrounds: string[], target = 4.5): string {
   const darkBg = relativeLuminance(backgrounds[0]!) < 0.2;

@@ -5,7 +5,7 @@ const leftNav = (page: import('@playwright/test').Page) =>
 const rail = (page: import('@playwright/test').Page) => page.getByRole('complementary');
 const bottomBar = (page: import('@playwright/test').Page) => page.locator('nav.fixed');
 
-test.describe('responsive shell (SPEC §6.1–6.3)', () => {
+test.describe('responsive shell (ui §6.1–6.3)', () => {
   test('desktop ≥1280: 275px nav with labels, 600px center, right rail', async ({ page }) => {
     await page.setViewportSize({ width: 1366, height: 900 });
     await page.goto('/');
@@ -84,7 +84,7 @@ test('themes and language switch and persist across reloads', async ({ page }) =
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 });
 
-test('every SPEC §7 route renders inside the shell', async ({ page }) => {
+test('every ui §7 route renders inside the shell', async ({ page }) => {
   const paths = [
     '/',
     '/compose',

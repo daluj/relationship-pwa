@@ -12,7 +12,7 @@ export function parseIsoDate(iso: string): Date {
 const daysInMonth = (y: number, m0: number) => new Date(y, m0 + 1, 0).getDate();
 
 /**
- * Adds `n` recurrence units to a date (SPEC §8.5): month-end clamping (Jan 31 + 1 month → Feb 28/29),
+ * Adds `n` recurrence units to a date (features §8.5): month-end clamping (Jan 31 + 1 month → Feb 28/29),
  * Feb 29 + 1 year → Feb 28 in non-leap years.
  */
 export function addRecurrence(date: Date, rule: Exclude<Recurrence, 'none'>, n = 1): Date {
@@ -50,7 +50,7 @@ export function nextRecurringDate(
 }
 
 /**
- * Reminder date for a yearly partial date with a lead time (important dates, SPEC §8.5):
+ * Reminder date for a yearly partial date with a lead time (important dates, features §8.5):
  * the earliest `occurrence − daysBefore` that is on/after `from` (or strictly after when `after`).
  */
 export function yearlyReminderDate(

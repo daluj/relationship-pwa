@@ -17,7 +17,7 @@ import { settingsRepo } from './settingsRepo';
 import { deleteTag, findOrCreateTag } from './tagService';
 
 /**
- * "Load demo data" (SPEC §8.1): ~15 contacts with moments, reminders, gifts, debts, tasks, pets, groups and
+ * "Load demo data" (features §8.1): ~15 contacts with moments, reminders, gifts, debts, tasks, pets, groups and
  * relationships, created through the normal services. The ids are remembered for "Remove demo data".
  */
 export async function loadDemoData(locale: Locale, now = new Date()): Promise<DemoIds> {
@@ -167,7 +167,7 @@ export async function loadDemoData(locale: Locale, now = new Date()): Promise<De
   return ids;
 }
 
-/** "Remove demo data" (SPEC §8.1): permanently removes exactly what the demo created. */
+/** "Remove demo data" (features §8.1): permanently removes exactly what the demo created. */
 export async function removeDemoData(): Promise<void> {
   const ids = await settingsRepo.get('demo');
   if (!ids) return;

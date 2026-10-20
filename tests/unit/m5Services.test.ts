@@ -32,7 +32,7 @@ import { resetDb } from './helpers';
 beforeEach(resetDb);
 afterEach(() => vi.useRealTimers());
 
-describe('relationship domain (SPEC §8.3)', () => {
+describe('relationship domain (features §8.3)', () => {
   it('inverts asymmetric types and mirrors symmetric ones', () => {
     expect(inverseOf('parent')).toBe('child');
     expect(inverseOf('uncle-aunt')).toBe('nephew-niece');
@@ -121,7 +121,7 @@ describe('relationships', () => {
   });
 });
 
-describe('money (SPEC §8.7)', () => {
+describe('money (features §8.7)', () => {
   it('nets unsettled debts per currency without float drift', () => {
     const d = (
       direction: 'i-owe' | 'they-owe',
@@ -168,7 +168,7 @@ describe('money (SPEC §8.7)', () => {
   });
 });
 
-describe('groups (SPEC §6.7, §8.8)', () => {
+describe('groups (ui §6.7, §8.8)', () => {
   it('membership, counts, timeline, soft delete, purge cleanup', async () => {
     vi.useFakeTimers({ toFake: ['Date'] });
     vi.setSystemTime(new Date('2026-01-01T00:00:00Z'));

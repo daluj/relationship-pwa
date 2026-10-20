@@ -19,7 +19,7 @@ async function pickPerson(page: Page, scope: ReturnType<Page['getByRole']>, quer
   await scope.getByRole('combobox', { name: 'Search people' }).press('Enter');
 }
 
-test('relationships: inverse is created, counts show, deleting one side deletes both (SPEC §8.3 AC)', async ({
+test('relationships: inverse is created, counts show, deleting one side deletes both (features §8.3 AC)', async ({
   page,
 }) => {
   const marc = await createContact(page, 'Marc', 'Aubert');
@@ -57,7 +57,7 @@ test('relationships: inverse is created, counts show, deleting one side deletes 
   await expect(rels.getByText('Best friend')).toBeVisible();
 });
 
-test('money: running balance, settle (SPEC §8.7 AC), right-rail card', async ({ page }) => {
+test('money: running balance, settle (features §8.7 AC), right-rail card', async ({ page }) => {
   const ana = await createContact(page, 'Ana');
   await page.goto(`${ana}/money`);
   await expect(page.getByText('All settled')).toBeVisible();
@@ -141,7 +141,7 @@ test('gifts grouped by status; tasks on profile and global page; pets', async ({
   await expect(page.getByRole('region', { name: 'Pets' })).toContainText('Miso · Cat');
 });
 
-test('groups, tags on contacts, filters, starred page (SPEC §6.7, §8.8)', async ({ page }) => {
+test('groups, tags on contacts, filters, starred page (ui §6.7, §8.8)', async ({ page }) => {
   const bruno = await createContact(page, 'Bruno');
   await createContact(page, 'Chloé');
 

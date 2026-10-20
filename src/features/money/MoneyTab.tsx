@@ -21,7 +21,7 @@ import { parseIsoDate } from '@/domain/recurrence';
 import type { Debt } from '@/domain/types';
 import { CurrencySelect } from './CurrencySelect';
 
-/** "Owes you €35" / "You owe €20" per currency (SPEC §6.6). */
+/** "Owes you €35" / "You owe €20" per currency (ui §6.6). */
 export function BalanceLines({ debts, className = '' }: { debts: Debt[]; className?: string }) {
   const { t, i18n } = useTranslation();
   const entries = Object.entries(balances(debts));
@@ -42,7 +42,7 @@ export function BalanceLines({ debts, className = '' }: { debts: Debt[]; classNa
   );
 }
 
-/** Profile › Money: debts with a running balance and settle action (SPEC §6.6, §8.7). */
+/** Profile › Money: debts with a running balance and settle action (ui §6.6, §8.7). */
 export function MoneyTab({ contactId }: { contactId: string }) {
   const { t, i18n } = useTranslation();
   const showToast = useToasts((s) => s.show);

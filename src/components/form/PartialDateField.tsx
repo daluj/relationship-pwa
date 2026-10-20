@@ -10,7 +10,7 @@ interface Props {
   error?: string;
 }
 
-/** Day / month / optional year (PartialDate, SPEC §5.1). */
+/** Day / month / optional year (PartialDate, data-model §5.1). */
 export function PartialDateField({ legend, day, month, year, error }: Props) {
   const { t, i18n } = useTranslation();
   const monthNames = Array.from({ length: 12 }, (_, i) =>

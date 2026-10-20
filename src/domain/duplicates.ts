@@ -38,7 +38,7 @@ export const candidateOf = (
 });
 
 /**
- * Possible duplicates (SPEC §8.2): same normalized full name, email or phone.
+ * Possible duplicates (features §8.2): same normalized full name, email or phone.
  * Returns matches with the reason, strongest first (email/phone before name).
  */
 export function findDuplicates(

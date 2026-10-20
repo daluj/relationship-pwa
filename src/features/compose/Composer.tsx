@@ -45,7 +45,7 @@ import { SuggestionList } from './SuggestionList';
 import { contactSuggestions, tagSuggestions } from './suggestions';
 
 const MAX_PHOTOS = 4;
-const MAX_CHARS = 5000; // soft limit (SPEC §6.5)
+const MAX_CHARS = 5000; // soft limit (ui §6.5)
 
 type PhotoItem =
   | { key: string; existingId: string }
@@ -73,7 +73,7 @@ function ExistingPhoto({ id }: { id: string }) {
   return url ? <img src={url} alt="" className="h-full w-full object-cover" /> : null;
 }
 
-/** "What happened?" composer (SPEC §6.5): kinds, @mentions, #tags, photos, date, location, kind fields. */
+/** "What happened?" composer (ui §6.5): kinds, @mentions, #tags, photos, date, location, kind fields. */
 export function Composer({ momentId, prefill, variant, onDone, onDirtyChange }: Props) {
   const { t } = useTranslation();
   const lookup = useLookup();

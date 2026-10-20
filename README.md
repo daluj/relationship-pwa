@@ -2,7 +2,8 @@
 
 A private, offline-first personal CRM that runs as a PWA — a memory backup for the people in your life.
 Every record stays in IndexedDB on your device: no server, no accounts, no analytics, no third-party scripts.
-See [SPEC.md](SPEC.md) for the full specification.
+Built with spec-driven development: [specs/](specs/README.md) holds the mission, tech stack, roadmap, product
+reference and per-feature specs.
 
 ## Features
 
@@ -43,11 +44,21 @@ from Settings › Your data).
 
 ### Quality bars
 
-- Unit + E2E suites green, including the SPEC acceptance criteria (offline reload, backup round trip, reminders, search
+- Unit + E2E suites green, including the spec acceptance criteria (offline reload, backup round trip, reminders, search
   < 100 ms at 2k contacts / 20k moments).
 - axe-core: no WCAG 2.1 AA violations across the main screens in all three themes.
 - Lighthouse (mobile): Performance ≥ 90 (currently 94), Accessibility 100, Best practices 100.
 - First-load JS ≤ 250 KB gzipped (currently ~204 KB).
 
-Project conventions live in [CLAUDE.md](CLAUDE.md), design decisions in [docs/DECISIONS.md](docs/DECISIONS.md), and the
-milestone history in [docs/CHANGELOG.md](docs/CHANGELOG.md).
+## Spec-driven workflow
+
+Every feature goes through the same loop, each step backed by a Claude Code skill in `.claude/skills/`:
+
+1. **Spec**: `/feature-spec` takes the next phase from [specs/roadmap.md](specs/roadmap.md), opens a `phase-N-<name>`
+   branch, interviews you, and writes `specs/YYYY-MM-DD-<name>/` (`requirements.md`, `plan.md`, `validation.md`).
+2. **Implement**: `/implement-feature` works through `plan.md`, tests included.
+3. **Validate and replan**: `/validate-feature` checks `validation.md`, reviews the branch and updates the roadmap.
+4. **Record**: `/changelog` adds the entry to [CHANGELOG.md](CHANGELOG.md).
+
+Agent instructions live in [AGENTS.md](AGENTS.md) (imported by `CLAUDE.md`), project-wide decisions in
+[specs/decisions.md](specs/decisions.md), and unscheduled ideas in [backlog/](backlog/README.md).

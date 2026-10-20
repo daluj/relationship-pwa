@@ -9,7 +9,7 @@ import type { Contact, Reminder } from '@/domain/types';
 import { ReminderDialog } from '@/features/reminders/ReminderDialog';
 import { ReminderRow } from '@/features/reminders/ReminderRow';
 
-/** Profile › Reminders: upcoming + completed for this contact; add (SPEC §6.6). */
+/** Profile › Reminders: upcoming + completed for this contact; add (ui §6.6). */
 export function RemindersTab({ contact }: { contact: Contact }) {
   const { t } = useTranslation();
   const today = useToday();

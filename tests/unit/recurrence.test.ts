@@ -13,7 +13,7 @@ import type { Reminder } from '@/domain/types';
 const iso = (d: Date) => toIsoDate(d);
 const day = (s: string) => parseIsoDate(s);
 
-describe('addRecurrence (SPEC §8.5)', () => {
+describe('addRecurrence (features §8.5)', () => {
   it('clamps month ends', () => {
     expect(iso(addRecurrence(day('2026-01-31'), 'monthly'))).toBe('2026-02-28');
     expect(iso(addRecurrence(day('2028-01-31'), 'monthly'))).toBe('2028-02-29');

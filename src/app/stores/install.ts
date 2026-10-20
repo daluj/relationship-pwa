@@ -13,7 +13,7 @@ interface InstallState {
   install: () => Promise<boolean>;
 }
 
-/** Custom in-app install prompt (SPEC §9): capture `beforeinstallprompt`, show our own button. */
+/** Custom in-app install prompt (pwa §9): capture `beforeinstallprompt`, show our own button. */
 export const useInstall = create<InstallState>((set, get) => ({
   deferred: null,
   iosHelpOpen: false,

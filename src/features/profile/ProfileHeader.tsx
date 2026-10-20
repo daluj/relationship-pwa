@@ -52,7 +52,7 @@ function MetaItem({ icon: Icon, children }: { icon: LucideIcon; children: string
   );
 }
 
-/** Banner, avatar, actions, name and meta row (SPEC §6.6). */
+/** Banner, avatar, actions, name and meta row (ui §6.6). */
 export function ProfileHeader({ contact }: { contact: Contact }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();

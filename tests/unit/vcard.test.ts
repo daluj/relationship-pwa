@@ -11,7 +11,7 @@ const fixtures: Record<string, string> = {
 };
 const fixture = (name: string) => fixtures[name]!;
 
-describe('parseVCards (SPEC §8.9)', () => {
+describe('parseVCards (features §8.9)', () => {
   it('reads an iOS 3.0 export: groups, escapes, folding, Apple year-less BDAY, inline photo', () => {
     const [lise, marc] = parseVCards(fixture('ios.vcf'));
     expect(lise).toMatchObject({

@@ -1,5 +1,5 @@
 /**
- * Moment body tokens (SPEC §8.4): mentions and tags are stored as stable tokens that reference ids,
+ * Moment body tokens (features §8.4): mentions and tags are stored as stable tokens that reference ids,
  *   `@[Élise Aubert](contact:<uuid>)`   `#[family](tag:<uuid>)`
  * so renaming a contact or tag changes how bodies render without rewriting them (§8.8 AC).
  */
@@ -33,7 +33,7 @@ function linkify(text: string): Segment[] {
   return out;
 }
 
-/** Splits a body into renderable segments. Text is never interpreted as HTML (SPEC §11). */
+/** Splits a body into renderable segments. Text is never interpreted as HTML (tech-stack §11). */
 export function parseBody(body: string): Segment[] {
   const out: Segment[] = [];
   let last = 0;

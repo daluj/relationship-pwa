@@ -26,7 +26,7 @@ async function createContact(
 
 const navBadge = (page: Page) => page.locator('header nav').getByTestId('nav-badge');
 
-test('birthday due today: Reminders › Today, nav badge, banner; Done moves it a year (SPEC §8.5 AC)', async ({
+test('birthday due today: Reminders › Today, nav badge, banner; Done moves it a year (features §8.5 AC)', async ({
   page,
 }) => {
   await page.clock.setFixedTime(new Date('2026-03-18T10:00:00'));
@@ -107,7 +107,7 @@ test('manual reminders: create, snooze, overdue, done, reopen, delete with undo'
   await expect(page.getByTestId('reminder-row')).toContainText('Return book');
 });
 
-test('stay in touch: Reach out card with Log; logging a moment clears it (SPEC §8.5)', async ({
+test('stay in touch: Reach out card with Log; logging a moment clears it (features §8.5)', async ({
   page,
 }) => {
   await page.setViewportSize(desktop);
@@ -183,7 +183,7 @@ test('important date on the profile creates a yearly reminder; profile Reminders
   expect(ics).toContain('SUMMARY:Wedding anniversary · Ana');
 });
 
-test('system notifications for due reminders, once per due date (SPEC §8.5)', async ({
+test('system notifications for due reminders, once per due date (features §8.5)', async ({
   page,
   context,
 }) => {

@@ -8,7 +8,7 @@ import { groupMemberCounts, listGroups, useLiveQuery } from '@/db/repositories';
 import { avatarPalette } from '@/domain/contact';
 import { GroupDialog } from './GroupDialog';
 
-/** `/groups`: like X Lists — banner color + emoji, name, member count (SPEC §6.7). */
+/** `/groups`: like X Lists — banner color + emoji, name, member count (ui §6.7). */
 export function GroupsPage() {
   const { t } = useTranslation();
   const groups = useLiveQuery(listGroups, []);

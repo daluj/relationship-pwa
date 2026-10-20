@@ -12,7 +12,7 @@ import { useDueReminders } from './useDueReminders';
 
 /**
  * On app open and whenever it becomes visible: show system notifications for newly due reminders
- * (if permitted), keep the app badge in sync, and register periodic checks where supported (SPEC §8.5).
+ * (if permitted), keep the app badge in sync, and register periodic checks where supported (features §8.5).
  */
 export function useReminderNotifications(): void {
   const { t, i18n } = useTranslation();

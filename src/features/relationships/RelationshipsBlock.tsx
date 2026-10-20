@@ -18,7 +18,7 @@ import type { Contact, Relationship } from '@/domain/types';
 import { useLookup } from '@/features/moments/useLookup';
 import { RelationshipDialog } from './RelationshipDialog';
 
-/** Profile › Details › Relationships, grouped Family / Love / Friends / Work / Other (SPEC §8.3). */
+/** Profile › Details › Relationships, grouped Family / Love / Friends / Work / Other (features §8.3). */
 export function RelationshipsBlock({ contact }: { contact: Contact }) {
   const { t } = useTranslation();
   const lookup = useLookup();

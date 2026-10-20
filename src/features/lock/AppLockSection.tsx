@@ -12,7 +12,7 @@ const lockAfterOptions = [1, 5, 15, 60];
 
 type Mode = 'set' | 'change' | 'off' | null;
 
-/** Settings › App lock (SPEC §8.10). Clearly a screen lock, not encryption. */
+/** Settings › App lock (features §8.10). Clearly a screen lock, not encryption. */
 export function AppLockSection() {
   const { t } = useTranslation();
   const settings = useSettings();

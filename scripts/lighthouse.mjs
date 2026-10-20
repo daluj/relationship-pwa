@@ -1,4 +1,4 @@
-// Lighthouse audit of the production build (mobile, simulated throttling) — SPEC §9 "performance ≥ 90 on mobile".
+// Lighthouse audit of the production build (mobile, simulated throttling) — pwa §9 "performance ≥ 90 on mobile".
 // Usage: npm run build && npm run preview   (in another terminal)  then  npm run lighthouse [url]
 // Uses Playwright's Chromium, so no separate Chrome install is needed.
 import { spawnSync } from 'node:child_process';

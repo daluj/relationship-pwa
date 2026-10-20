@@ -6,7 +6,7 @@ import { saveFile } from '@/lib/download';
 
 const stamp = () => toIsoDate(new Date());
 
-/** CSV export of contacts (SPEC §8.9). */
+/** CSV export of contacts (features §8.9). */
 export async function downloadCsv(): Promise<boolean> {
   const rows = await contactsForExport();
   const csv = Papa.unparse({

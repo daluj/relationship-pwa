@@ -3,5 +3,5 @@ dev-dist
 coverage
 playwright-report
 test-results
-SPEC.md
+specs/product/
 package-lock.json

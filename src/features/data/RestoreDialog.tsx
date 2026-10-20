@@ -7,7 +7,7 @@ import { inputClass } from '@/components/form/fieldClass';
 import { importBackup } from '@/db/repositories';
 import type { ParsedBackup } from '@/domain/backup';
 
-/** Restore a JSON backup: Merge, or Replace all with typed confirmation (SPEC §8.9). */
+/** Restore a JSON backup: Merge, or Replace all with typed confirmation (features §8.9). */
 export function RestoreDialog({
   backup,
   onClose,

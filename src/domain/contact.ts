@@ -32,7 +32,7 @@ function hash(s: string): number {
   return Math.abs(h);
 }
 
-/** Deterministic avatar color per contact id (SPEC §8.2). */
+/** Deterministic avatar color per contact id (features §8.2). */
 export function avatarColors(id: string): { bg: string; fg: string } {
   const bg = avatarPalette[hash(id) % avatarPalette.length]!;
   return { bg, fg: onColor(bg) };

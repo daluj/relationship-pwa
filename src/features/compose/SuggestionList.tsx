@@ -16,7 +16,7 @@ interface Props {
   onHover: (i: number) => void;
 }
 
-/** ARIA listbox for combobox autocompletes (SPEC §6.10). */
+/** ARIA listbox for combobox autocompletes (ui §6.10). */
 export function SuggestionList({ id, label, items, active, onHover }: Props) {
   if (items.length === 0) return null;
   return (

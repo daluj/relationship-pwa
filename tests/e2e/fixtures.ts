@@ -1,6 +1,6 @@
 import { test as base, expect } from '@playwright/test';
 
-/** Fails any test that makes a request to another origin (SPEC §1.2, §15). */
+/** Fails any test that makes a request to another origin (mission §1.2, §15). */
 export const test = base.extend<{
   foreignRequests: string[];
   pageErrors: string[];
@@ -11,7 +11,7 @@ export const test = base.extend<{
 }>({
   expectedPageErrors: [null, { option: true }],
   /**
-   * Most tests start from an empty database, which would open onboarding on Home (SPEC §8.1). Mark it
+   * Most tests start from an empty database, which would open onboarding on Home (features §8.1). Mark it
    * done by default; onboarding tests use `test.use({ onboarded: false })`.
    */
   onboarded: [true, { option: true }],

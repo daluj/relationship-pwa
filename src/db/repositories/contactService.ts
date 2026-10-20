@@ -15,7 +15,7 @@ import {
 import { fullName } from '@/domain/contact';
 import { RecordNotFoundError } from './errors';
 
-/** Days a soft-deleted record stays in Trash before it is purged (SPEC §5.1). */
+/** Days a soft-deleted record stays in Trash before it is purged (data-model §5.1). */
 export const TRASH_RETENTION_DAYS = 30;
 
 export interface NewImage {
@@ -151,7 +151,7 @@ export async function updateContactStatus(
   });
 }
 
-/** Soft-delete a contact and its dependents with one shared tombstone timestamp (SPEC §5.2). */
+/** Soft-delete a contact and its dependents with one shared tombstone timestamp (data-model §5.2). */
 export async function deleteContact(id: string): Promise<void> {
   await db.transaction(
     'rw',

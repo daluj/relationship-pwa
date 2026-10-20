@@ -1,10 +1,14 @@
 # Decisions
 
-Spec ambiguities resolved during implementation (SPEC §0). Newest last.
+Project-wide decision log: spec ambiguities resolved during implementation, and choices that outlive a single feature.
+Newest last; never renumber. A feature spec records its own choices in its `requirements.md` → _Decisions_ and copies
+any that affect the whole project here as the next `D-NNN`, tagged with its phase.
+
+Bare `§n` references below point to the stable section numbers in `specs/` (see [README.md](README.md)).
 
 ## D-001 — `Tag.nameLower` field (M1)
 
-SPEC §5.2 indexes `tags` by `&nameLower`, but the §5.1 `Tag` interface has no such field. Added
+data-model §5.2 indexes `tags` by `&nameLower`, but the §5.1 `Tag` interface has no such field. Added
 `nameLower: string` to `Tag`. `tagRepo` derives it from `name` (trim + lowercase); callers never set it.
 
 ## D-002 — `Relationship.inverseId` field (M1)

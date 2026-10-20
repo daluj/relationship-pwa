@@ -16,7 +16,7 @@ import {
   verifyPin,
 } from '@/lib/appLock';
 
-/** Full-screen lock (SPEC §8.10). `config` is undefined while settings are still loading. */
+/** Full-screen lock (features §8.10). `config` is undefined while settings are still loading. */
 export function LockScreen({ config }: { config?: AppLockConfig }) {
   const { t } = useTranslation();
   const unlock = useLock((s) => s.unlock);

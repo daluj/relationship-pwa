@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import type { DateParts } from './dateParts';
 import { inputClass } from './fieldClass';
 
-/** Controlled day / month / optional year inputs (PartialDate, SPEC §5.1). */
+/** Controlled day / month / optional year inputs (PartialDate, data-model §5.1). */
 export function PartialDateInputs({
   legend,
   value,

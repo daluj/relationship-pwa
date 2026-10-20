@@ -14,7 +14,7 @@ import { exportIcs } from '@/features/reminders/reminderIcs';
 
 type Status = NotificationPermission | 'unsupported';
 
-/** Settings › Notifications — honest about what a server-less PWA can do (SPEC §8.5). */
+/** Settings › Notifications — honest about what a server-less PWA can do (features §8.5). */
 export function NotificationsSection() {
   const { t } = useTranslation();
   const lookup = useLookup();

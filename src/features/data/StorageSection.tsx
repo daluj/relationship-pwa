@@ -21,7 +21,7 @@ const formatBytes = (n: number, locale: string) => {
   }).format(n);
 };
 
-/** Settings › Your data › Storage (SPEC §8.10) and demo data removal (SPEC §8.1). */
+/** Settings › Your data › Storage (features §8.10) and demo data removal (features §8.1). */
 export function StorageSection() {
   const { t, i18n } = useTranslation();
   const settings = useSettings();

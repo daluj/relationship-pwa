@@ -8,7 +8,7 @@ import { TextField } from '@/components/form/TextField';
 import { petRepo, petsFor, savePet, useLiveQuery } from '@/db/repositories';
 import type { Pet } from '@/domain/types';
 
-/** Profile › Details › Pets (SPEC §6.6). */
+/** Profile › Details › Pets (ui §6.6). */
 export function PetsBlock({ contactId }: { contactId: string }) {
   const { t } = useTranslation();
   const pets = useLiveQuery(() => petsFor(contactId), [contactId]);

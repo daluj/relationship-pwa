@@ -7,7 +7,7 @@ import {
   uuid,
 } from './common';
 
-// SPEC §5.1. Zod schemas are the single source of truth; TS types are inferred from them.
+// data-model §5.1. Zod schemas are the single source of truth; TS types are inferred from them.
 
 export const contactSchema = baseRecordSchema.extend({
   firstName: z.string().trim().min(1),

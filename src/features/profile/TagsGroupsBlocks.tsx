@@ -13,7 +13,7 @@ import type { Contact } from '@/domain/types';
 import { useLookup } from '@/features/moments/useLookup';
 import { ChipPicker } from './ChipPicker';
 
-/** Profile › Details › Tags and Groups (SPEC §6.6, §8.8). */
+/** Profile › Details › Tags and Groups (ui §6.6, §8.8). */
 export function TagsGroupsBlocks({ contact }: { contact: Contact }) {
   const { t } = useTranslation();
   const lookup = useLookup();

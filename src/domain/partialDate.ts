@@ -3,7 +3,7 @@ import type { PartialDate } from './schemas';
 
 const isLeapYear = (y: number) => (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0;
 
-/** Local Date for `pd` in `year`; Feb 29 falls back to Feb 28 in non-leap years (SPEC §8.5). */
+/** Local Date for `pd` in `year`; Feb 29 falls back to Feb 28 in non-leap years (features §8.5). */
 export function inYear(pd: PartialDate, year: number): Date {
   const day = pd.month === 2 && pd.day === 29 && !isLeapYear(year) ? 28 : pd.day;
   return new Date(year, pd.month - 1, day);

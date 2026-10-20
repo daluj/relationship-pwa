@@ -28,7 +28,7 @@ const activityIcons: Record<NonNullable<Moment['activityType']>, LucideIcon> = {
   other: Activity,
 };
 
-/** Icon shown on the kind line of a moment card (SPEC §6.4). */
+/** Icon shown on the kind line of a moment card (ui §6.4). */
 export function kindIcon(m: Pick<Moment, 'kind' | 'activityType' | 'callDirection'>): LucideIcon {
   switch (m.kind) {
     case 'activity':

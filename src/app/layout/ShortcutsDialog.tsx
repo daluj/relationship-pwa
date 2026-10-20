@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Dialog } from '@/components/Dialog';
 import { shortcuts } from '../useGlobalShortcuts';
 
-/** `?` — list of keyboard shortcuts (SPEC §6.9). */
+/** `?` — list of keyboard shortcuts (ui §6.9). */
 export function ShortcutsDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { t } = useTranslation();
   return (

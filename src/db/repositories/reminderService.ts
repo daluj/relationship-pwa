@@ -21,10 +21,10 @@ const sameDate = (a?: PartialDate, b?: PartialDate) =>
 
 const today = () => new Date();
 
-// ── Auto reminders (SPEC §8.5) ───────────────────────────────────────────────
+// ── Auto reminders (features §8.5) ───────────────────────────────────────────────
 // Auto reminders are purged, not trashed, when their source goes away (DECISIONS D-015).
 
-/** Yearly reminder on the contact's birthday (SPEC §8.2 AC). */
+/** Yearly reminder on the contact's birthday (features §8.2 AC). */
 export async function syncBirthdayReminder(
   contact: Contact,
   previous?: PartialDate,
@@ -59,7 +59,7 @@ const stayInTouchDue = (c: Contact) =>
   addDays(toIsoDate(new Date(c.lastInteractionAt ?? c.createdAt)), c.stayInTouchDays!);
 
 /**
- * "Stay in touch" reminder (SPEC §8.5). Due `stayInTouchDays` after the last interaction; logging a
+ * "Stay in touch" reminder (features §8.5). Due `stayInTouchDays` after the last interaction; logging a
  * moment moves it forward. None for archived or deceased contacts.
  */
 export async function syncStayInTouchReminder(contact: Contact): Promise<void> {
@@ -90,7 +90,7 @@ export async function syncStayInTouchReminder(contact: Contact): Promise<void> {
   }
 }
 
-/** Yearly reminder `remindDaysBefore` days before an important date (SPEC §8.5). */
+/** Yearly reminder `remindDaysBefore` days before an important date (features §8.5). */
 export async function syncImportantDateReminder(
   d: ImportantDate,
   previous?: ImportantDate,
@@ -244,7 +244,7 @@ export async function saveReminder(
 }
 
 /**
- * "Done" (SPEC §8.5): one-off reminders are completed; recurring ones advance to the next
+ * "Done" (features §8.5): one-off reminders are completed; recurring ones advance to the next
  * occurrence after today. Stay-in-touch "Done" (reached out outside the app) snoozes a full period.
  */
 export async function completeReminder(id: string, now = new Date()): Promise<Reminder> {

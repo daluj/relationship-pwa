@@ -2,7 +2,7 @@ import { expect, test } from './fixtures';
 
 test.use({ viewport: { width: 1366, height: 900 } });
 
-test.describe('onboarding (SPEC §8.1)', () => {
+test.describe('onboarding (features §8.1)', () => {
   test.use({ onboarded: false });
 
   test('first run: welcome → language → theme → storage → notifications → demo data; never shown again', async ({
@@ -63,7 +63,7 @@ test.describe('onboarding (SPEC §8.1)', () => {
   });
 });
 
-test('keyboard shortcuts (SPEC §6.9): ?, g c, g h, /, n, j/k, s, Enter', async ({ page }) => {
+test('keyboard shortcuts (ui §6.9): ?, g c, g h, /, n, j/k, s, Enter', async ({ page }) => {
   await page.goto('/settings/data');
   await page.getByRole('button', { name: /Explore with demo data/ }).click();
   await expect(page.getByRole('button', { name: 'Remove demo data' })).toBeVisible();
@@ -105,7 +105,7 @@ test('keyboard shortcuts (SPEC §6.9): ?, g c, g h, /, n, j/k, s, Enter', async 
   await expect(page.getByRole('dialog', { name: 'Log moment' })).toBeVisible();
 });
 
-test('app lock: PIN on open, wrong PIN, lockout, unlock; turning it off needs the PIN (SPEC §8.10)', async ({
+test('app lock: PIN on open, wrong PIN, lockout, unlock; turning it off needs the PIN (features §8.10)', async ({
   page,
 }) => {
   await page.goto('/settings');
@@ -161,7 +161,7 @@ test('app lock: PIN on open, wrong PIN, lockout, unlock; turning it off needs th
 test.describe('settings', () => {
   test.use({ expectedPageErrors: /Synthetic test failure/ });
 
-  test('storage usage and persistence; About shows privacy and diagnostics (SPEC §8.10, §11)', async ({
+  test('storage usage and persistence; About shows privacy and diagnostics (features §8.10, §11)', async ({
     page,
   }) => {
     await page.goto('/settings/data');

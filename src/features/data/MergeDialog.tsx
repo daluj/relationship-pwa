@@ -11,7 +11,7 @@ import type { Contact } from '@/domain/types';
 import { PeoplePicker } from '@/features/compose/PeoplePicker';
 import { useLookup } from '@/features/moments/useLookup';
 
-/** Profile ⋯ › Merge with…: pick the other contact and which one to keep (SPEC §8.2). */
+/** Profile ⋯ › Merge with…: pick the other contact and which one to keep (features §8.2). */
 export function MergeDialog({
   contact,
   open,

@@ -1,7 +1,7 @@
 import { settingsRepo } from '@/db/repositories';
 
 /**
- * Onboarding is complete when `settings.onboarded` is set (SPEC §8.1). It is mirrored in localStorage
+ * Onboarding is complete when `settings.onboarded` is set (features §8.1). It is mirrored in localStorage
  * (a per-device convenience, like the theme) so the start-up redirect can be decided without waiting
  * for IndexedDB. "Delete all data" clears both, so onboarding shows again.
  */

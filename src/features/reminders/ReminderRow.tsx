@@ -39,7 +39,7 @@ interface Props {
   onEdit: (r: Reminder) => void;
 }
 
-/** One reminder with Done / Snooze / Edit (SPEC §6.7). */
+/** One reminder with Done / Snooze / Edit (ui §6.7). */
 export function ReminderRow({ reminder: r, today, onEdit }: Props) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();

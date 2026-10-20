@@ -26,7 +26,7 @@ import { Feed } from '@/features/moments/Feed';
 
 type Mode = 'rename' | 'recolor' | 'merge' | 'delete' | null;
 
-/** `/tags/:id`: tag timeline plus rename, recolor, merge and delete (SPEC §8.8). */
+/** `/tags/:id`: tag timeline plus rename, recolor, merge and delete (features §8.8). */
 export function TagPage() {
   const { id } = useParams();
   const { t } = useTranslation();

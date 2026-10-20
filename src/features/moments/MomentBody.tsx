@@ -12,7 +12,7 @@ export const inTextLink =
 
 /**
  * Renders a moment body: text, line breaks, @mentions, #tags and links. Everything is React text
- * nodes — no HTML injection (SPEC §11). Missing contacts/tags fall back to the stored name as text.
+ * nodes — no HTML injection (tech-stack §11). Missing contacts/tags fall back to the stored name as text.
  */
 export function MomentBody({ body, className = '' }: { body: string; className?: string }) {
   const lookup = useLookup();

@@ -6,7 +6,7 @@ import type { MomentKind } from '@/domain/types';
 import { Composer } from '@/features/compose/Composer';
 import { Feed } from '@/features/moments/Feed';
 
-const PAGE = 30; // SPEC §8.4
+const PAGE = 30; // features §8.4
 const tabs = {
   all: undefined,
   activities: 'activity',
@@ -16,7 +16,7 @@ const tabs = {
 } as const;
 type TabId = keyof typeof tabs;
 
-/** Home timeline of your own moments, filterable by kind (SPEC §1.3, §6.1). */
+/** Home timeline of your own moments, filterable by kind (mission §1.3, §6.1). */
 export function HomePage() {
   const { t } = useTranslation();
   const [tab, setTab] = useState<TabId>('all');

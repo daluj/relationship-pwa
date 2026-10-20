@@ -10,7 +10,7 @@ interface Props {
   src?: string;
 }
 
-/** Photo avatar, or initials on a deterministic color (SPEC §8.2). Decorative: names sit beside it. */
+/** Photo avatar, or initials on a deterministic color (features §8.2). Decorative: names sit beside it. */
 export function Avatar({ contact, size = 40, className = '', src }: Props) {
   const stored = useBlobUrl(src ? undefined : contact.avatarBlobId);
   const url = src ?? stored;

@@ -14,7 +14,7 @@ const toEvent = (r: Reminder, contact: Contact | undefined, t: TFunction): IcsEv
   interval: r.recurrenceInterval,
 });
 
-/** Download reminders as an .ics calendar file (SPEC §8.5). */
+/** Download reminders as an .ics calendar file (features §8.5). */
 export function exportIcs(
   reminders: Reminder[],
   contact: (id: string) => Contact | undefined,

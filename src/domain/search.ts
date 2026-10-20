@@ -4,7 +4,7 @@ import { bodyToPlainText } from './momentText';
 import type { Address, Contact, ContactField, Moment } from './types';
 
 /**
- * Search tokens (SPEC §8.6): lowercase, diacritics stripped (NFD + remove combining marks),
+ * Search tokens (features §8.6): lowercase, diacritics stripped (NFD + remove combining marks),
  * split on anything that isn't a letter or digit.
  */
 export function tokenize(text: string): string[] {

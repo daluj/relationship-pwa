@@ -8,7 +8,7 @@ import type { Debt } from '@/domain/types';
 import { useLookup } from '@/features/moments/useLookup';
 import { RailCard } from '@/features/reminders/RailCards';
 
-/** Right-rail "Money" summary — only when unsettled debts exist (SPEC §8.7). */
+/** Right-rail "Money" summary — only when unsettled debts exist (features §8.7). */
 export function MoneyCard() {
   const { t, i18n } = useTranslation();
   const lookup = useLookup();

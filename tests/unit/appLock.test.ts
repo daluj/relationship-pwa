@@ -11,7 +11,7 @@ import {
   type PasskeyConfig,
 } from '@/lib/appLock';
 
-describe('PIN (SPEC §8.10)', () => {
+describe('PIN (features §8.10)', () => {
   it('stores a salted hash, verifies the right PIN only', async () => {
     const h = await hashPin('482915', 1000);
     expect(h.hash).not.toContain('482915');

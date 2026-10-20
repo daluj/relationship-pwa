@@ -22,7 +22,7 @@ interface Row {
   dupOfRow?: number;
 }
 
-/** Duplicate warnings against existing contacts and earlier rows of the same file (SPEC §8.2). */
+/** Duplicate warnings against existing contacts and earlier rows of the same file (features §8.2). */
 function analyse(parsed: ParsedContact[], known: KnownContact[]): Row[] {
   const earlier: KnownContact[] = [];
   return parsed.map((p, i) => {
@@ -48,7 +48,7 @@ const encode = (a: RowAction) => (a.kind === 'merge' ? `merge:${a.into}` : a.kin
 const decode = (v: string): RowAction =>
   v.startsWith('merge:') ? { kind: 'merge', into: v.slice(6) } : { kind: v as 'import' | 'skip' };
 
-/** Review vCard/CSV contacts with per-row include / merge / skip before committing (SPEC §8.9). */
+/** Review vCard/CSV contacts with per-row include / merge / skip before committing (features §8.9). */
 export function ImportPreview({
   contacts,
   onCancel,

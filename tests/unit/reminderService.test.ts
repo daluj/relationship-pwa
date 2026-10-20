@@ -28,7 +28,7 @@ afterEach(() => vi.useRealTimers());
 const bySource = async (source: string) =>
   (await listReminders()).filter((r) => r.source === source);
 
-describe('birthday reminder (SPEC §8.5 AC)', () => {
+describe('birthday reminder (features §8.5 AC)', () => {
   it('is due today on the birthday, counts as due, and Done moves it to next year', async () => {
     const c = await saveContact(undefined, {
       contact: { firstName: 'Élise', birthday: { month: 3, day: 18, year: 1987 } },
@@ -109,7 +109,7 @@ describe('manual reminders', () => {
   });
 });
 
-describe('stay in touch (SPEC §8.5)', () => {
+describe('stay in touch (features §8.5)', () => {
   it('is due N days after the last interaction; logging a moment clears it', async () => {
     const c = await saveContact(undefined, {
       contact: { firstName: 'Marc', stayInTouchDays: 30 },
@@ -209,7 +209,7 @@ describe('important dates', () => {
 });
 
 describe('runReminderCheck', () => {
-  it('notifies each due reminder exactly once, even with concurrent checks (SPEC §8.5)', async () => {
+  it('notifies each due reminder exactly once, even with concurrent checks (features §8.5)', async () => {
     const { runReminderCheck } = await import('@/db/repositories/reminderCheck');
     await saveReminder(undefined, {
       title: 'Water the plants',

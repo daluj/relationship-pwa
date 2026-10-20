@@ -20,7 +20,7 @@ export interface DueNotification {
 
 /**
  * Computes due reminders (today + overdue) and, when `show` is given, shows a notification for each
- * one not yet notified for its current due date (SPEC §8.5). Returns the due count (for the app badge).
+ * one not yet notified for its current due date (features §8.5). Returns the due count (for the app badge).
  *
  * Reminders are *claimed* first — read and stamped with `lastNotifiedAt` in one transaction — and only
  * then shown. Concurrent checks (re-run effects, a second tab, the service worker) serialize on that

@@ -3,7 +3,7 @@ import { partialDateFromParts } from './partialDate';
 import type { Address, Contact, ContactField, PartialDate } from './types';
 
 /**
- * Hand-written vCard 3.0 / 4.0 reader and 3.0 writer (SPEC §3, §8.9). Covers what iOS, Google and
+ * Hand-written vCard 3.0 / 4.0 reader and 3.0 writer (tech-stack §3, §8.9). Covers what iOS, Google and
  * Outlook export: FN/N, NICKNAME, BDAY, TEL, EMAIL, ADR, ORG, TITLE, URL, NOTE, PHOTO (inline only).
  */
 

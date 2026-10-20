@@ -1,6 +1,6 @@
 import type { Reminder } from './types';
 
-/** One calendar event per reminder (SPEC §8.5 "Export to calendar"). */
+/** One calendar event per reminder (features §8.5 "Export to calendar"). */
 export interface IcsEvent {
   uid: string;
   title: string;

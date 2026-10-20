@@ -22,7 +22,7 @@ const applyFilter = (list: Contact[], f: Filter) =>
     f === 'archived' ? c.isArchived : !c.isArchived && (f === 'all' || c.isStarred),
   );
 
-/** Contacts list (SPEC §6.7): sort, filter, virtualized, A–Z jump on mobile. */
+/** Contacts list (ui §6.7): sort, filter, virtualized, A–Z jump on mobile. */
 export function ContactsPage() {
   const { t, i18n } = useTranslation();
   const [params, setParams] = useSearchParams();

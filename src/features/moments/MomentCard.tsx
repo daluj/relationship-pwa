@@ -26,7 +26,7 @@ interface Props {
   showPinned?: boolean;
 }
 
-/** The "post" (SPEC §6.4). */
+/** The "post" (ui §6.4). */
 export function MomentCard({ moment: m, detail, showPinned }: Props) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -92,7 +92,7 @@ export function MomentCard({ moment: m, detail, showPinned }: Props) {
   return (
     <article
       onClick={onCardClick}
-      // Focusable for j/k navigation; Enter opens the moment (SPEC §6.9).
+      // Focusable for j/k navigation; Enter opens the moment (ui §6.9).
       tabIndex={detail ? undefined : 0}
       onKeyDown={(e) => {
         if (!detail && e.key === 'Enter' && e.target === e.currentTarget)

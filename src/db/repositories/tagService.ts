@@ -11,7 +11,7 @@ export async function findOrCreateTag(name: string): Promise<Tag> {
   return (await tagRepo.findByName(name)) ?? tagRepo.create({ name: name.trim() });
 }
 
-/** Merge `fromId` into `intoId`: re-point moments and contacts, then remove the source tag (SPEC §8.8). */
+/** Merge `fromId` into `intoId`: re-point moments and contacts, then remove the source tag (features §8.8). */
 export async function mergeTags(fromId: string, intoId: string): Promise<void> {
   if (fromId === intoId) return;
   await db.transaction('rw', searchTables(), async () => {
@@ -40,7 +40,7 @@ export async function mergeTags(fromId: string, intoId: string): Promise<void> {
 }
 
 /**
- * Delete a tag and remove it from every record (SPEC §8.8). Body tokens stay and render as plain text,
+ * Delete a tag and remove it from every record (features §8.8). Body tokens stay and render as plain text,
  * so the words people wrote aren't lost.
  */
 export async function deleteTag(id: string): Promise<void> {
@@ -60,7 +60,7 @@ export async function deleteTag(id: string): Promise<void> {
   });
 }
 
-/** Rename a tag; bodies keep their id tokens, the index picks up the new name (SPEC §8.8 AC). */
+/** Rename a tag; bodies keep their id tokens, the index picks up the new name (features §8.8 AC). */
 export async function renameTag(id: string, name: string): Promise<Tag> {
   return db.transaction('rw', searchTables(), async () => {
     const clash = await tagRepo.findByName(name);

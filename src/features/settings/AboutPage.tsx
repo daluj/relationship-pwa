@@ -7,7 +7,7 @@ import { PageHeader } from '@/components/PageHeader';
 import { clearLog, formatLog, readLog } from '@/lib/diagnostics';
 import { saveFile } from '@/lib/download';
 
-/** Settings › About: what Kin is, privacy, and the local diagnostics log (SPEC §11). */
+/** Settings › About: what Kin is, privacy, and the local diagnostics log (tech-stack §11). */
 export function AboutPage() {
   const { t } = useTranslation();
   const [log, setLog] = useState(readLog);

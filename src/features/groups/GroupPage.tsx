@@ -26,7 +26,7 @@ import { Feed } from '@/features/moments/Feed';
 import { useLookup } from '@/features/moments/useLookup';
 import { GroupDialog } from './GroupDialog';
 
-/** `/groups/:id`: banner, members (add/remove) and group timeline (SPEC §6.7, §8.8). */
+/** `/groups/:id`: banner, members (add/remove) and group timeline (ui §6.7, §8.8). */
 export function GroupPage() {
   const { id } = useParams();
   const { t } = useTranslation();

@@ -7,7 +7,7 @@ import { useDueReminders } from './useDueReminders';
 
 const KEY = 'kin.dueBannerDismissed';
 
-/** In-app "N reminders due" banner, shown on open (SPEC §8.5). Dismissal is per day and count. */
+/** In-app "N reminders due" banner, shown on open (features §8.5). Dismissal is per day and count. */
 export function DueBanner() {
   const { t } = useTranslation();
   const { pathname } = useLocation();

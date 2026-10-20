@@ -24,7 +24,7 @@ interface Props {
   relationship?: Relationship;
 }
 
-/** Add/edit a relationship: person (or create inline) + type + since (SPEC §8.3). */
+/** Add/edit a relationship: person (or create inline) + type + since (features §8.3). */
 export function RelationshipDialog({ open, onClose, contact, relationship }: Props) {
   const { t } = useTranslation();
   const lookup = useLookup();

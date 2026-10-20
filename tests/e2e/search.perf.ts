@@ -4,7 +4,7 @@ import { expect, test } from './fixtures';
 // Runs in its own Playwright project after all other tests, so timings aren't skewed by parallel workers.
 test.use({ viewport: { width: 1366, height: 900 } });
 
-test('search returns in < 100 ms with 2,000 contacts and 20,000 moments (SPEC §8.6 AC)', async ({
+test('search returns in < 100 ms with 2,000 contacts and 20,000 moments (features §8.6 AC)', async ({
   page,
 }) => {
   test.setTimeout(120_000);

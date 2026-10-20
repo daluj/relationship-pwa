@@ -13,7 +13,7 @@ import { RemindersTab } from './RemindersTab';
 import { TimelineTab } from './TimelineTab';
 import { isProfileTab, profileTabs } from './tabs';
 
-/** Contact profile `/c/:id` and `/c/:id/:tab` (SPEC §6.6). */
+/** Contact profile `/c/:id` and `/c/:id/:tab` (ui §6.6). */
 export function ProfilePage() {
   const { id, tab } = useParams();
   const { t } = useTranslation();

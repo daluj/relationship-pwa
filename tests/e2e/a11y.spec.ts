@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from './fixtures';
 import type { Page } from '@playwright/test';
 
-// WCAG 2.1 AA audit (SPEC §6.10) of the main screens in all three themes, with demo data loaded.
+// WCAG 2.1 AA audit (ui §6.10) of the main screens in all three themes, with demo data loaded.
 test.use({ viewport: { width: 1366, height: 900 } });
 test.describe.configure({ mode: 'serial' });
 

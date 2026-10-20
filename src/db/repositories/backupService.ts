@@ -16,7 +16,7 @@ const tableOf = (name: Exclude<BackupTable, 'blobs'>) =>
   db.table(name) as Table<Record<string, unknown>, string>;
 
 /**
- * Full JSON backup (SPEC §8.9), streamed into a Blob part by part — records are serialized one by one
+ * Full JSON backup (features §8.9), streamed into a Blob part by part — records are serialized one by one
  * from cursors and blobs base64-encoded individually, so large datasets never need one giant string.
  */
 export async function exportBackup({ includePhotos = true } = {}): Promise<Blob> {
@@ -60,7 +60,7 @@ const toBlobRecord = (b: Record<string, unknown>): BlobRecord => {
 };
 
 /**
- * Restore a parsed backup (SPEC §8.9):
+ * Restore a parsed backup (features §8.9):
  * - `replace`: wipe everything, then load the backup (typed confirmation in the UI);
  * - `merge`: by id — records missing locally are added, newer `updatedAt` wins; local settings are kept.
  * The search index is rebuilt afterwards.
@@ -106,7 +106,7 @@ export async function importBackup(
   return summary;
 }
 
-/** "Delete all data" (SPEC §8.10): every table, including settings and the search index. */
+/** "Delete all data" (features §8.10): every table, including settings and the search index. */
 export async function deleteAllData(): Promise<void> {
   await db.transaction('rw', db.tables, async () => {
     await Promise.all(db.tables.map((t) => t.clear()));
@@ -129,7 +129,7 @@ export async function dataSince(): Promise<string | undefined> {
   return (await db.contacts.orderBy('updatedAt').first())?.updatedAt;
 }
 
-/** Any contacts or moments at all (onboarding gate, SPEC §8.1). */
+/** Any contacts or moments at all (onboarding gate, features §8.1). */
 export async function hasAnyData(): Promise<boolean> {
   return (await db.contacts.count()) + (await db.moments.count()) > 0;
 }

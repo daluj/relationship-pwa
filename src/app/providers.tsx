@@ -47,7 +47,7 @@ function SettingsSync() {
 }
 
 export function AppProviders({ children }: { children: ReactNode }) {
-  // Trash keeps items for 30 days (SPEC §5.1); purge on every app start.
+  // Trash keeps items for 30 days (data-model §5.1); purge on every app start.
   // Also re-derive auto reminders (birthdays, important dates, stay in touch) so they are never stale.
   useEffect(() => {
     void purgeExpiredTrash().then(ensureAutoReminders).then(ensureSearchIndex);

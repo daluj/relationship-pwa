@@ -16,7 +16,7 @@ export const accents = {
 } as const;
 export type Accent = keyof typeof accents;
 
-/** Five steps, base 15px (SPEC §6.8). */
+/** Five steps, base 15px (ui §6.8). */
 export const fontSizes = [13, 14, 15, 17, 19] as const;
 export type FontSize = (typeof fontSizes)[number];
 
@@ -30,10 +30,10 @@ export interface AppSettings {
   locale: Locale;
   currency: string;
   onboarded: boolean;
-  /** Last full JSON export (backup nudge, SPEC §8.9). */
+  /** Last full JSON export (backup nudge, features §8.9). */
   lastBackupAt?: string;
   backupNudgeDismissedAt?: string;
-  /** Ids created by "Load demo data", so "Remove demo data" removes exactly those (SPEC §8.1). */
+  /** Ids created by "Load demo data", so "Remove demo data" removes exactly those (features §8.1). */
   demo?: DemoIds;
   /** Screen lock (not encryption). */
   appLock?: AppLockConfig;
@@ -57,7 +57,7 @@ export const defaultSettings: AppSettings = {
   onboarded: false,
 };
 
-/** "system" → Light or Lights out based on prefers-color-scheme (SPEC §6.8). */
+/** "system" → Light or Lights out based on prefers-color-scheme (ui §6.8). */
 export function resolveTheme(pref: ThemePreference, prefersDark: boolean): Theme {
   if (pref !== 'system') return pref;
   return prefersDark ? 'lights-out' : 'light';

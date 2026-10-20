@@ -14,7 +14,7 @@ import { resetDb } from './helpers';
 
 beforeEach(resetDb);
 
-describe('demo data (SPEC §8.1)', () => {
+describe('demo data (features §8.1)', () => {
   it('creates ~15 contacts with moments, reminders, gifts and relationships, then removes exactly that', async () => {
     const mine = await saveContact(undefined, {
       contact: { firstName: 'My own friend' },
