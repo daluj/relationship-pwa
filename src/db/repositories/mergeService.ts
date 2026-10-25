@@ -24,6 +24,7 @@ const mergeTables = () => [
   db.debts,
   db.tasks,
   db.pets,
+  db.goals,
   db.blobs,
   ...searchTables(),
 ];
@@ -196,6 +197,14 @@ export async function mergeContacts(primaryId: string, secondaryId: string): Pro
       .modify((c) => {
         c.howWeMet = { ...c.howWeMet, introducedById: primaryId };
         c.updatedAt = now;
+      });
+
+    await db.goals
+      .where('contactIds')
+      .equals(secondaryId)
+      .modify((g) => {
+        g.contactIds = [...new Set(g.contactIds.map((c) => (c === secondaryId ? primaryId : c)))];
+        g.updatedAt = now;
       });
 
     // 7. Retire the secondary (cascades whatever is left), then refresh derived data.

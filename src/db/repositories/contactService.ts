@@ -216,7 +216,15 @@ export async function restoreContact(id: string): Promise<void> {
 export async function purgeContact(id: string): Promise<void> {
   await db.transaction(
     'rw',
-    [db.contacts, db.relationships, db.moments, db.blobs, ...dependentTables(), ...searchTables()],
+    [
+      db.contacts,
+      db.relationships,
+      db.moments,
+      db.blobs,
+      db.goals,
+      ...dependentTables(),
+      ...searchTables(),
+    ],
     async () => {
       const contact = await db.contacts.get(id);
       if (!contact) return;
@@ -233,6 +241,12 @@ export async function purgeContact(id: string): Promise<void> {
         .equals(id)
         .modify((m) => {
           m.contactIds = m.contactIds.filter((c) => c !== id);
+        });
+      await db.goals
+        .where('contactIds')
+        .equals(id)
+        .modify((g) => {
+          g.contactIds = g.contactIds.filter((c) => c !== id);
         });
       await db.contacts.delete(id);
     },

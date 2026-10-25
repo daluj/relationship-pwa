@@ -14,3 +14,4 @@ tombstones on every record so these stay possible:
 - Encryption at rest (the app lock is a UI lock only; see decisions D-063)
 - Custom record templates
 - Connecting people to non-person records (companies, homes, vehicles)
+- Growth and networking ideas beyond Phases 10–12: [2026-10-25-growth-ideas.md](2026-10-25-growth-ideas.md)

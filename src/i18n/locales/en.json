@@ -23,7 +23,8 @@
     "toggleTheme": "Switch theme (current: {{theme}})",
     "remindersBadge_one": "{{count}} reminder due",
     "remindersBadge_other": "{{count}} reminders due",
-    "themeLabel": "Theme: {{theme}}"
+    "themeLabel": "Theme: {{theme}}",
+    "goals": "Goals"
   },
   "home": {
     "title": "Home",
@@ -65,7 +66,9 @@
     "trash": "Trash",
     "about": "About",
     "onboarding": "Welcome to Kin",
-    "notFound": "This page doesn't exist"
+    "notFound": "This page doesn't exist",
+    "goals": "Goals",
+    "goal": "Goal"
   },
   "placeholder": {
     "comingIn": "Coming in milestone {{milestone}}.",
@@ -443,7 +446,9 @@
       "birthday": "{{name}}'s birthday",
       "birthdayTurns": "{{name}} turns {{age}}",
       "stayInTouch": "Reach out to {{name}}",
-      "importantDate": "{{label}} · {{name}}"
+      "importantDate": "{{label}} · {{name}}",
+      "goalWeek": "Goal due in a week: {{title}}",
+      "goalDay": "Goal deadline: {{title}}"
     },
     "repeat": {
       "none": "Doesn't repeat",
@@ -685,7 +690,9 @@
     "deleted": "Task deleted",
     "toggle": "Done: {{title}}",
     "dueOn": "Due {{date}}",
-    "overdue": "Overdue · {{date}}"
+    "overdue": "Overdue · {{date}}",
+    "goal": "Goal",
+    "noGoal": "No goal"
   },
   "groups": {
     "new": "New group",
@@ -728,7 +735,8 @@
       "top": "Top",
       "people": "People",
       "moments": "Moments",
-      "tags": "Tags"
+      "tags": "Tags",
+      "goals": "Goals"
     },
     "recent": "Recent searches",
     "clearRecent": "Clear all",
@@ -869,7 +877,8 @@
       "previous": "Previous moment",
       "star": "Star the focused moment",
       "open": "Open the focused moment",
-      "help": "Show this list"
+      "help": "Show this list",
+      "goals": "Go to Goals"
     }
   },
   "onboarding": {
@@ -976,5 +985,93 @@
     "exportLog": "Export log",
     "clearLog": "Clear log",
     "shortcuts": "Keyboard shortcuts"
+  },
+  "goals": {
+    "title": "Goals",
+    "new": "New goal",
+    "delete": "Delete goal",
+    "deleted": "Goal deleted",
+    "why": "Why it matters",
+    "nextShort": "Next:",
+    "tasks": "Tasks",
+    "progress": "{{percent}}% done",
+    "progressLabel": "Progress: {{title}}",
+    "streak_one": "{{count}}-week review streak",
+    "streak_other": "{{count}}-week review streak",
+    "tabs": {
+      "active": "Active",
+      "achieved": "Achieved",
+      "other": "Paused / dropped"
+    },
+    "empty": {
+      "active": "No active goals yet. Write down one specific thing you want, and by when.",
+      "achieved": "Nothing achieved yet. It will show up here.",
+      "other": "No paused or dropped goals."
+    },
+    "status": {
+      "active": "Active",
+      "achieved": "Achieved",
+      "paused": "Paused",
+      "dropped": "Dropped"
+    },
+    "actions": {
+      "achieve": "Mark achieved",
+      "pause": "Pause",
+      "drop": "Drop",
+      "reopen": "Reopen",
+      "resume": "Resume"
+    },
+    "deadline": {
+      "due_one": "Due {{date}} · tomorrow",
+      "due_other": "Due {{date}} · in {{count}} days",
+      "today": "Due today · {{date}}",
+      "overdue": "Overdue since {{date}}"
+    },
+    "form": {
+      "new": "New goal",
+      "edit": "Edit goal",
+      "title": "Goal",
+      "titlePlaceholder": "What do you want to achieve?",
+      "titleRequired": "Give your goal a title.",
+      "why": "Why does it matter?",
+      "nextAction": "Next action",
+      "deadline": "Deadline",
+      "area": "Area (optional)"
+    },
+    "milestones": {
+      "title": "Milestones",
+      "add": "Add milestone",
+      "placeholder": "What is the next step?",
+      "due": "Milestone due date",
+      "empty": "No milestones yet. Break the goal into steps.",
+      "toggle": "Done: {{title}}",
+      "moveUp": "Move up: {{title}}",
+      "moveDown": "Move down: {{title}}",
+      "delete": "Delete milestone: {{title}}",
+      "deleted": "Milestone deleted"
+    },
+    "people": {
+      "title": "People who help",
+      "add": "Add person",
+      "search": "Search people",
+      "remove": "Remove {{name}}",
+      "none": "Nobody linked yet. Edit the goal to add people."
+    },
+    "review": {
+      "open": "Weekly review",
+      "title": "Weekly review",
+      "prompt": "Time for your weekly review.",
+      "start": "Start review",
+      "intro": "Look at each active goal. What moved this week, and what is the next action?",
+      "noGoals": "No active goals to review.",
+      "note": "Note for this week (optional)",
+      "save": "Save review",
+      "saved": "Review saved"
+    },
+    "today": {
+      "title": "Today",
+      "all": "All goals",
+      "noNext": "No next action yet"
+    }
   }
 }

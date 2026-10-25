@@ -80,3 +80,21 @@ Every **AC** here must be covered by an automated test (see tech-stack §13).
 - iOS note in UI: data may be cleared by Safari if the site is not added to the Home Screen and unused for a while — prompt to install and back up.
 - "Delete all data" requires typing `DELETE`.
 - Optional **app lock**: 4–6 digit PIN or passkey (WebAuthn, local only) gating the UI on open; *document clearly that this is a UI lock, not encryption* (encryption at rest is a future item).
+
+### 8.11 Goals (Phase 10)
+- Goals have a title, why, optional deadline and area, a next action, status (active / achieved / paused / dropped), milestones, linked tasks and linked contacts. Progress is the share of milestones done.
+- Home right rail shows a Today card (max 3 active goals by soonest deadline). A weekly review saves one note per Sunday-start week and shows a review streak (D-069: progress and streaks apply to goals only, never to people).
+- Deadline reminders use source `goal`: one a week before and one on the day, only for dates still ahead.
+- Deleting a goal is undoable from the toast and unlinks its tasks; expired deleted goals are purged with the 30-day Trash purge (the Trash screen lists contacts and moments only).
+- **AC:** see [2026-10-25-goals/requirements.md](../2026-10-25-goals/requirements.md) AC-1…AC-11.
+
+### 8.12 Networking pipeline (Phase 11, draft)
+- Each contact may have a **pipeline stage** chosen from a user-editable list of labels (defaults: _Met_, _Follow up_, _Building rapport_, _Collaborating_, _Dormant_). Stages are plain labels the user sets: no scores, no ranking, no automatic movement (mission §1.2 principle 3).
+- A **Pipeline** view groups contacts by stage (board on desktop, list on mobile); moving a contact between stages logs a note moment.
+- Contacts can carry **offer / need** notes (what they could help with, what you could offer), free text with optional tags `capital`, `time`, `expertise`, `access`.
+- **AC (draft):** setting a stage on a contact shows it on the profile and in the Pipeline view; renaming or deleting a stage re-labels or clears contacts without data loss; stage history survives export → import; no screen sorts or scores people by stage.
+
+### 8.13 Event log (Phase 12, draft)
+- An **Event** (conference, meetup, dinner) has a name, date, place and notes. **Quick capture** adds people met there in seconds (name, one line of context, optional contact details), creating contacts with `howWeMet` pre-filled and the stage _Met_ if Phase 11 is shipped.
+- Choosing follow-up cadence creates reminders (default: 1 day, 1 week, 1 month after the event) for each person met.
+- **AC (draft):** capturing 3 people at an event creates 3 contacts (duplicates offered a merge per §8.2), each with `howWeMet` set and 3 follow-up reminders; the event page lists everyone met; deleting the event does not delete the contacts.

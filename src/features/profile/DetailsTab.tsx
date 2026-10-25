@@ -11,7 +11,7 @@ import {
   Send,
   type LucideIcon,
 } from 'lucide-react';
-import { contactDetails, contactRepo, useLiveQuery } from '@/db/repositories';
+import { contactDetails, contactRepo, goalsFor, useLiveQuery } from '@/db/repositories';
 import { fullName } from '@/domain/contact';
 import { contactFieldHref } from '@/domain/contactFieldHref';
 import { formatPartialDate } from '@/domain/partialDate';
@@ -51,6 +51,7 @@ const addressLines = (a: Address) =>
 export function DetailsTab({ contact }: { contact: Contact }) {
   const { t, i18n } = useTranslation();
   const fields = useLiveQuery(() => contactDetails.fields(contact.id), [contact.id]);
+  const goals = useLiveQuery(() => goalsFor(contact.id), [contact.id]);
   const addresses = useLiveQuery(() => contactDetails.addresses(contact.id), [contact.id]);
   const introducer = useLiveQuery(
     async () =>
@@ -187,6 +188,19 @@ export function DetailsTab({ contact }: { contact: Contact }) {
       <RelationshipsBlock contact={contact} />
       <ImportantDatesBlock contactId={contact.id} />
       <PetsBlock contactId={contact.id} />
+      {!!goals?.length && (
+        <Block title={t('goals.title')}>
+          <ul className="flex flex-col gap-1">
+            {goals.map((g) => (
+              <li key={g.id}>
+                <Link to={`/goals/${g.id}`} className="text-accent-text hover:underline">
+                  {g.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Block>
+      )}
       <TagsGroupsBlocks contact={contact} />
       {blocks.length === 0 && (
         <div className="px-8 py-12 text-center">
