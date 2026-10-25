@@ -95,7 +95,10 @@
     "language": "Language",
     "languages": {
       "en": "English",
-      "es": "Español"
+      "es": "Español",
+      "fr": "Français",
+      "de": "Deutsch",
+      "pt": "Português"
     },
     "sections": "More settings",
     "currency": "Default currency"
@@ -795,10 +798,10 @@
     "neverBackedUp": "You haven't made a backup yet.",
     "exported": "Backup saved",
     "import": "Import",
-    "importIntro": "Restore a Kin backup (.json) or add contacts from a vCard (.vcf) or CSV file — e.g. exported from your phone, Google Contacts or Outlook.",
+    "importIntro": "Restore a Kin backup (.json) or add contacts from a vCard (.vcf) or CSV file — e.g. exported from your phone, Google Contacts or Outlook. A calendar (.ics) can add birthdays and anniversaries.",
     "chooseFile": "Choose file",
     "dropHere": "…or drop a file here",
-    "unsupported": "That file type isn't supported. Use .json, .vcf or .csv.",
+    "unsupported": "That file type isn't supported. Use .json, .vcf, .csv or .ics.",
     "readError": "That file couldn't be read.",
     "noContacts": "No contacts found in that file.",
     "danger": "Danger zone",
@@ -892,7 +895,17 @@
     "duplicateTitle": "Possible duplicate",
     "duplicateBody": "{{name}} is already in your contacts (same {{reason}}).",
     "open": "Open",
-    "mergeIntoIt": "Save and merge"
+    "mergeIntoIt": "Save and merge",
+    "undone": "Merge undone",
+    "undo": "Undo merge",
+    "undoErrors": {
+      "changed": "Can't undo: one of these contacts was changed after the merge.",
+      "expired": "Can't undo: merges can be undone for 30 days.",
+      "missing": "Can't undo: this merge is no longer available."
+    },
+    "recent": "Recent merges",
+    "recentIntro": "You can undo a merge for 30 days, as long as neither contact has changed since.",
+    "recentRow": "{{from}} merged into {{into}}"
   },
   "nudge": {
     "title": "Back up your data",
@@ -1113,5 +1126,46 @@
     "giftsGiven": "Gifts given",
     "debtsSettled": "Debts settled",
     "tagsUsed": "Tags used"
+  },
+  "ics": {
+    "title": "Import from calendar",
+    "intro": "{{count}} events found. Birthdays and yearly all-day events can be imported; nothing is saved until you confirm.",
+    "untitled": "(no title)",
+    "kinds": {
+      "birthday": "Birthday",
+      "date": "Yearly date"
+    },
+    "skip": {
+      "timed": "Skipped: it has a time, so it is not a birthday or anniversary.",
+      "not-yearly": "Skipped: it does not repeat every year.",
+      "invalid": "Skipped: the date or title could not be read."
+    },
+    "action": "What to do with {{title}}",
+    "choice": {
+      "skip": "Skip",
+      "create": "Create contact “{{name}}”",
+      "add": "Add to {{name}}"
+    },
+    "import": "Import {{count}}",
+    "done": "Added {{birthdays}} birthdays and {{dates}} dates ({{created}} new contacts)"
+  },
+  "a11y": {
+    "remindersDue_one": "{{count}} reminder is due",
+    "remindersDue_other": "{{count}} reminders are due",
+    "searchResults_one": "{{count}} result",
+    "searchResults_other": "{{count}} results",
+    "templateApplied": "{{name}} template applied"
+  },
+  "print": {
+    "title": "Print profile",
+    "menu": "Print profile",
+    "print": "Print",
+    "hint": "Print opens your browser's print dialog. Choose “Save as PDF” there to make a file.",
+    "sheet": "Profile sheet for {{name}}",
+    "about": "About",
+    "dates": "Important dates",
+    "notes": "Notes",
+    "moments_one": "Latest moment",
+    "moments_other": "Latest {{count}} moments"
   }
 }

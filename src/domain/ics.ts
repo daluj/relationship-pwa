@@ -75,3 +75,107 @@ export function buildIcs(events: IcsEvent[], now = new Date()): string {
   lines.push('END:VCALENDAR');
   return lines.map(fold).join('\r\n') + '\r\n';
 }
+
+// ── Import (features §8.14) ──────────────────────────────────────────────────
+
+export type IcsSkipReason = 'not-yearly' | 'timed' | 'invalid';
+
+/** A yearly all-day event read from an `.ics` file, ready for the import preview. */
+export interface ParsedIcsEvent {
+  title: string;
+  month: number;
+  day: number;
+  /** Absent when the year is unknown (Apple uses 1604 or earlier for "no year"). */
+  year?: number;
+  /** `birthday` when the title says so, otherwise an anniversary-style important date. */
+  kind: 'birthday' | 'date';
+  /** Person guessed from a birthday title ("Marc's birthday" → "Marc"). */
+  name?: string;
+  /** Why the event cannot be imported; such rows are listed but never written. */
+  skip?: IcsSkipReason;
+}
+
+/** Undo RFC 5545 line folding (CRLF or LF plus one space or tab). */
+const unfold = (text: string) =>
+  text
+    .replace(/^\uFEFF/, '')
+    .replace(/\r\n|\r/g, '\n')
+    .replace(/\n[ \t]/g, '');
+
+const unescapeText = (s: string) =>
+  s.replace(/\\([nN,;\\])/g, (_, c: string) => (c === 'n' || c === 'N' ? '\n' : c));
+
+const birthdayWords =
+  /birthday|cumplea[ñn]os|anniversaire|geburtstag|compleanno|anivers[áa]rio|🎂/i;
+
+const birthdayPatterns: RegExp[] = [
+  /^(.+?)['’]s\s+(?:\d+(?:st|nd|rd|th)\s+)?birthday\b/i,
+  /^birthday\s*(?:of\s+)?[:\-–]\s*(.+)$/i,
+  /^birthday\s+of\s+(.+)$/i,
+  /^cumplea[ñn]os\s+(?:de\s+)?(.+)$/i,
+  /^anniversaire\s+(?:de\s+)?(.+)$/i,
+  /^geburtstag\s+(?:von\s+)?(.+)$/i,
+  /^(.+?)\s*[-–:]\s*(?:birthday|cumplea[ñn]os)$/i,
+];
+
+/** "Marc's birthday", "Birthday: Marc", "Cumpleaños de Marc" → "Marc". */
+export function guessPersonFromTitle(title: string): string | undefined {
+  const clean = title.replace(/🎂|🎉|🎈/g, '').trim();
+  for (const re of birthdayPatterns) {
+    const m = re.exec(clean);
+    const name = m?.[1]?.trim();
+    if (name) return name;
+  }
+  return undefined;
+}
+
+function daysIn(month: number, year?: number): number {
+  return new Date(year ?? 2000, month, 0).getDate();
+}
+
+/** Reads yearly all-day events; everything else is returned with a `skip` reason (AC-2, AC-3). */
+export function parseIcs(text: string): ParsedIcsEvent[] {
+  const events: ParsedIcsEvent[] = [];
+  let current: Record<string, { params: string; value: string }> | null = null;
+  for (const raw of unfold(text).split('\n')) {
+    const line = raw.trimEnd();
+    if (/^BEGIN:VEVENT$/i.test(line)) current = {};
+    else if (/^END:VEVENT$/i.test(line)) {
+      if (current) events.push(toEvent(current));
+      current = null;
+    } else if (current) {
+      const colon = line.indexOf(':');
+      if (colon < 1) continue;
+      const [name = '', ...params] = line.slice(0, colon).split(';');
+      current[name.toUpperCase()] ??= {
+        params: params.join(';').toUpperCase(),
+        value: line.slice(colon + 1),
+      };
+    }
+  }
+  return events;
+}
+
+function toEvent(props: Record<string, { params: string; value: string }>): ParsedIcsEvent {
+  const title = unescapeText(props.SUMMARY?.value ?? '').trim();
+  const kind = birthdayWords.test(title) ? 'birthday' : 'date';
+  const base = {
+    title,
+    kind,
+    name: kind === 'birthday' ? guessPersonFromTitle(title) : undefined,
+  } as const;
+  const bad = (skip: IcsSkipReason): ParsedIcsEvent => ({ ...base, month: 0, day: 0, skip });
+
+  const start = props.DTSTART;
+  const m = start ? /^(\d{4})(\d{2})(\d{2})(T.*)?$/.exec(start.value.trim()) : null;
+  if (!title || !m) return bad('invalid');
+  const [, y, mo, d, time] = m;
+  const month = Number(mo);
+  const day = Number(d);
+  // A DATE value (or a bare date) is all-day; a time part makes it a timed event.
+  if (time && !start!.params.includes('VALUE=DATE')) return { ...base, month, day, skip: 'timed' };
+  const year = Number(y) >= 1900 ? Number(y) : undefined;
+  if (month < 1 || month > 12 || day < 1 || day > daysIn(month, year)) return bad('invalid');
+  const yearly = /(^|;)FREQ=YEARLY(;|$)/i.test(props.RRULE?.value ?? '');
+  return { ...base, month, day, year, ...(!yearly && { skip: 'not-yearly' as const }) };
+}

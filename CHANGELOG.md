@@ -1,5 +1,18 @@
 # Changelog
 
+## Phase 13 — Backlog polish (2026-10-25)
+
+- `.ics` import: yearly all-day birthdays and anniversaries from Google or Apple calendars, with a per-event preview, name matching,
+  skip reasons and no writes until confirmed. `.ics` is also a share target and file handler.
+- Undo for contact merges (Dexie v3): from the toast or Settings › Your data › Recent merges, for 30 days, restoring both contacts
+  and everything the merge moved. Refused with a clear message if either contact changed since.
+- New languages: French, German and Portuguese (drafted by Claude, native review welcome). Only English is in the first-load bundle;
+  the rest load on demand and work offline.
+- Print profile: a light, chrome-free sheet with the latest 10 moments, ready for "Save as PDF".
+- A shared screen-reader live region speaks search result counts, templates applied and newly due reminders.
+- Tests: ICS parser (Google/Apple fixtures), commit and merge-undo round-trip equality, locale parity and plurals, live region,
+  and E2E for each flow.
+
 ## Phase 12 — Organisation depth (2026-10-25)
 
 - Search filters: kind, date range, tag, group and "not contacted in N days", combined with the text query and kept in the URL.

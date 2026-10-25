@@ -21,6 +21,7 @@ export type Tag = z.infer<typeof s.tagSchema>;
 export type Group = z.infer<typeof s.groupSchema>;
 export type SearchFilters = z.infer<typeof s.searchFiltersSchema>;
 export type SavedSearch = z.infer<typeof s.savedSearchSchema>;
+export type MergeSnapshot = z.infer<typeof s.mergeSnapshotSchema>;
 export type BlobRecord = z.infer<typeof s.blobRecordSchema>;
 export type Setting = z.infer<typeof s.settingSchema>;
 export type SearchIndexEntry = z.infer<typeof s.searchIndexEntrySchema>;

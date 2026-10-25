@@ -20,7 +20,7 @@ export type Accent = keyof typeof accents;
 export const fontSizes = [13, 14, 15, 17, 19] as const;
 export type FontSize = (typeof fontSizes)[number];
 
-export const locales = ['en', 'es'] as const;
+export const locales = ['en', 'es', 'fr', 'de', 'pt'] as const;
 export type Locale = (typeof locales)[number];
 
 export interface AppSettings {

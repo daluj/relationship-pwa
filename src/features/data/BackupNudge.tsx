@@ -33,6 +33,7 @@ export function BackupNudge() {
 
   return (
     <div
+      data-print="hide"
       role="region"
       aria-label={t('nudge.title')}
       className="flex flex-wrap items-center gap-3 border-b border-border bg-surface-1 px-4 py-3 text-sm"

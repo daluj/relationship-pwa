@@ -95,7 +95,10 @@
     "language": "Idioma",
     "languages": {
       "en": "English",
-      "es": "Español"
+      "es": "Español",
+      "fr": "Français",
+      "de": "Deutsch",
+      "pt": "Português"
     },
     "sections": "Más ajustes",
     "currency": "Moneda predeterminada"
@@ -795,10 +798,10 @@
     "neverBackedUp": "Aún no has hecho ninguna copia.",
     "exported": "Copia guardada",
     "import": "Importar",
-    "importIntro": "Restaura una copia de Kin (.json) o añade contactos desde un archivo vCard (.vcf) o CSV, por ejemplo exportado desde el móvil, Google Contacts u Outlook.",
+    "importIntro": "Restaura una copia de Kin (.json) o añade contactos desde un archivo vCard (.vcf) o CSV, por ejemplo exportado desde el móvil, Google Contacts u Outlook. Un calendario (.ics) puede añadir cumpleaños y aniversarios.",
     "chooseFile": "Elegir archivo",
     "dropHere": "…o suelta un archivo aquí",
-    "unsupported": "Ese tipo de archivo no es compatible. Usa .json, .vcf o .csv.",
+    "unsupported": "Ese tipo de archivo no es compatible. Usa .json, .vcf, .csv o .ics.",
     "readError": "No se ha podido leer el archivo.",
     "noContacts": "No se han encontrado contactos en ese archivo.",
     "danger": "Zona peligrosa",
@@ -892,7 +895,17 @@
     "duplicateTitle": "Posible duplicado",
     "duplicateBody": "{{name}} ya está en tus contactos (mismo {{reason}}).",
     "open": "Abrir",
-    "mergeIntoIt": "Guardar y combinar"
+    "mergeIntoIt": "Guardar y combinar",
+    "undone": "Fusión deshecha",
+    "undo": "Deshacer fusión",
+    "undoErrors": {
+      "changed": "No se puede deshacer: uno de estos contactos cambió después de la fusión.",
+      "expired": "No se puede deshacer: las fusiones se pueden deshacer durante 30 días.",
+      "missing": "No se puede deshacer: esta fusión ya no está disponible."
+    },
+    "recent": "Fusiones recientes",
+    "recentIntro": "Puedes deshacer una fusión durante 30 días, siempre que ninguno de los contactos haya cambiado.",
+    "recentRow": "{{from}} fusionado en {{into}}"
   },
   "nudge": {
     "title": "Haz una copia de seguridad",
@@ -1113,5 +1126,46 @@
     "giftsGiven": "Regalos entregados",
     "debtsSettled": "Deudas saldadas",
     "tagsUsed": "Etiquetas usadas"
+  },
+  "ics": {
+    "title": "Importar desde un calendario",
+    "intro": "Se han encontrado {{count}} eventos. Se pueden importar cumpleaños y eventos anuales de todo el día; no se guarda nada hasta que lo confirmes.",
+    "untitled": "(sin título)",
+    "kinds": {
+      "birthday": "Cumpleaños",
+      "date": "Fecha anual"
+    },
+    "skip": {
+      "timed": "Omitido: tiene hora, así que no es un cumpleaños ni un aniversario.",
+      "not-yearly": "Omitido: no se repite cada año.",
+      "invalid": "Omitido: no se pudo leer la fecha o el título."
+    },
+    "action": "Qué hacer con {{title}}",
+    "choice": {
+      "skip": "Omitir",
+      "create": "Crear contacto «{{name}}»",
+      "add": "Añadir a {{name}}"
+    },
+    "import": "Importar {{count}}",
+    "done": "Se añadieron {{birthdays}} cumpleaños y {{dates}} fechas ({{created}} contactos nuevos)"
+  },
+  "a11y": {
+    "remindersDue_one": "{{count}} recordatorio pendiente",
+    "remindersDue_other": "{{count}} recordatorios pendientes",
+    "searchResults_one": "{{count}} resultado",
+    "searchResults_other": "{{count}} resultados",
+    "templateApplied": "Plantilla {{name}} aplicada"
+  },
+  "print": {
+    "title": "Imprimir perfil",
+    "menu": "Imprimir perfil",
+    "print": "Imprimir",
+    "hint": "Imprimir abre el diálogo de impresión del navegador. Elige «Guardar como PDF» para crear un archivo.",
+    "sheet": "Ficha de perfil de {{name}}",
+    "about": "Acerca de",
+    "dates": "Fechas importantes",
+    "notes": "Notas",
+    "moments_one": "Último momento",
+    "moments_other": "Últimos {{count}} momentos"
   }
 }

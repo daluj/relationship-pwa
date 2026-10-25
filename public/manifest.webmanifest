@@ -79,7 +79,9 @@
             ".json",
             "application/json",
             ".csv",
-            "text/csv"
+            "text/csv",
+            ".ics",
+            "text/calendar"
           ]
         }
       ]
@@ -89,16 +91,10 @@
     {
       "action": "/settings/data",
       "accept": {
-        "text/vcard": [
-          ".vcf",
-          ".vcard"
-        ],
-        "application/json": [
-          ".json"
-        ],
-        "text/csv": [
-          ".csv"
-        ]
+        "text/vcard": [".vcf", ".vcard"],
+        "application/json": [".json"],
+        "text/csv": [".csv"],
+        "text/calendar": [".ics"]
       }
     }
   ]

@@ -8,6 +8,7 @@ import type {
   Gift,
   Group,
   ImportantDate,
+  MergeSnapshot,
   Moment,
   Pet,
   Relationship,
@@ -112,6 +113,12 @@ export const savedSearchRepo = createRepository<SavedSearch>({
   entity: 'savedSearch',
   table: db.savedSearches,
   schema: s.savedSearchSchema,
+});
+
+export const mergeSnapshotRepo = createRepository<MergeSnapshot>({
+  entity: 'mergeSnapshot',
+  table: db.mergeSnapshots,
+  schema: s.mergeSnapshotSchema,
 });
 
 export const groupRepo = createRepository<Group>({

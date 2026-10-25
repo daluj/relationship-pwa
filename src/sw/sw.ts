@@ -12,6 +12,9 @@ import { runReminderCheck } from '@/db/repositories/reminderCheck';
 import { notificationFor } from '@/features/reminders/notify';
 import en from '@/i18n/locales/en.json';
 import es from '@/i18n/locales/es.json';
+import fr from '@/i18n/locales/fr.json';
+import de from '@/i18n/locales/de.json';
+import pt from '@/i18n/locales/pt.json';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -74,7 +77,13 @@ async function checkReminders(): Promise<void> {
   await i18n.init({
     lng: locale,
     fallbackLng: 'en',
-    resources: { en: { translation: en }, es: { translation: es } },
+    resources: {
+      en: { translation: en },
+      es: { translation: es },
+      fr: { translation: fr },
+      de: { translation: de },
+      pt: { translation: pt },
+    },
     interpolation: { escapeValue: false },
   });
   const canNotify = Notification.permission === 'granted';

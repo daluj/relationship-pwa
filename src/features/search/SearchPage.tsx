@@ -13,6 +13,7 @@ import { ArrowLeft, Clock, Hash, Search, X } from 'lucide-react';
 import { IconButton } from '@/components/IconButton';
 import { Tabs } from '@/components/Tabs';
 import { search, trendingTags, useLiveQuery, type SearchResults } from '@/db/repositories';
+import { announce } from '@/app/stores/announce';
 import { filtersFromParams, filtersToParams, hasAnyFilter } from '@/domain/searchFilters';
 import type { SearchFilters } from '@/domain/types';
 import { ContactRow } from '@/features/contacts/ContactRow';
@@ -100,6 +101,12 @@ export function SearchPage() {
   };
 
   const total = results ? results.contacts.length + results.momentTotal + results.tags.length : 0;
+  // Results change under the user's fingers while typing; say how many there are once they settle.
+  useEffect(() => {
+    if (!results || !active) return;
+    const id = setTimeout(() => announce(t('a11y.searchResults', { count: total })), 400);
+    return () => clearTimeout(id);
+  }, [results, active, total, t]);
 
   return (
     <>

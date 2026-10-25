@@ -170,7 +170,7 @@ describe('saved searches in backups (features §8.13 AC-4, AC-9)', () => {
     await saveSearch('March calls', 'lyon', { kinds: ['call'], from: '2026-03-01' });
     const file = await exportBackup();
     const json = (await readJson(file)) as { schemaVersion: number };
-    expect(json.schemaVersion).toBe(2);
+    expect(json.schemaVersion).toBe(3);
     await deleteAllData();
     await importBackup(parseBackup(json), 'replace');
     const [restored] = await listSavedSearches();
@@ -179,6 +179,20 @@ describe('saved searches in backups (features §8.13 AC-4, AC-9)', () => {
       query: 'lyon',
       filters: { kinds: ['call'], from: '2026-03-01' },
     });
+  });
+
+  it('a v2 backup without mergeSnapshots still imports (features §8.14 AC-9)', async () => {
+    await seed();
+    const before = await recordCounts();
+    const v2 = (await readJson(await exportBackup())) as {
+      schemaVersion: number;
+      data: Record<string, unknown>;
+    };
+    v2.schemaVersion = 2;
+    delete v2.data.mergeSnapshots;
+    await deleteAllData();
+    await importBackup(parseBackup(v2), 'replace');
+    expect(await recordCounts()).toEqual(before);
   });
 
   it('a v1 backup without savedSearches still imports', async () => {

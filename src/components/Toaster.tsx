@@ -8,6 +8,7 @@ export function Toaster() {
   const { toasts, dismiss } = useToasts();
   return (
     <div
+      data-print="hide"
       aria-live="polite"
       className="pointer-events-none fixed inset-x-0 bottom-[calc(72px+env(safe-area-inset-bottom))] z-50 flex flex-col items-center gap-2 px-4 md:bottom-6"
     >

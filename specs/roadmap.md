@@ -98,11 +98,11 @@ onwards also link their feature spec folder (`specs/YYYY-MM-DD-<name>/`).
 
 **Goal:** clear the small items from the backlog.
 
-- [ ] Calendar `.ics` import of birthdays and important dates
-- [ ] Undo for contact merge (Dexie v3 snapshots)
-- [ ] New locales: fr, de, pt
-- [ ] Print / PDF view of a contact profile
-- [ ] Screen-reader announcements for live updates
+- [x] Calendar `.ics` import of birthdays and important dates
+- [x] Undo for contact merge (Dexie v3 snapshots)
+- [x] New locales: fr, de, pt
+- [x] Print / PDF view of a contact profile
+- [x] Screen-reader announcements for live updates
 
 Phases 10–13 ship together on branch `phase-10-13-recall-capture-organise` and one PR. Phase 9 (real-device check) stays open; it needs hardware and does not block them.
 

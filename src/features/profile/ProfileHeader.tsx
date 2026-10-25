@@ -18,6 +18,7 @@ import {
   Download,
   NotebookText,
   Phone,
+  Printer,
   Merge,
   type LucideIcon,
 } from 'lucide-react';
@@ -200,6 +201,11 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
                   label: t('recall.brief'),
                   icon: NotebookText,
                   onSelect: () => navigate(`/c/${contact.id}/brief`),
+                },
+                {
+                  label: t('print.menu'),
+                  icon: Printer,
+                  onSelect: () => navigate(`/c/${contact.id}/print`),
                 },
                 { label: t('merge.menu'), icon: Merge, onSelect: () => setMerging(true) },
                 {

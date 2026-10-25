@@ -5,7 +5,7 @@
 
 ## 9. PWA requirements
 
-- `manifest.webmanifest`: name, short_name, description, `start_url: "/"`, `display: "standalone"`, `theme_color`/`background_color` per theme (update `<meta name="theme-color">` on theme change), icons 192/512 + maskable, `shortcuts` (Log moment → `/compose`, Reminders, Search), `share_target` (text → composer prefill; files → import), `file_handlers` for `.vcf`/`.json`.
+- `manifest.webmanifest`: name, short_name, description, `start_url: "/"`, `display: "standalone"`, `theme_color`/`background_color` per theme (update `<meta name="theme-color">` on theme change), icons 192/512 + maskable, `shortcuts` (Log moment → `/compose`, Reminders, Search), `share_target` (text → composer prefill; files → import), `file_handlers` for `.vcf`/`.json`/`.csv`/`.ics`.
 - Service worker (Workbox `injectManifest`):
   - Precache full app shell and all static assets (app must load fully offline after first visit).
   - SPA navigation fallback to `index.html`.

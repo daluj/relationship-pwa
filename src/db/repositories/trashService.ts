@@ -2,6 +2,7 @@ import type { BaseRecord } from '@/domain/types';
 import type { Table } from 'dexie';
 import { db } from '../db';
 import { purgeContact, TRASH_RETENTION_DAYS } from './contactService';
+import { purgeExpiredMergeSnapshots } from './mergeService';
 import { purgeMoment } from './momentService';
 import { deleteGiftPhotoBlobs } from './profileItems';
 
@@ -43,7 +44,7 @@ export async function purgeExpiredTrash(now = new Date()): Promise<number> {
   // Expired gifts take their photo (and thumbnail) with them.
   const gifts = await db.gifts.where('deletedAt').below(cutoff).toArray();
   await deleteGiftPhotoBlobs(gifts.flatMap((g) => (g.photoBlobId ? [g.photoBlobId] : [])));
-  let purged = contacts.length + moments.length;
+  let purged = contacts.length + moments.length + (await purgeExpiredMergeSnapshots(now));
   for (const table of softDeletableTables()) {
     purged += await table.where('deletedAt').below(cutoff).delete();
   }

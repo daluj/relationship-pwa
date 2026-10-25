@@ -42,6 +42,7 @@ for (const theme of themes) {
       profile,
       `${profile}/details`,
       `${profile}/brief`,
+      `${profile}/print`,
       `${profile}/money`,
       `${profile}/gifts`,
       '/reminders',

@@ -1,6 +1,6 @@
 import type { Table } from 'dexie';
 import { byPosition } from '@/domain/contact';
-import type { Address, BaseRecord, Contact, ContactField } from '@/domain/types';
+import type { Address, BaseRecord, Contact, ContactField, PartialDate } from '@/domain/types';
 import { db } from '../db';
 import { blobRepo } from './blobRepo';
 import { nowIso, type CreateInput } from './createRepository';
@@ -117,6 +117,20 @@ export async function saveContact(id: string | undefined, draft: ContactDraft): 
     await indexContact(contact.id);
     if (before && fullName(before) !== fullName(contact))
       await reindexMomentsForContact(contact.id);
+    return contact;
+  });
+}
+
+/** Sets just the birthday (e.g. from an `.ics` import) and keeps its yearly reminder in step. */
+export async function setContactBirthday(id: string, birthday: PartialDate): Promise<Contact> {
+  return db.transaction('rw', [db.contacts, db.reminders], async () => {
+    const before = await contactRepo.get(id);
+    if (!before) throw new RecordNotFoundError('contact', id);
+    const contact = await contactRepo.update(id, {
+      birthday,
+      isBirthdayYearKnown: birthday.year !== undefined,
+    });
+    await syncBirthdayReminder(contact, before.birthday);
     return contact;
   });
 }

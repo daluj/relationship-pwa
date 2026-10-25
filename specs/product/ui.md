@@ -96,6 +96,9 @@ The composer toolbar has a **Template** menu (after the location button). The pr
 ### 6.13 Organisation depth
 Search has a **Filters** disclosure (with an active-filter count) above the results, a **Save search** button once something is being searched, and a **Saved searches** list when it is empty. Contacts has a **Select** toggle in its header; selection mode shows a sticky toolbar (`role="toolbar"`) with a polite selected-count, Select all, Tags, Groups, Archive, Unarchive, Move to Trash and Done, and rows become checkboxes. `/review/:year` shows grouped `<dl>` counts and a year picker.
 
+### 6.14 Backlog polish
+The profile ⋯ menu gains **Print profile**. Settings › Your data accepts `.ics` (with a per-event preview) and lists **Recent merges** with an Undo button; merge toasts carry Undo. Settings › Language offers five languages. Elements marked `data-print="hide"` (navigation, rails, FAB, banners, toasts) disappear when printing, and print always uses light colours. The shell mounts one visually hidden `role="status"` live region (`LiveRegion`) fed by `announce()`.
+
 ## 7. Routes
 
 | Path | Screen |
@@ -108,6 +111,7 @@ Search has a **Filters** disclosure (with an active-filter count) above the resu
 | `/c/:id` and `/c/:id/:tab` | Contact profile |
 | `/c/:id/edit` | Edit contact |
 | `/c/:id/brief` | Before you meet |
+| `/c/:id/print` | Print profile |
 | `/review/:year` | Year in review |
 | `/reminders` | Reminders |
 | `/tasks` | Tasks |

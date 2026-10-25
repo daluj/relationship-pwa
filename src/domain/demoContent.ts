@@ -484,5 +484,6 @@ const text = {
 };
 
 export function demoContent(locale: Locale) {
-  return { people, relationships: demoRelationships, ...text[locale] };
+  // The sample people are written in English and Spanish only; other locales get the English set.
+  return { people, relationships: demoRelationships, ...text[locale === 'es' ? 'es' : 'en'] };
 }

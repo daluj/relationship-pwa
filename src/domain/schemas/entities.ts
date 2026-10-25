@@ -243,6 +243,19 @@ export const savedSearchSchema = baseRecordSchema.extend({
   filters: searchFiltersSchema,
 });
 
+/** What a contact merge changed, so it can be undone for 30 days (features §8.14). */
+export const mergeSnapshotSchema = baseRecordSchema.extend({
+  primaryId: uuid,
+  secondaryId: uuid,
+  mergedAt: isoDateTime,
+  /** `primary.updatedAt` right after the merge; any later edit makes undo unsafe. */
+  primaryUpdatedAt: isoDateTime,
+  /** The tombstone the merge put on the secondary. */
+  secondaryDeletedAt: isoDateTime,
+  /** Rows as they were before the merge, by table name. */
+  before: z.record(z.array(z.record(z.unknown()))),
+});
+
 export const blobRecordSchema = z.object({
   id: z.string().min(1),
   createdAt: isoDateTime,

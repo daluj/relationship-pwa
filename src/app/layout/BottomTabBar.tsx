@@ -10,6 +10,7 @@ export function BottomTabBar() {
   const remindersDue = useRemindersBadge();
   return (
     <nav
+      data-print="hide"
       aria-label={t('nav.main')}
       className="pb-safe fixed inset-x-0 bottom-0 z-20 border-t border-border bg-bg/90 backdrop-blur-md md:hidden"
     >

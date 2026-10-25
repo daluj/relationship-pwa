@@ -14,9 +14,15 @@ reference and per-feature specs.
 - **Reminders** — one-off and recurring, automatic birthdays, important dates and "stay in touch" nudges; in-app, system
   and periodic background notifications where supported; `.ics` export.
 - **Gifts, money (balances per currency), tasks, starred** and a fast client-side **search**.
-- **Import/export** — full JSON backup and restore, vCard and CSV (Google/Outlook), share target and file handlers.
-- **Polish** — onboarding with demo data, keyboard shortcuts (`?`), app lock (PIN / passkey), three themes, English and
-  Spanish, WCAG 2.1 AA.
+- **Import/export** — full JSON backup and restore, vCard, CSV (Google/Outlook) and `.ics` calendars (birthdays and
+  anniversaries), merge undo, share target and file handlers.
+- **Recall and organisation** — "Before you meet" briefs, "On this day", milestones, saved searches, bulk actions, year in
+  review and a print view of a profile.
+- **Polish** — onboarding with demo data, keyboard shortcuts (`?`), app lock (PIN / passkey), three themes, English,
+  Spanish, French, German and Portuguese, WCAG 2.1 AA.
+
+  _Languages:_ French, German and Portuguese (European) were drafted by Claude and are waiting for review by native speakers;
+  corrections are welcome.
 
 Kin works fully offline after the first visit. Browsers can clear website storage, so install the app, allow persistent
 storage and export backups regularly (Settings › Your data).

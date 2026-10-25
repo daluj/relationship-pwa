@@ -16,6 +16,7 @@ describe('Dexie schema v1 (data-model §5.2)', () => {
         'gifts',
         'groups',
         'importantDates',
+        'mergeSnapshots',
         'moments',
         'pets',
         'relationships',
@@ -41,7 +42,7 @@ describe('Dexie schema v1 (data-model §5.2)', () => {
   });
 });
 
-describe('upgrade from schema v1 (features §8.13 AC-9)', () => {
+describe('upgrade from schema v1 (features §8.13 AC-9, §8.14 AC-9)', () => {
   it('keeps every existing record and adds the savedSearches table', async () => {
     const name = `kin-v1-${crypto.randomUUID()}`;
     // The released v1 schema, declared the way the app did before Phase 12.
@@ -61,10 +62,11 @@ describe('upgrade from schema v1 (features §8.13 AC-9)', () => {
 
     const upgraded = new KinDB(name);
     await upgraded.open();
-    expect(upgraded.verno).toBe(2);
+    expect(upgraded.verno).toBe(3);
     expect((await upgraded.contacts.get('c1'))?.firstName).toBe('Élise');
     expect(await upgraded.moments.count()).toBe(1);
     expect(await upgraded.savedSearches.count()).toBe(0);
+    expect(await upgraded.mergeSnapshots.count()).toBe(0);
     upgraded.close();
     await Dexie.delete(name);
   });

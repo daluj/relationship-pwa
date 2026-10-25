@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router-dom';
+import { LiveRegion } from '@/components/LiveRegion';
 import { Toaster } from '@/components/Toaster';
 import { ComposerDialog } from '@/features/compose/ComposerDialog';
 import { EntityLookupProvider } from '@/features/moments/lookup';
@@ -30,6 +31,7 @@ export function AppShell() {
   return (
     <EntityLookupProvider>
       <a
+        data-print="hide"
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-accent focus:px-3 focus:py-2 focus:text-on-accent"
       >
@@ -55,6 +57,7 @@ export function AppShell() {
       <Fab />
       <BottomTabBar />
       <Toaster />
+      <LiveRegion />
       <UpdatePrompt />
       <ComposerDialog />
       <ShortcutsDialog open={helpOpen} onClose={() => setHelpOpen(false)} />

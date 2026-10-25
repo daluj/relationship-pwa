@@ -9,12 +9,15 @@ import { PageHeader } from '@/components/PageHeader';
 import { inputClass } from '@/components/form/fieldClass';
 import { deleteAllData, useSettings } from '@/db/repositories';
 import type { ParsedBackup } from '@/domain/backup';
+import type { ParsedIcsEvent } from '@/domain/ics';
 import type { ParsedContact } from '@/domain/parsedContact';
 import { formatRelativeDay } from '@/domain/partialDate';
 import { CsvMapping } from './CsvMapping';
 import { downloadBackup, downloadCsv, downloadVCards } from './exporters';
+import { IcsPreview } from './IcsPreview';
 import { ImportPreview } from './ImportPreview';
 import { ImportFileError, readImportFile } from './readImportFile';
+import { RecentMerges } from './RecentMerges';
 import { RestoreDialog } from './RestoreDialog';
 import { StorageSection } from './StorageSection';
 import { takeSharedFiles } from './sharedFiles';
@@ -22,7 +25,8 @@ import { takeSharedFiles } from './sharedFiles';
 type Step =
   | { kind: 'idle' }
   | { kind: 'csv'; headers: string[]; rows: string[][] }
-  | { kind: 'preview'; contacts: ParsedContact[] };
+  | { kind: 'preview'; contacts: ParsedContact[] }
+  | { kind: 'ics'; events: ParsedIcsEvent[] };
 
 const errorKey = (code: ImportFileError['code']) =>
   code === 'not-kin' || code === 'too-new' || code === 'invalid'
@@ -56,6 +60,7 @@ export function DataPage() {
         const f = await readImportFile(file);
         if (f.kind === 'backup') setBackup(f.backup);
         else if (f.kind === 'csv') setStep({ kind: 'csv', headers: f.headers, rows: f.rows });
+        else if (f.kind === 'ics') setStep({ kind: 'ics', events: f.events });
         else setStep({ kind: 'preview', contacts: f.contacts });
       } catch (e) {
         setError(t(errorKey(e instanceof ImportFileError ? e.code : 'read')));
@@ -118,6 +123,18 @@ export function DataPage() {
           rows={step.rows}
           onCancel={() => setStep({ kind: 'idle' })}
           onDone={(contacts) => setStep({ kind: 'preview', contacts })}
+        />
+      </>
+    );
+  }
+  if (step.kind === 'ics') {
+    return (
+      <>
+        <PageHeader title={t('pages.data')} back />
+        <IcsPreview
+          events={step.events}
+          onCancel={() => setStep({ kind: 'idle' })}
+          onDone={() => navigate('/contacts')}
         />
       </>
     );
@@ -203,7 +220,7 @@ export function DataPage() {
           <input
             ref={fileRef}
             type="file"
-            accept=".json,.vcf,.vcard,.csv,application/json,text/vcard,text/csv"
+            accept=".json,.vcf,.vcard,.csv,.ics,application/json,text/vcard,text/csv,text/calendar"
             aria-label={t('data.chooseFile')}
             className="sr-only"
             tabIndex={-1}
@@ -220,6 +237,8 @@ export function DataPage() {
           </p>
         )}
       </section>
+
+      <RecentMerges className={section} />
 
       <StorageSection />
 

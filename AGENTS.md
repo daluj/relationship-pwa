@@ -41,5 +41,5 @@ Full list in tech-stack §4.
 - UI composes live reads with `useLiveQuery` imported from `@/db/repositories`, never from `dexie-react-hooks`.
 - No backend, accounts or analytics; no network calls that send user data; no CDNs or third-party runtime scripts.
 - No X.com branding. Copy the layout only. Accent default `#14B8A6`.
-- All user-facing strings go through i18next (`src/i18n/locales/{en,es}.json`), and both locales stay complete.
+- All user-facing strings go through i18next (`src/i18n/locales/{en,es,fr,de,pt}.json`), and every locale stays complete.
 - Theme colors come only from CSS tokens (`var(--bg)` etc. via Tailwind theme utilities), never hard-coded hex values in components.

@@ -7,7 +7,7 @@ import {
   useSettingsQuery,
 } from '@/db/repositories';
 import { resolveTheme } from '@/domain/settings';
-import i18n from '@/i18n';
+import i18n, { loadLocale } from '@/i18n';
 import { IosInstallDialog } from '@/components/InstallButton';
 import { LockGate } from '@/features/lock/LockGate';
 import { applyTheme, computeTheme } from './theme';
@@ -40,7 +40,9 @@ function SettingsSync() {
   useEffect(() => {
     if (!settings) return;
     document.documentElement.lang = settings.locale;
-    if (i18n.language !== settings.locale) void i18n.changeLanguage(settings.locale);
+    if (i18n.language !== settings.locale) {
+      void loadLocale(settings.locale).then(() => i18n.changeLanguage(settings.locale));
+    }
   }, [settings]);
 
   return null;

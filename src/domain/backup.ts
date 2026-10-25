@@ -5,7 +5,7 @@ import * as s from './schemas';
  * Full JSON backup format (features §8.9):
  * `{ app: "kin", schemaVersion, exportedAt, includesPhotos, data: { contacts: [...], …, blobs: [{ id, mime, base64, … }] } }`.
  */
-export const BACKUP_SCHEMA_VERSION = 2; // tracks the Dexie schema version (db/schema.ts)
+export const BACKUP_SCHEMA_VERSION = 3; // tracks the Dexie schema version (db/schema.ts)
 
 export const backupTables = [
   'contacts',
@@ -22,6 +22,7 @@ export const backupTables = [
   'tags',
   'groups',
   'savedSearches',
+  'mergeSnapshots',
   'settings',
 ] as const;
 export type BackupTable = (typeof backupTables)[number] | 'blobs';
@@ -45,6 +46,7 @@ export const tableSchemas: Record<BackupTable, z.ZodTypeAny> = {
   tags: s.tagSchema,
   groups: s.groupSchema,
   savedSearches: s.savedSearchSchema,
+  mergeSnapshots: s.mergeSnapshotSchema,
   settings: s.settingSchema,
   blobs: backupBlobSchema,
 };
@@ -65,6 +67,8 @@ export const backupMigrations: Record<
 > = {
   // v1 → v2 (Phase 12) added `savedSearches`; older backups simply have none.
   1: (data) => ({ ...data, savedSearches: data.savedSearches ?? [] }),
+  // v2 → v3 (Phase 13) added `mergeSnapshots`.
+  2: (data) => ({ ...data, mergeSnapshots: data.mergeSnapshots ?? [] }),
 };
 
 export class BackupError extends Error {

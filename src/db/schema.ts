@@ -8,6 +8,7 @@ import type {
   Gift,
   Group,
   ImportantDate,
+  MergeSnapshot,
   Moment,
   Pet,
   Relationship,
@@ -41,6 +42,7 @@ export class KinDB extends Dexie {
   settings!: Table<Setting, string>;
   searchIndex!: Table<SearchIndexEntry, [string, string]>;
   savedSearches!: Table<SavedSearch, string>;
+  mergeSnapshots!: Table<MergeSnapshot, string>;
 
   constructor(name = DB_NAME) {
     super(name);
@@ -66,7 +68,9 @@ export class KinDB extends Dexie {
     });
     // v2 (Phase 12): saved searches. No data changes, so no upgrade function is needed.
     this.version(2).stores({ savedSearches: 'id, name, deletedAt' });
+    // v3 (Phase 13): snapshots that let a contact merge be undone.
+    this.version(3).stores({ mergeSnapshots: 'id, primaryId, secondaryId, mergedAt, deletedAt' });
   }
 }
 
-export const SCHEMA_VERSION = 2;
+export const SCHEMA_VERSION = 3;

@@ -267,6 +267,6 @@ test('bad import files show a clear error', async ({ page }, testInfo) => {
   await fs.writeFile(txt, 'hi');
   await page.getByLabel('Choose file').setInputFiles(txt);
   await expect(page.getByRole('alert')).toHaveText(
-    "That file type isn't supported. Use .json, .vcf or .csv.",
+    "That file type isn't supported. Use .json, .vcf, .csv or .ics.",
   );
 });

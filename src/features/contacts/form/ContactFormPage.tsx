@@ -16,7 +16,7 @@ import {
   contactDetails,
   contactRepo,
   knownContacts,
-  mergeContacts,
+  mergeContactsUndoable,
   saveContact,
   useBlobUrl,
   useLiveList,
@@ -32,6 +32,7 @@ import {
   toFormValues,
   type ContactFormValues,
 } from './contactFormModel';
+import { undoMergeWithMessage } from '@/features/data/undoMerge';
 import { ImagePicker, type ImageChange } from './ImagePicker';
 
 const stayInTouchOptions = ['', '7', '14', '30', '90', '180', '365'] as const;
@@ -109,8 +110,14 @@ export function ContactFormPage() {
   const saveAndMerge = (targetId: string) =>
     handleSubmit(async (values) => {
       const saved = await saveContact(undefined, { ...toDraft(values), avatar, banner });
-      await mergeContacts(targetId, saved.id);
-      showToast({ message: t('merge.done') });
+      const { snapshotId } = await mergeContactsUndoable(targetId, saved.id);
+      showToast({
+        message: t('merge.done'),
+        action: {
+          label: t('common.undo'),
+          onClick: () => void undoMergeWithMessage(snapshotId, t, showToast),
+        },
+      });
       navigate(`/c/${targetId}`, { replace: true });
     })();
 

@@ -171,6 +171,14 @@ interface SavedSearch extends BaseRecord {   // Phase 12, db.version(2)
   };
 }
 
+interface MergeSnapshot extends BaseRecord {   // Phase 13, db.version(3)
+  primaryId: string; secondaryId: string;
+  mergedAt: string;
+  primaryUpdatedAt: string;     // primary.updatedAt right after the merge; a later edit makes undo unsafe
+  secondaryDeletedAt: string;   // the tombstone the merge put on the secondary
+  before: Record<string, object[]>; // rows as they were before the merge, by table name
+}
+
 interface BlobRecord {           // images; no BaseRecord timestamps needed beyond createdAt
   id: string; createdAt: string;
   mime: string; width: number; height: number; size: number;
@@ -180,7 +188,7 @@ interface BlobRecord {           // images; no BaseRecord timestamps needed beyo
 interface Setting { key: string; value: unknown }   // theme, accent, locale, currency, notification prefs…
 ```
 
-### 5.2 Dexie schema (versions 1–2)
+### 5.2 Dexie schema (versions 1–3)
 
 ```ts
 db.version(1).stores({
@@ -207,6 +215,11 @@ db.version(1).stores({
 db.version(2).stores({ savedSearches: 'id, name, deletedAt' });   // Phase 12; no data upgrade needed
 ```
 
-- Backups carry `schemaVersion` 2; `backupMigrations[1]` adds an empty `savedSearches` for older files.
+```ts
+db.version(3).stores({ mergeSnapshots: 'id, primaryId, secondaryId, mergedAt, deletedAt' });   // Phase 13
+```
+
+- Backups carry `schemaVersion` 3; `backupMigrations[2]` adds an empty `mergeSnapshots` for v2 files.
+- (v2 note) Backups carried `schemaVersion` 2; `backupMigrations[1]` adds an empty `savedSearches` for older files.
 - Every schema change = new `db.version(n)` with an `.upgrade()` migration. Never edit a released version.
 - Deleting a contact soft-deletes its dependent records in one Dexie transaction; restoring from Trash restores them.

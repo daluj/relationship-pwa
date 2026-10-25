@@ -101,7 +101,14 @@ export { bulkUpdateContacts, undoBulkUpdate } from './bulkService';
 export type { BulkAction, BulkUndo } from './bulkService';
 export { getYearReview, reviewYears } from './reviewService';
 export type { SearchResults } from './searchService';
-export { mergeContacts } from './mergeService';
+export {
+  listMergeHistory,
+  mergeContacts,
+  mergeContactsUndoable,
+  MergeUndoError,
+  undoMerge,
+} from './mergeService';
+export type { MergeHistoryEntry } from './mergeService';
 export {
   dataSince,
   deleteAllData,
@@ -112,8 +119,8 @@ export {
   recordCounts,
 } from './backupService';
 export type { ImportSummary } from './backupService';
-export { commitImport, contactsForExport, knownContacts } from './importService';
-export type { CommitOptions, RowAction } from './importService';
+export { commitIcs, commitImport, contactsForExport, knownContacts } from './importService';
+export type { CommitOptions, IcsCommitResult, IcsTarget, RowAction } from './importService';
 export { loadDemoData, removeDemoData } from './demoService';
 export { getBrief, getMilestones, getOnThisDay } from './recallService';
 export type { Brief, Milestone, OnThisDayGroup } from './recallService';

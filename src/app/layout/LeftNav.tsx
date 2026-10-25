@@ -18,7 +18,10 @@ export function LeftNav() {
   const openComposer = useComposer((st) => st.openComposer);
 
   return (
-    <header className="sticky top-0 hidden h-dvh w-[88px] shrink-0 flex-col items-center px-2 md:flex xl:w-[275px] xl:items-stretch">
+    <header
+      data-print="hide"
+      className="sticky top-0 hidden h-dvh w-[88px] shrink-0 flex-col items-center px-2 md:flex xl:w-[275px] xl:items-stretch"
+    >
       <Link
         to="/"
         aria-label={t('nav.home')}

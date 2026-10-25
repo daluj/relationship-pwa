@@ -6,7 +6,10 @@ import { Logo } from '@/components/Logo';
 export function MobileTopBar({ onOpenMenu }: { onOpenMenu: () => void }) {
   const { t } = useTranslation();
   return (
-    <div className="pt-safe sticky top-0 z-20 border-b border-border bg-bg/80 backdrop-blur-md md:hidden">
+    <div
+      data-print="hide"
+      className="pt-safe sticky top-0 z-20 border-b border-border bg-bg/80 backdrop-blur-md md:hidden"
+    >
       <div className="flex h-[53px] items-center justify-between px-4">
         <button
           type="button"

@@ -54,7 +54,7 @@ A private "memory backup" for the people in your life: friends, family, colleagu
 
 ### 2.1 In scope (v1)
 
-Contacts, contact fields, relationships, moments (activities, notes, calls, journal), reminders (incl. auto birthdays and stay-in-touch), important dates, life events, gifts, debts, tasks, tags, groups, pets, addresses, photos/avatars, search, import/export, PWA install + offline, local notifications (best effort), themes, i18n scaffolding (en + es).
+Contacts, contact fields, relationships, moments (activities, notes, calls, journal), reminders (incl. auto birthdays and stay-in-touch), important dates, life events, gifts, debts, tasks, tags, groups, pets, addresses, photos/avatars, search, import/export, PWA install + offline, local notifications (best effort), themes, i18n (en, es, fr, de, pt).
 
 ### 2.2 Out of scope (v1)
 

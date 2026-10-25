@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CalendarClock, ImagePlus, LayoutTemplate, MapPin, X } from 'lucide-react';
+import { announce } from '@/app/stores/announce';
 import type { ComposerPrefill } from '@/app/stores/composer';
 import { useToasts } from '@/app/stores/toast';
 import { Avatar } from '@/components/Avatar';
@@ -248,6 +249,7 @@ export function Composer({ momentId, prefill, variant, onDone, onDirtyChange }: 
       setText(patch.body);
       pendingCaret.current = patch.body.length;
     } else textRef.current?.focus();
+    announce(t('a11y.templateApplied', { name: t(`composer.templates.${id}.label`) }));
     touch();
   };
 

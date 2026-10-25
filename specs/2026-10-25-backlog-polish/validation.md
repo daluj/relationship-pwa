@@ -2,14 +2,14 @@
 
 ## Automated
 
-- [ ] `npm run verify` is green.
-- [ ] AC-1, AC-2, AC-3: `tests/unit/icsImport.test.ts`, `tests/e2e/polish2.spec.ts`
-- [ ] AC-4, AC-5: `tests/unit/mergeUndo.test.ts`, `tests/e2e/polish2.spec.ts`
-- [ ] AC-6: `tests/unit/i18n.test.ts`, `tests/e2e/polish2.spec.ts`
-- [ ] AC-7: `tests/e2e/polish2.spec.ts` (print media emulation)
-- [ ] AC-8: `tests/unit/LiveRegion.test.tsx`
-- [ ] AC-9: `tests/unit/schema.test.ts`, `tests/unit/importExport.test.ts`
-- [ ] AC-10: `tests/e2e/a11y.spec.ts`, `tests/e2e/offline.spec.ts`, bundle budget check
+- [x] `npm run verify` is green.
+- [x] AC-1, AC-2, AC-3: `tests/unit/icsImport.test.ts`, `tests/e2e/polish2.spec.ts`
+- [x] AC-4, AC-5: `tests/unit/mergeUndo.test.ts`, `tests/e2e/polish2.spec.ts`
+- [x] AC-6: `tests/unit/i18n.test.ts`, `tests/e2e/polish2.spec.ts`
+- [x] AC-7: `tests/e2e/polish2.spec.ts` (print media emulation)
+- [x] AC-8: `tests/unit/LiveRegion.test.tsx`
+- [x] AC-9: `tests/unit/schema.test.ts`, `tests/unit/importExport.test.ts`
+- [x] AC-10: `tests/e2e/a11y.spec.ts`, `tests/e2e/offline.spec.ts`, bundle budget check
 
 ## Manual
 

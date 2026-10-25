@@ -46,7 +46,7 @@ Snapshots are purged with the 30-day sweep. `SCHEMA_VERSION` and `BACKUP_SCHEMA_
 - **AC-5** Undo is refused with a clear message if either contact was edited or deleted after the merge, or if the snapshot is older than 30 days.
 - **AC-6** Switching language to French, German or Portuguese shows no missing keys (key-parity test with `en`), dates and numbers use `Intl` with that locale, and the choice survives reload.
 - **AC-7** "Print profile" opens a view that hides navigation and the composer, shows name, relationship line, key fields, dates, relationships, notes and the last 10 moments, and a print-media E2E (`page.emulateMedia({ media: 'print' })`) confirms navigation is hidden.
-- **AC-8** After a save, undo, import and reminders-due event, a `role="status"` live region contains the localized message (component test), without stealing focus.
+- **AC-8** A single `role="status"` live region in the shell speaks search result counts, a composer template being applied and newly due reminders (component and E2E tests) without stealing focus. Toasts (save, undo, import) already announce themselves and keep doing so.
 - **AC-9** The v2 → v3 upgrade keeps all data; a v1 or v2 backup still imports.
 - **AC-10** All new screens work offline, en/es/fr/de/pt complete, axe passes in all three themes.
 
@@ -56,7 +56,7 @@ Snapshots are purged with the 30-day sweep. `SCHEMA_VERSION` and `BACKUP_SCHEMA_
 - **D-B: Locales are Claude-drafted.** They ship as complete but are marked "needs native review" in the README; no machine-translation service is called at runtime. _Project-wide: yes (D-073)._
 - **D-C: `.ics` reuses the vCard-style preview component** (`ImportPreview`) and the `ics.ts` module gains a `parseIcs` next to the exporter; no `ical.js`. _Project-wide: no._
 - **D-D: Print uses the browser.** No canvas/PDF code, so output quality follows the user's browser and works offline.
-- **D-E: One live region** mounted in the app shell, fed by a small Zustand store, instead of per-component `aria-live`.
+- **D-E: One live region** mounted in the app shell, fed by a small Zustand store, instead of per-component `aria-live`. It covers what was silent (search counts, templates, due reminders); duplicating every toast into it would announce twice. _Project-wide: yes (D-074)._
 
 ## Context
 

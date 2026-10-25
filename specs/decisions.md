@@ -465,3 +465,30 @@ lower bound (`limit + 1` means "more exist"). Measured in Chromium with 2k conta
 Bulk actions run inside one transaction over every table, reuse the single-contact services (so indexes, reminders and cascades stay
 correct) and return an undo token holding only the touched contacts' prior tags, groups and archive state. Year in review is derived
 and unranked (mission §1.2).
+
+## D-072 — Undoable merges via snapshots, Dexie v3 (Phase 13)
+
+`mergeContactsUndoable` snapshots, inside the merge transaction, both contacts, every row they own (fields, addresses, important
+dates, gifts, debts, tasks, pets, reminders), their relationships, the moments that mention them and the contacts they introduced
+(`MergeSnapshot.before`, `db.version(3)`, `BACKUP_SCHEMA_VERSION` 3). `undoMerge` removes rows the merge created (e.g. a birthday
+reminder), puts the originals back, re-indexes the touched contacts and moments and deletes the snapshot. It refuses when the kept
+contact's `updatedAt` or the other's tombstone no longer match what the merge left (`changed`), after 30 days (`expired`) or when the
+snapshot is gone (`missing`); this is deliberately conservative, since any edit to the kept contact, even archiving, blocks undo.
+Snapshots are included in backups and purged with the Trash sweep. `mergeContacts` (used by imports) records none.
+
+## D-073 — French, German and Portuguese (Phase 13)
+
+The three languages were drafted by Claude and need a native review (README says so). Portuguese is written in European
+Portuguese ("contacto", "ecrã"). French and Portuguese carry a `_many` plural form equal to `_other`. A parity test checks keys,
+`{{placeholders}}`, plural forms and language names against English. Only English is in the first-load bundle (203 KB gzipped, budget
+250; eager bundling of five languages pushed it to 246 KB); `loadLocale()` imports the others on demand, they are precached by the
+service worker, and the service worker bundles all of them for translated notifications. The demo data stays English and Spanish
+only (other languages get the English set).
+
+## D-074 — Live region, print and `.ics` (Phase 13)
+
+The shell has one polite `role="status"` live region fed by `announce()`. Toasts already announce themselves, so it is used for what
+was silent: search result counts, template application and reminders due on load (the due banner keeps its own role). Print
+styles live in `themes.css`: chrome carries `data-print="hide"`, and print forces light tokens so a dark theme never prints black pages.
+`.ics` parsing is hand-written (RFC 5545 folding and escapes, `VALUE=DATE`, Apple's pre-1900 "no year" convention); only yearly all-day
+events can be imported, and `.ics` was added to the share target and file handlers.

@@ -5,11 +5,12 @@ import { useToasts } from '@/app/stores/toast';
 import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/Button';
 import { Dialog } from '@/components/Dialog';
-import { mergeContacts } from '@/db/repositories';
+import { mergeContactsUndoable } from '@/db/repositories';
 import { fullName } from '@/domain/contact';
 import type { Contact } from '@/domain/types';
 import { PeoplePicker } from '@/features/compose/PeoplePicker';
 import { useLookup } from '@/features/moments/useLookup';
+import { undoMergeWithMessage } from './undoMerge';
 
 /** Profile ⋯ › Merge with…: pick the other contact and which one to keep (features §8.2). */
 export function MergeDialog({
@@ -41,10 +42,16 @@ export function MergeDialog({
     setBusy(true);
     try {
       const [primary, secondary] = keep === 'this' ? [contact, other] : [other, contact];
-      await mergeContacts(primary.id, secondary.id);
+      const { snapshotId } = await mergeContactsUndoable(primary.id, secondary.id);
       onClose();
       navigate(`/c/${primary.id}`, { replace: true });
-      showToast({ message: t('merge.done') });
+      showToast({
+        message: t('merge.done'),
+        action: {
+          label: t('common.undo'),
+          onClick: () => void undoMergeWithMessage(snapshotId, t, showToast),
+        },
+      });
     } finally {
       setBusy(false);
     }

@@ -27,25 +27,25 @@ react-i18next 15 · date-fns 4 · lucide-react · @tanstack/react-virtual 3 · P
 
 ## 3. Tech stack
 
-| Concern     | Choice                                                                                | Notes                                       |
-| ----------- | ------------------------------------------------------------------------------------- | ------------------------------------------- |
-| Language    | TypeScript (strict)                                                                   |                                             |
-| Framework   | React 18 + Vite                                                                       |                                             |
-| Routing     | React Router v6 (data router)                                                         |                                             |
-| Styling     | Tailwind CSS + CSS variables for theme tokens                                         |                                             |
-| IndexedDB   | **Dexie.js** + `dexie-react-hooks` (`useLiveQuery`)                                   | Reactive queries; schema versioning         |
-| PWA         | `vite-plugin-pwa` (Workbox, `injectManifest` strategy)                                | Custom SW for notification logic            |
-| State       | Dexie is the store; Zustand only for ephemeral UI state (compose modal, toasts)       |                                             |
-| Forms       | React Hook Form + Zod                                                                 | Zod schemas shared with import validation   |
-| Dates       | date-fns                                                                              | Store dates as ISO strings                  |
-| IDs         | `crypto.randomUUID()`                                                                 |                                             |
-| Icons       | lucide-react                                                                          | Outline style, ~24px, like X                |
-| Images      | Store as `Blob` in IndexedDB; resize client-side via `<canvas>` / `createImageBitmap` | Avatars ≤ 400px, photos ≤ 1600px, WebP/JPEG |
-| vCard       | Hand-written parser/serializer for vCard 3.0/4.0 (or `ical.js` if it saves time)      |                                             |
-| CSV         | `papaparse`                                                                           |                                             |
-| i18n        | `i18next` + `react-i18next`                                                           | `en`, `es`                                  |
-| Testing     | Vitest + Testing Library + `fake-indexeddb`; Playwright for E2E incl. offline mode    |                                             |
-| Lint/format | ESLint + Prettier                                                                     |                                             |
+| Concern     | Choice                                                                                | Notes                                                                  |
+| ----------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Language    | TypeScript (strict)                                                                   |                                                                        |
+| Framework   | React 18 + Vite                                                                       |                                                                        |
+| Routing     | React Router v6 (data router)                                                         |                                                                        |
+| Styling     | Tailwind CSS + CSS variables for theme tokens                                         |                                                                        |
+| IndexedDB   | **Dexie.js** + `dexie-react-hooks` (`useLiveQuery`)                                   | Reactive queries; schema versioning                                    |
+| PWA         | `vite-plugin-pwa` (Workbox, `injectManifest` strategy)                                | Custom SW for notification logic                                       |
+| State       | Dexie is the store; Zustand only for ephemeral UI state (compose modal, toasts)       |                                                                        |
+| Forms       | React Hook Form + Zod                                                                 | Zod schemas shared with import validation                              |
+| Dates       | date-fns                                                                              | Store dates as ISO strings                                             |
+| IDs         | `crypto.randomUUID()`                                                                 |                                                                        |
+| Icons       | lucide-react                                                                          | Outline style, ~24px, like X                                           |
+| Images      | Store as `Blob` in IndexedDB; resize client-side via `<canvas>` / `createImageBitmap` | Avatars ≤ 400px, photos ≤ 1600px, WebP/JPEG                            |
+| vCard       | Hand-written parser/serializer for vCard 3.0/4.0 (or `ical.js` if it saves time)      |                                                                        |
+| CSV         | `papaparse`                                                                           |                                                                        |
+| i18n        | `i18next` + `react-i18next`                                                           | `en`, `es`, `fr`, `de`, `pt`; only `en` ships in the first-load bundle |
+| Testing     | Vitest + Testing Library + `fake-indexeddb`; Playwright for E2E incl. offline mode    |                                                                        |
+| Lint/format | ESLint + Prettier                                                                     |                                                                        |
 
 No runtime CDN requests: self-host fonts (system font stack by default, like X: `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`).
 
@@ -63,7 +63,7 @@ src/
   components/     # shared UI: Avatar, Button, Tabs, Modal, Toast, Composer…
   lib/            # browser-only non-UI helpers (canvas/image encoding)
   sw/             # service worker source (sw.ts)
-  i18n/           # locales/{en,es}.json
+  i18n/           # locales/{en,es,fr,de,pt}.json (non-English loaded on demand)
   styles/         # themes.css (tokens per theme), index.css
 tests/
   unit/ e2e/
@@ -80,7 +80,7 @@ Rules (enforced by ESLint where possible):
 - Cross-entity writes live in `db/repositories/*Service.ts` and run in one Dexie transaction; the search index updates
   in the same transaction as each write.
 - Never edit a released `db.version(n)`; add a new version with `.upgrade()`.
-- All user-facing strings go through i18next, and both locales stay complete.
+- All user-facing strings go through i18next, and every locale stays complete.
 - Theme colours come only from CSS tokens (Tailwind theme utilities), never hex values in components.
 
 ## 10. Performance targets
@@ -97,7 +97,8 @@ Rules (enforced by ESLint where possible):
 
 ## 12. Internationalization
 
-- All strings via i18next keys; `en` and `es` complete.
+- All strings via i18next keys; `en`, `es`, `fr`, `de` and `pt` complete (French and Portuguese also carry the `_many` plural form).
+  Only English is in the first-load bundle; the others are separate chunks, precached so switching language works offline.
 - Dates/numbers/currencies via `Intl` with user locale; week start configurable.
 - Relative timestamps localized ("2 h", "hace 3 d").
 

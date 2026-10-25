@@ -23,6 +23,7 @@ export function RightRail() {
 
   return (
     <aside
+      data-print="hide"
       className="hidden w-[290px] shrink-0 pl-6 rail:block xl:w-[350px] xl:pl-8"
       aria-label={t('rail.upcoming')}
     >
