@@ -431,3 +431,7 @@ cancelled fetch of `sw.js` ("Cannot load …/sw.js due to access control checks"
 mid-request. That one WebKit message is ignored by the page-error check. Registration errors from app code are caught and written to
 the diagnostics log. Playwright's WebKit is Safari's engine, not iOS Safari, so behaviour on a real iPhone (installed to the Home Screen)
 still needs a manual check.
+
+## D-069 — Growth and networking track (Phase 10)
+
+New track: goals (Phase 10), networking pipeline (Phase 11) and event log (Phase 12), inspired by goal-setting and relationship-leverage ideas. (1) Mission §1.2 principle 3 is narrowed: no scoring, ranking or gamification **of people**; progress percentages and a weekly-review streak are allowed for the user's own goals. Pipeline stages are user-set labels, never computed. (2) UI and code use neutral wording; no book names, quotes or branding. (3) Out of v1 scope in mission §2.2 stays unchanged; these are post-v1 phases scheduled after the Phase 9 device check.

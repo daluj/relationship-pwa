@@ -193,3 +193,28 @@ db.version(1).stores({
 
 - Every schema change = new `db.version(n)` with an `.upgrade()` migration. Never edit a released version.
 - Deleting a contact soft-deletes its dependent records in one Dexie transaction; restoring from Trash restores them.
+
+### 5.3 Growth entities (Phases 10–12)
+
+```ts
+interface Goal extends BaseRecord {          // Phase 10, Dexie v2
+  title: string;
+  why?: string;
+  area?: string;
+  deadline?: string;                         // ISO date
+  status: 'active' | 'achieved' | 'paused' | 'dropped';
+  achievedAt?: string;
+  nextAction?: string;
+  contactIds: string[];                      // people who help with this goal
+  sortOrder: number;
+}
+interface GoalMilestone extends BaseRecord { goalId: string; title: string; dueDate?: string; completedAt?: string; sortOrder: number }
+interface GoalReview extends BaseRecord { weekOf: string; note?: string }   // unique weekOf (ISO Monday)
+// Task gains: goalId?: string
+```
+
+Dexie v2 stores: `goals: 'id, status, deadline, *contactIds, sortOrder, deletedAt'`, `goalMilestones: 'id, goalId, completedAt, deletedAt'`,
+`goalReviews: 'id, &weekOf, deletedAt'`, and `tasks` gains the `goalId` index.
+
+Phase 11 (draft) adds `Contact.pipelineStageId?`, `Contact.offer?`, `Contact.need?` and a `pipelineStages` store.
+Phase 12 (draft) adds an `events` store (`name`, `date`, `place?`, `notes?`, `contactIds`).

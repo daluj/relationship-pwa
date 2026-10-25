@@ -70,6 +70,27 @@ onwards also link their feature spec folder (`specs/YYYY-MM-DD-<name>/`).
 - [ ] Desktop Chrome and Firefox: offline after first load, export → delete all → import round trip
 - [ ] Record any device-specific findings in [decisions.md](decisions.md) and fix or schedule them
 
+## Growth and networking (Phases 10–12)
+
+Goal-setting and relationship-leverage features, kept within Kin's principles (D-069). Specified in
+[features §8.11–§8.13](product/features.md); Phase 10 has a feature spec, 11 and 12 get theirs when they come up.
+
+### Phase 10 — Goals · spec: [2026-10-25-goals](2026-10-25-goals/requirements.md)
+
+- [ ] Goals with why, deadline, milestones, linked tasks and people
+- [ ] Weekly review, review streak, Today card
+- [ ] Goal deadline reminders; search, Trash, backup, demo data
+
+### Phase 11 — Networking pipeline
+
+- [ ] User-editable pipeline stages per contact, Pipeline view, stage-change moments
+- [ ] Offer / need notes on contacts
+
+### Phase 12 — Event log
+
+- [ ] Events with quick capture of people met
+- [ ] Follow-up reminders (1 day, 1 week, 1 month)
+
 ## 15. Definition of done (v1)
 
 - [x] All ACs in features §8 and pwa §9 pass (automated: `npm run verify`).

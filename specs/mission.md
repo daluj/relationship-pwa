@@ -28,7 +28,7 @@ A private "memory backup" for the people in your life: friends, family, colleagu
 
 1. **Offline-first, local-only.** All data lives in IndexedDB on the device. The app works with no network after first load.
 2. **Private by design.** No server, no telemetry, no third-party scripts at runtime, no ads. Nothing leaves the device unless the user exports it.
-3. **Nobody is a lead.** No scoring or ranking people. No gamification.
+3. **Nobody is a lead.** No scoring or ranking people. No gamification of people. Progress bars and a review streak are allowed for the user's own goals only (D-069).
 4. **Data ownership.** Full export/import at any time (JSON, vCard, CSV).
 5. **Fast and familiar.** UI borrows X.com's layout and interaction patterns so it feels instantly usable — but it is a private journal, not a social network: no followers, no public feed, no sharing.
 

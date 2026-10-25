@@ -106,3 +106,12 @@ WCAG 2.1 AA: semantic landmarks, focus rings, all icon buttons with `aria-label`
 | `/starred` | Starred |
 | `/settings/*` | Settings, incl. `/settings/data`, `/settings/trash` |
 | `/onboarding` | First-run |
+| `/goals`, `/goals/:id` | Goals (Phase 10) |
+| `/pipeline` | Networking pipeline (Phase 11, draft) |
+| `/events`, `/events/:id` | Event log (Phase 12, draft) |
+
+### 6.11 Growth screens (Phases 10–12)
+- **Goals** (`/goals`): header tabs **Active · Achieved · Paused/Dropped**, review-streak chip, "New goal" button. Goal rows show title, deadline, progress bar and linked-people avatars. `/goals/:id` shows why, next action, milestone checklist, linked tasks, linked people.
+- **Weekly review**: dialog stepping through active goals, ending with an optional note.
+- **Today card** in the right rail (Phase 10). Left nav gains **Goals**; on mobile it lives in the drawer.
+- **Pipeline** (`/pipeline`, Phase 11) and **Events** (`/events`, `/events/:id`, Phase 12) are drafted in features §8.12–§8.13.
