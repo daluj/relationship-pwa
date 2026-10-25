@@ -2,14 +2,14 @@
 
 ## Automated
 
-- [ ] `npm run verify` is green.
-- [ ] AC-1, AC-2, AC-3: `tests/unit/recall.test.ts` (domain) and `tests/unit/BriefPage.test.tsx`
-- [ ] AC-4, AC-5: `tests/unit/recall.test.ts`, `tests/unit/recallService.test.ts`, `tests/e2e/recall.spec.ts`
-- [ ] AC-6: `tests/unit/recall.test.ts`, `tests/e2e/recall.spec.ts`
-- [ ] AC-7: `tests/unit/BriefPage.test.tsx`
-- [ ] AC-8: `tests/e2e/recall.spec.ts` (offline reload, zero foreign requests)
-- [ ] AC-9: `tests/unit/i18n.test.ts`, `tests/e2e/a11y.spec.ts`
-- [ ] On this day over 2k contacts / 20k moments < 100 ms (perf project)
+- [x] `npm run verify` is green.
+- [x] AC-1, AC-2, AC-3: `tests/unit/recall.test.ts` (domain) and `tests/unit/BriefPage.test.tsx`
+- [x] AC-4, AC-5: `tests/unit/recall.test.ts`, `tests/unit/recallService.test.ts`, `tests/e2e/recall.spec.ts`
+- [x] AC-6: `tests/unit/recall.test.ts`, `tests/e2e/recall.spec.ts`
+- [x] AC-7: `tests/unit/BriefPage.test.tsx`
+- [x] AC-8: `tests/e2e/recall.spec.ts` (offline reload, zero foreign requests)
+- [x] AC-9: `tests/unit/i18n.test.ts`, `tests/e2e/a11y.spec.ts`
+- [x] On this day over 2k contacts / 20k moments < 100 ms (perf project)
 
 ## Manual
 
@@ -23,6 +23,6 @@
 
 - [ ] All checks above ticked
 - [ ] Roadmap Phase 10 ticked
-- [ ] Lasting requirements folded into `specs/product/` (features §8.11, ui §6.12); D-069 logged
+- [ ] Lasting requirements folded into `specs/product/` (features §8.11, ui §6.11); D-069 logged
 - [ ] `CHANGELOG.md` entry
 - [ ] User OK to merge

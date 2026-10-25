@@ -40,4 +40,4 @@
 
 ## 7. Docs
 
-- [ ] 7.1 Fold into `specs/product/data-model.md` (§5.1 `SavedSearch`, §5.2 v2), `features.md` §8.13, `ui.md` §6.14; log D-071; update `pwa.md` only if routes affect offline precache
+- [ ] 7.1 Fold into `specs/product/data-model.md` (§5.1 `SavedSearch`, §5.2 v2), `features.md` §8.13, `ui.md` §6.13; log D-071; update `pwa.md` only if routes affect offline precache

@@ -5,6 +5,7 @@ import { feed, useLiveQuery } from '@/db/repositories';
 import type { MomentKind } from '@/domain/types';
 import { Composer } from '@/features/compose/Composer';
 import { Feed } from '@/features/moments/Feed';
+import { OnThisDay } from '@/features/recall/OnThisDay';
 
 const PAGE = 30; // features §8.4
 const tabs = {
@@ -40,6 +41,7 @@ export function HomePage() {
       <div className="hidden border-b border-border px-4 py-3 md:block">
         <Composer variant="inline" />
       </div>
+      {tab === 'all' && <OnThisDay />}
       {moments && moments.length === 0 ? (
         <p className="px-8 py-12 text-center text-muted">
           {tab === 'all' ? t('feed.empty') : t('feed.emptyKind')}

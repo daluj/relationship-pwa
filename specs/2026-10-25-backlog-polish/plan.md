@@ -40,4 +40,4 @@
 
 ## 7. Docs
 
-- [ ] 7.1 Fold into `specs/product/data-model.md` (§5.1 `MergeSnapshot`, §5.2 v3), `features.md` §8.14, `ui.md` §6.15, `pwa.md` if `.ics` file handling changes the manifest; log D-072 and D-073; update `tech-stack.md` §12 locale list; update `backlog/README.md` (remove delivered items)
+- [ ] 7.1 Fold into `specs/product/data-model.md` (§5.1 `MergeSnapshot`, §5.2 v3), `features.md` §8.14, `ui.md` §6.14, `pwa.md` if `.ics` file handling changes the manifest; log D-072 and D-073; update `tech-stack.md` §12 locale list; update `backlog/README.md` (remove delivered items)

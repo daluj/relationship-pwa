@@ -28,4 +28,4 @@
 
 ## 6. Docs
 
-- [ ] 6.1 Fold into `specs/product/features.md` §8.12 and `ui.md` §6.13; log D-070 in `specs/decisions.md`; move "voice dictation" into `backlog/README.md` with the privacy note
+- [ ] 6.1 Fold into `specs/product/features.md` §8.12 and `ui.md` §6.12; log D-070 in `specs/decisions.md`; move "voice dictation" into `backlog/README.md` with the privacy note

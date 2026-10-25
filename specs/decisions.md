@@ -431,3 +431,13 @@ cancelled fetch of `sw.js` ("Cannot load …/sw.js due to access control checks"
 mid-request. That one WebKit message is ignored by the page-error check. Registration errors from app code are caught and written to
 the diagnostics log. Playwright's WebKit is Safari's engine, not iOS Safari, so behaviour on a real iPhone (installed to the Home Screen)
 still needs a manual check.
+
+## D-069 — Memory recall is derived, not stored (Phase 10)
+
+"Before you meet", "On this day" and Milestones are pure functions of existing rows (`domain/recall.ts`), so there is no
+schema change and nothing to keep in sync. "On this day" runs one `happenedAt` range query per earlier year (two extra
+for Feb 29 on Feb 28), so cost follows the years covered, not the number of moments: about 10–50 ms warm and up to ~100 ms
+cold on start-up with 2k contacts / 20k moments in the perf project. Each run records a local `kin-on-this-day`
+`performance.measure` (never sent anywhere); the perf test times a warm re-mount of Home, like D-053. A first moment that
+is itself a life event is not listed twice in Milestones. The brief avoids "you haven't talked in N days" wording so stay-in-touch
+stays the only nudge (mission §1.2).

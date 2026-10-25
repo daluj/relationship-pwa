@@ -6,13 +6,13 @@ Roadmap: [Phase 13](../roadmap.md). Same branch and PR as Phases 10–12.
 
 ### Included
 
-| Item                         | What it does                                                                                                                                            |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`.ics` import**            | Import yearly all-day VEVENTs (birthdays, anniversaries) with a preview table. Each row can be matched to a contact, create a contact, or be skipped. |
-| **Undo for contact merge**   | After a merge, a toast and Settings › Data offer "Undo merge" for 30 days, restoring the secondary contact and every row the merge touched.          |
-| **New locales: fr, de, pt**  | Three complete locale files (drafted by Claude, flagged for native review in the README) and a language picker update.                                |
-| **Print / PDF view**         | "Print profile" in the profile ⋯ menu: print-optimised contact profile via `@media print` and `window.print()` (the browser's "Save as PDF").        |
-| **Live-update announcements**| A single polite live region announcing results of actions that update the screen without moving focus (saved, undone, N reminders due, import done).  |
+| Item                          | What it does                                                                                                                                          |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`.ics` import**             | Import yearly all-day VEVENTs (birthdays, anniversaries) with a preview table. Each row can be matched to a contact, create a contact, or be skipped. |
+| **Undo for contact merge**    | After a merge, a toast and Settings › Data offer "Undo merge" for 30 days, restoring the secondary contact and every row the merge touched.           |
+| **New locales: fr, de, pt**   | Three complete locale files (drafted by Claude, flagged for native review in the README) and a language picker update.                                |
+| **Print / PDF view**          | "Print profile" in the profile ⋯ menu: print-optimised contact profile via `@media print` and `window.print()` (the browser's "Save as PDF").         |
+| **Live-update announcements** | A single polite live region announcing results of actions that update the screen without moving focus (saved, undone, N reminders due, import done).  |
 
 ### Out of scope
 
@@ -60,7 +60,7 @@ Snapshots are purged with the 30-day sweep. `SCHEMA_VERSION` and `BACKUP_SCHEMA_
 
 ## Context
 
-- Extends `features §8.2` (merge), `§8.9` (import/export), `ui §6.9` (accessibility), `§6.10`, `tech-stack §12` (i18n). New subsections: features §8.14, ui §6.15.
+- Extends `features §8.2` (merge), `§8.9` (import/export), `ui §6.9` (accessibility), `§6.10`, `tech-stack §12` (i18n). New subsections: features §8.14, ui §6.14.
 - Files: `src/domain/ics.ts`, `src/features/data/*`, `src/db/repositories/mergeService.ts`, `src/db/schema.ts`, `src/domain/backup.ts`, `src/i18n/index.ts`, `src/i18n/locales/`, `src/features/settings/` (language picker), `src/styles/` (print CSS), `src/app/layout/`.
 - Accessibility: print view and live region follow WCAG 2.1 AA; announcements are short and localized.
 - Privacy: `.ics` files are read locally; nothing is uploaded.

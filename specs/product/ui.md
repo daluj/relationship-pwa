@@ -87,6 +87,9 @@ Accent choices (6 swatches) and font size (5 steps, base 15px like X).
 ### 6.10 Accessibility
 WCAG 2.1 AA: semantic landmarks, focus rings, all icon buttons with `aria-label`, color contrast ≥ 4.5:1 in all three themes, reduced-motion support, composer autocomplete as ARIA combobox.
 
+### 6.11 Memory recall
+Profile header gains a "Before you meet" button (desktop) and ⋯ menu entry. Profile › Timeline has an **All / Milestones** toggle (`aria-pressed` buttons). Home shows an "On this day" region above the feed on the All tab. The brief is a stack of headed sections (About, Coming up, Open tasks, Money, Gifts, Recent moments) reusing the moment card.
+
 ## 7. Routes
 
 | Path | Screen |
@@ -98,6 +101,7 @@ WCAG 2.1 AA: semantic landmarks, focus rings, all icon buttons with `aria-label`
 | `/contacts/new` | New contact form |
 | `/c/:id` and `/c/:id/:tab` | Contact profile |
 | `/c/:id/edit` | Edit contact |
+| `/c/:id/brief` | Before you meet |
 | `/reminders` | Reminders |
 | `/tasks` | Tasks |
 | `/search?q=` | Search |

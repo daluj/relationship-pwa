@@ -1,5 +1,18 @@
 # Changelog
 
+## Phase 10 — Memory recall (2026-10-25)
+
+- "Before you meet" (`/c/:id/brief`): recent moments, open tasks, net balance per currency, gift ideas and recent gifts, how you met,
+  and upcoming dates on one screen. Sections with nothing in them are left out.
+- Home › "On this day": moments from earlier years on today's date, grouped by year (Feb 29 shows on Feb 28 in non-leap years).
+- Profile › Timeline › Milestones: how you met, relationship start dates, life events, important dates, given gifts and the first
+  logged moment, oldest first.
+- Nothing is stored or ranked: all three are derived from existing records (D-069). English and Spanish.
+- Tests: domain, repository and component tests, E2E with a mocked date and offline reload, an axe sweep of the brief, and a perf
+  test for "On this day" with 20k moments. New `tests/e2e/backupFixture.ts` seeds dated data through the Restore flow.
+- Not verified in this environment: the Firefox and WebKit E2E projects (browsers not installed) and one Chromium download-filename
+  test (`data.spec.ts` vCard export), which also fails on `main` here.
+
 ## M8 — Polish (2026-10-19)
 
 - Onboarding (language, theme, persistent storage, notifications, first contacts or demo data). It opens only when the database is

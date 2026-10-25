@@ -976,5 +976,40 @@
     "exportLog": "Exportar registro",
     "clearLog": "Borrar registro",
     "shortcuts": "Atajos de teclado"
+  },
+  "recall": {
+    "brief": "Antes de verte",
+    "briefTitle": "Antes de verte",
+    "briefEmpty": "Todavía no hay nada sobre {{name}}. Registra un momento para empezar su historia.",
+    "about": "Acerca de",
+    "food": "Preferencias de comida",
+    "upcoming": "Próximamente",
+    "birthday": "Cumpleaños",
+    "openTasks": "Tareas pendientes",
+    "money": "Dinero",
+    "theyOwe": "Te debe {{amount}}",
+    "youOwe": "Le debes {{amount}}",
+    "evenBalance": "Las cuentas están a mano",
+    "gifts": "Regalos",
+    "giftIdeas": "Ideas",
+    "giftsGiven": "Regalados hace poco",
+    "recentMoments": "Momentos recientes",
+    "seeTimeline": "Ver toda la cronología",
+    "onThisDay": "Un día como hoy",
+    "yearsAgo_one": "Hace {{count}} año · {{year}}",
+    "yearsAgo_other": "Hace {{count}} años · {{year}}",
+    "view": "Vista de la cronología",
+    "views": {
+      "all": "Todo",
+      "milestones": "Hitos"
+    },
+    "milestones": {
+      "label": "Hitos, del más antiguo al más reciente",
+      "empty": "Aún no hay hitos con fecha. Añade un evento vital, el inicio de una relación o una fecha importante con año.",
+      "met": "Os conocisteis",
+      "relationship": "{{type}}: {{name}}",
+      "gift": "Regalaste {{name}}",
+      "first": "Primer momento registrado"
+    }
   }
 }

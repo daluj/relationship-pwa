@@ -6,12 +6,12 @@ Roadmap: [Phase 12](../roadmap.md). Same branch and PR as Phases 10–11.
 
 ### Included
 
-| Item                    | What it does                                                                                                                                                   |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Search filters**      | Search page gains filters: kind (moments), date range, tag, group, and "not contacted in N days" (contacts). Filters combine with the text query.            |
-| **Saved searches**      | Save the current query and filters under a name; list, run, rename and delete them from the Search page and the left-rail search area.                         |
-| **Bulk actions**        | Contacts list selection mode: select several contacts, then add/remove a tag, add/remove a group, archive/unarchive or move to Trash, with one Undo toast.   |
-| **Year in review**      | `/review/:year` page with plain counts: moments by kind, people mentioned, new contacts, gifts given, debts settled, tags used. No rankings or scores.       |
+| Item               | What it does                                                                                                                                               |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Search filters** | Search page gains filters: kind (moments), date range, tag, group, and "not contacted in N days" (contacts). Filters combine with the text query.          |
+| **Saved searches** | Save the current query and filters under a name; list, run, rename and delete them from the Search page and the left-rail search area.                     |
+| **Bulk actions**   | Contacts list selection mode: select several contacts, then add/remove a tag, add/remove a group, archive/unarchive or move to Trash, with one Undo toast. |
+| **Year in review** | `/review/:year` page with plain counts: moments by kind, people mentioned, new contacts, gifts given, debts settled, tags used. No rankings or scores.     |
 
 ### Out of scope
 
@@ -64,7 +64,7 @@ interface SavedSearch extends BaseRecord {
 
 ## Context
 
-- Extends `features §8.6` (search), `§8.8` (tags and groups), `§8.2` (archive); `data-model §5.2` (new table); `ui §6` and `§7` (routes `/review/:year`). New subsections: features §8.13, ui §6.14.
+- Extends `features §8.6` (search), `§8.8` (tags and groups), `§8.2` (archive); `data-model §5.2` (new table); `ui §6` and `§7` (routes `/review/:year`). New subsections: features §8.13, ui §6.13.
 - Files: `src/features/search/SearchPage.tsx`, `src/db/repositories/searchService.ts`, `src/features/contacts/*`, `src/db/schema.ts`, `src/domain/backup.ts`, `src/domain/schemas/`.
 - i18n under `search.filters.*`, `savedSearches.*`, `bulk.*`, `review.*`. Accessibility: selection count in a polite live region, checkboxes have names, charts (if any) are plain text/tables.
 - Privacy: nothing leaves the device.

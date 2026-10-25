@@ -6,11 +6,11 @@ Roadmap: [Phase 10](../roadmap.md). Branch `phase-10-13-recall-capture-organise`
 
 ### Included
 
-| Item                 | What it does                                                                                                                                                 |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Before you meet**  | Route `/c/:id/brief`: one screen for a contact with the latest moments, open tasks, unsettled debts, gift ideas and recent gifts, "how we met", notes, and upcoming dates. Reachable from the profile ⋯ menu and a "Before you meet" button on the profile header. |
-| **On this day**      | Home panel listing the user's moments from the same month and day in earlier years (grouped by year, newest first). Hidden when there are none.             |
-| **Milestones**       | A "Milestones" filter chip on the profile Timeline tab. Shows a chronological (oldest first) list of how-we-met, relationships `since`, life events, important dates, first logged moment and given gifts. |
+| Item                | What it does                                                                                                                                                                                                                                                       |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Before you meet** | Route `/c/:id/brief`: one screen for a contact with the latest moments, open tasks, unsettled debts, gift ideas and recent gifts, "how we met", notes, and upcoming dates. Reachable from the profile ⋯ menu and a "Before you meet" button on the profile header. |
+| **On this day**     | Home panel listing the user's moments from the same month and day in earlier years (grouped by year, newest first). Hidden when there are none.                                                                                                                    |
+| **Milestones**      | A "Milestones" filter chip on the profile Timeline tab. Shows a chronological (oldest first) list of how-we-met, relationships `since`, life events, important dates, first logged moment and given gifts.                                                         |
 
 ### Out of scope
 
@@ -39,7 +39,7 @@ Roadmap: [Phase 10](../roadmap.md). Branch `phase-10-13-recall-capture-organise`
 
 ## Context
 
-- Extends `features §8.4` (moments), `§8.7` (gifts, debts, tasks), `ui §6` (profile, Home) and `§7` (routes). New subsections go at the end: features §8.11, ui §6.12.
+- Extends `features §8.4` (moments), `§8.7` (gifts, debts, tasks), `ui §6` (profile, Home) and `§7` (routes). New subsections go at the end: features §8.11, ui §6.11.
 - Follows existing patterns: `useLiveQuery` from `@/db/repositories`, `PageHeader`, `Tabs`, `MomentCard`. New repository reads go in `src/db/repositories/recallService.ts`.
 - i18n: keys under `recall.*` in `en.json` and `es.json`; dates via `Intl` with the user locale.
 - Accessibility: sections are landmarks with headings; "N years ago" is text, not colour; focus order follows reading order.

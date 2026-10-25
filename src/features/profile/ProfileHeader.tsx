@@ -16,6 +16,7 @@ import {
   Star,
   Trash2,
   Download,
+  NotebookText,
   Merge,
   type LucideIcon,
 } from 'lucide-react';
@@ -188,6 +189,11 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
                   icon: Download,
                   onSelect: () => void downloadVCards([contact.id]),
                 },
+                {
+                  label: t('recall.brief'),
+                  icon: NotebookText,
+                  onSelect: () => navigate(`/c/${contact.id}/brief`),
+                },
                 { label: t('merge.menu'), icon: Merge, onSelect: () => setMerging(true) },
                 {
                   label: t('profile.menu.delete'),
@@ -206,6 +212,12 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
               <Feather size={16} className="md:hidden" aria-hidden />
               <span className="hidden md:inline">{t('profile.logMoment')}</span>
             </button>
+            <Link
+              to={`/c/${contact.id}/brief`}
+              className={`${buttonClass('outline', 'sm')} max-md:hidden`}
+            >
+              {t('recall.brief')}
+            </Link>
             <Link to={`/c/${contact.id}/edit`} className={buttonClass('outline', 'sm')}>
               {t('profile.editProfile')}
             </Link>

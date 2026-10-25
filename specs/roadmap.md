@@ -74,9 +74,9 @@ onwards also link their feature spec folder (`specs/YYYY-MM-DD-<name>/`).
 
 **Goal:** make the stored memories easy to get back at the moment they matter. No scoring or ranking of people.
 
-- [ ] Contact "Before you meet" view: recent moments, open tasks, unsettled debts, gifts and notes on one screen
-- [ ] Home "On this day" panel with moments from past years
-- [ ] Per-contact relationship timeline with life events and milestones
+- [x] Contact "Before you meet" view: recent moments, open tasks, unsettled debts, gifts and notes on one screen
+- [x] Home "On this day" panel with moments from past years
+- [x] Per-contact relationship timeline with life events and milestones
 
 ### Phase 11 — Capture speed · [spec](2026-10-25-capture-speed/)
 

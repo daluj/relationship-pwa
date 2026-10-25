@@ -1,13 +1,11 @@
 import { generateDataset } from '../../scripts/seed';
+import type { Page } from '@playwright/test';
 import { expect, test } from './fixtures';
 
 // Runs in its own Playwright project after all other tests, so timings aren't skewed by parallel workers.
 test.use({ viewport: { width: 1366, height: 900 } });
 
-test('search returns in < 100 ms with 2,000 contacts and 20,000 moments (features §8.6 AC)', async ({
-  page,
-}) => {
-  test.setTimeout(120_000);
+async function loadDataset(page: Page) {
   const data = generateDataset({ contacts: 2000, moments: 20000 });
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Home', level: 1 })).toBeVisible();
@@ -30,7 +28,13 @@ test('search returns in < 100 ms with 2,000 contacts and 20,000 moments (feature
     });
     db.close();
   }, data);
+}
 
+test('search returns in < 100 ms with 2,000 contacts and 20,000 moments (features §8.6 AC)', async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  await loadDataset(page);
   await page.goto('/search');
   const box = page.getByRole('main').getByRole('searchbox', { name: 'Search' });
   const timings: Record<string, number> = {};
@@ -57,4 +61,24 @@ test('search returns in < 100 ms with 2,000 contacts and 20,000 moments (feature
   await expect(
     page.getByTestId('search-results').getByTestId('contact-name').first(),
   ).toBeVisible();
+});
+
+test('On this day returns in < 100 ms with 2,000 contacts and 20,000 moments (features §8.11)', async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  await loadDataset(page);
+  await page.goto('/');
+  const count = () => page.evaluate(() => performance.getEntriesByName('kin-on-this-day').length);
+  await expect.poll(count).toBeGreaterThan(0);
+  // The first run overlaps start-up work (D-060, D-053), so re-mount Home and time that run.
+  const before = await count();
+  await page.getByRole('navigation').getByRole('link', { name: 'Search' }).first().click();
+  await page.getByRole('navigation').getByRole('link', { name: 'Home' }).first().click();
+  await expect.poll(count).toBeGreaterThan(before);
+  const ms = await page.evaluate(
+    () => performance.getEntriesByName('kin-on-this-day').at(-1)!.duration,
+  );
+  console.log('on this day (ms):', ms);
+  expect(ms).toBeLessThan(100);
 });

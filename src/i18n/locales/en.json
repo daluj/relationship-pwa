@@ -976,5 +976,40 @@
     "exportLog": "Export log",
     "clearLog": "Clear log",
     "shortcuts": "Keyboard shortcuts"
+  },
+  "recall": {
+    "brief": "Before you meet",
+    "briefTitle": "Before you meet",
+    "briefEmpty": "Nothing recorded about {{name}} yet. Log a moment to start building their story.",
+    "about": "About",
+    "food": "Food preferences",
+    "upcoming": "Coming up",
+    "birthday": "Birthday",
+    "openTasks": "Open tasks",
+    "money": "Money",
+    "theyOwe": "They owe you {{amount}}",
+    "youOwe": "You owe them {{amount}}",
+    "evenBalance": "Balances cancel out",
+    "gifts": "Gifts",
+    "giftIdeas": "Ideas",
+    "giftsGiven": "Recently given",
+    "recentMoments": "Recent moments",
+    "seeTimeline": "See the full timeline",
+    "onThisDay": "On this day",
+    "yearsAgo_one": "{{count}} year ago · {{year}}",
+    "yearsAgo_other": "{{count}} years ago · {{year}}",
+    "view": "Timeline view",
+    "views": {
+      "all": "All",
+      "milestones": "Milestones"
+    },
+    "milestones": {
+      "label": "Milestones, oldest first",
+      "empty": "No dated milestones yet. Add a life event, a relationship start date or an important date with a year.",
+      "met": "Met",
+      "relationship": "{{type}}: {{name}}",
+      "gift": "Gave {{name}}",
+      "first": "First moment logged"
+    }
   }
 }

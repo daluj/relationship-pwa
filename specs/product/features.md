@@ -80,3 +80,10 @@ Every **AC** here must be covered by an automated test (see tech-stack §13).
 - iOS note in UI: data may be cleared by Safari if the site is not added to the Home Screen and unused for a while — prompt to install and back up.
 - "Delete all data" requires typing `DELETE`.
 - Optional **app lock**: 4–6 digit PIN or passkey (WebAuthn, local only) gating the UI on open; *document clearly that this is a UI lock, not encryption* (encryption at rest is a future item).
+
+### 8.11 Memory recall
+- **Before you meet** (`/c/:id/brief`, from the profile header and ⋯ menu): the 5 newest moments, open tasks (dated first), unsettled debts as a net balance per currency, gift ideas and the 3 latest given gifts, "how we met", bio and food preferences, and the next birthday and important dates. Empty sections are omitted; a contact with nothing recorded gets a friendly empty state. Deceased contacts show "In memoriam" and no upcoming birthday.
+- **On this day** (Home › All): moments from earlier years on today's month and day, grouped by year, newest year first. Feb 29 moments show on Feb 28 in non-leap years. Hidden when there are none.
+- **Milestones** (Profile › Timeline › Milestones): how-we-met, relationship start dates, life events, important dates with a year, given gifts and the first logged moment, oldest first. Items without a year are omitted.
+- Nothing is ranked or scored. All of it is derived from existing records (no schema change).
+- **AC:** with the system date mocked to 25 Oct 2026, a moment from 25 Oct 2024 shows under "2 years ago · 2024" and one from today or a deleted one does not; the brief shows only the 5 newest of 6 moments and no completed tasks; Milestones lists items in ascending date order.

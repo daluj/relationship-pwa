@@ -38,6 +38,7 @@ export const routes: RouteObject[] = [
       { path: 'contacts/new', lazy: contactForm },
       { path: 'c/:id', lazy: profile },
       { path: 'c/:id/edit', lazy: contactForm },
+      { path: 'c/:id/brief', lazy: page(() => import('@/features/recall/BriefPage'), 'BriefPage') },
       { path: 'c/:id/:tab', lazy: profile },
       {
         path: 'reminders',

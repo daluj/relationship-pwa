@@ -6,11 +6,11 @@ Roadmap: [Phase 11](../roadmap.md). Same branch and PR as Phase 10.
 
 ### Included
 
-| Item                 | What it does                                                                                                                                  |
-| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Moment templates** | Built-in presets in the composer: Coffee, Meal, Call, Gift given, Visit. Choosing one sets kind, activity type, default text and the focus. |
+| Item                 | What it does                                                                                                                                                                          |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Moment templates** | Built-in presets in the composer: Coffee, Meal, Call, Gift given, Visit. Choosing one sets kind, activity type, default text and the focus.                                           |
 | **Log a call**       | "Log a call" action on the profile (and `c` shortcut variant `Log call` in the ⋯ menu) that opens the composer as an outgoing/incoming call for that contact with the time prefilled. |
-| **Gift photos**      | Add, replace and remove a photo on a gift using the existing crop/encode pipeline; shown on the gift row and in the brief.                    |
+| **Gift photos**      | Add, replace and remove a photo on a gift using the existing crop/encode pipeline; shown on the gift row and in the brief.                                                            |
 
 ### Out of scope
 
@@ -36,7 +36,7 @@ Roadmap: [Phase 11](../roadmap.md). Same branch and PR as Phase 10.
 
 ## Context
 
-- Extends `features §8.4` and `§8.7`, `ui §6.5` (composer). New subsections: features §8.12, ui §6.13.
+- Extends `features §8.4` and `§8.7`, `ui §6.5` (composer). New subsections: features §8.12, ui §6.12.
 - Files: `src/features/compose/Composer.tsx`, `src/features/gifts/*`, `src/features/data/preparePhoto.ts`, `src/lib/` image helpers, `src/db/repositories/profileItems.ts`, `blobRepo.ts`.
 - i18n under `compose.templates.*`, `profile.logCall`, `gifts.photo*`. Accessibility: template picker is a labelled listbox/menu, photo buttons have text labels.
 - Privacy: photos stay in IndexedDB only.

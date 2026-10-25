@@ -105,3 +105,5 @@ export type { ImportSummary } from './backupService';
 export { commitImport, contactsForExport, knownContacts } from './importService';
 export type { CommitOptions, RowAction } from './importService';
 export { loadDemoData, removeDemoData } from './demoService';
+export { getBrief, getMilestones, getOnThisDay } from './recallService';
+export type { Brief, Milestone, OnThisDayGroup } from './recallService';
