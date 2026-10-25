@@ -19,6 +19,8 @@ const softDeletableTables = () =>
     db.pets,
     db.tags,
     db.groups,
+    db.goals,
+    db.goalMilestones,
   ] as Table<BaseRecord, string>[];
 
 /** Purge everything that has been in Trash longer than the retention period. Runs on app start. */

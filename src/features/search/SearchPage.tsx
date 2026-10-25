@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent, type MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, Clock, Hash, Search, X } from 'lucide-react';
+import { ArrowLeft, Clock, Hash, Search, Target, X } from 'lucide-react';
 import { IconButton } from '@/components/IconButton';
 import { Tabs } from '@/components/Tabs';
 import { search, trendingTags, useLiveQuery, type SearchResults } from '@/db/repositories';
@@ -10,7 +10,7 @@ import { Feed } from '@/features/moments/Feed';
 import { addRecent, clearRecent, getRecent, removeRecent } from './recent';
 
 const PAGE = 50;
-const tabs = ['top', 'people', 'moments', 'tags'] as const;
+const tabs = ['top', 'people', 'moments', 'tags', 'goals'] as const;
 type Tab = (typeof tabs)[number];
 
 /** Runs a search and records its duration as a `kin-search` performance measure (features §8.6 perf). */
@@ -76,7 +76,9 @@ export function SearchPage() {
     setParams(next, { replace: true });
   };
 
-  const total = results ? results.contacts.length + results.momentTotal + results.tags.length : 0;
+  const total = results
+    ? results.contacts.length + results.momentTotal + results.tags.length + results.goals.length
+    : 0;
 
   return (
     <>
@@ -232,6 +234,23 @@ export function SearchPage() {
               </ul>
             </section>
           )}
+          {(tab === 'top' || tab === 'goals') && results.goals.length > 0 && (
+            <section aria-label={t('search.tabs.goals')} className="border-b border-border">
+              <ul>
+                {(tab === 'top' ? results.goals.slice(0, 3) : results.goals).map((g) => (
+                  <li key={g.id}>
+                    <Link
+                      to={`/goals/${g.id}`}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-surface-1"
+                    >
+                      <Target size={18} className="text-muted" aria-hidden />
+                      <span className="font-bold">{g.title}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
           {(tab === 'top' || tab === 'moments') && results.moments.length > 0 && (
             <section aria-label={t('search.tabs.moments')}>
               <Feed moments={results.moments} onEndReached={loadMore} />
@@ -240,7 +259,8 @@ export function SearchPage() {
           {tab !== 'top' &&
             ((tab === 'people' && !results.contacts.length) ||
               (tab === 'moments' && !results.moments.length) ||
-              (tab === 'tags' && !results.tags.length)) && (
+              (tab === 'tags' && !results.tags.length) ||
+              (tab === 'goals' && !results.goals.length)) && (
               <p className="px-8 py-12 text-center text-muted">{t('search.noResults', { q })}</p>
             )}
         </div>

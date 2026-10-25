@@ -68,7 +68,13 @@ export function UpcomingCard() {
             return (
               <li key={r.id}>
                 <Link
-                  to={c ? `/c/${c.id}` : '/reminders'}
+                  to={
+                    c
+                      ? `/c/${c.id}`
+                      : r.source === 'goal' && r.sourceId
+                        ? `/goals/${r.sourceId.split(':')[0]}`
+                        : '/reminders'
+                  }
                   className="flex items-center gap-3 px-4 py-2 hover:bg-surface-1"
                 >
                   {c ? (

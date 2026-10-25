@@ -17,6 +17,12 @@ async function setup(page: Page) {
   return new URL(page.url()).pathname; // /c/<id>
 }
 
+async function goalPath(page: Page) {
+  await page.goto('/goals');
+  await page.getByTestId('goal-row').first().getByRole('link').click();
+  return new URL(page.url()).pathname; // /goals/<id>
+}
+
 async function audit(page: Page) {
   const results = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
@@ -34,6 +40,7 @@ for (const theme of themes) {
   test(`no WCAG 2.1 AA violations — ${theme} theme`, async ({ page }) => {
     test.setTimeout(120_000);
     const profile = await setup(page);
+    const goal = await goalPath(page);
     await page.goto('/settings');
     await page.getByRole('radio', { name: theme, exact: true }).click();
     const pages = [
@@ -46,6 +53,8 @@ for (const theme of themes) {
       '/search?q=eli',
       '/groups',
       '/tasks',
+      '/goals',
+      goal,
       '/starred',
       '/settings',
       '/settings/data',

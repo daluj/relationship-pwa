@@ -24,8 +24,8 @@ help reach them, and review progress each week. Everything stays on the device (
 - **Progress**: percentage of milestones done (goals with no milestones show no bar). Status: active, achieved (sets
   `achievedAt`), paused, dropped.
 - **Today card** on Home's right rail: up to 3 active goals (soonest deadline first) with their next action.
-- **Weekly review**: a prompt (Mondays by default, or any time from the Goals page) that walks through active goals and saves
-  one `GoalReview` per ISO week with an optional note. A **review streak** (consecutive weeks) is shown on the Goals page.
+- **Weekly review**: a prompt card on the Goals page while this week's review is still to do (or the **Weekly review** button
+  at any time) that walks through active goals and saves one `GoalReview` per Sunday-start week with an optional note. A **review streak** (consecutive weeks) is shown on the Goals page.
 - Goal deadline reminders: a reminder with source `goal` created for each goal with a deadline (7 days before and on the day),
   following the pattern of important-date reminders (features §8.5).
 - Search, Trash, JSON backup/restore, demo data and ICS export cover the new entities.
@@ -43,7 +43,7 @@ help reach them, and review progress each week. Everything stays on the device (
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Goal`          | `title`, `why?`, `area?`, `deadline?` (ISO date), `status` (`active`\|`achieved`\|`paused`\|`dropped`), `achievedAt?`, `nextAction?`, `contactIds: string[]`, `sortOrder` |
 | `GoalMilestone` | `goalId`, `title`, `dueDate?`, `completedAt?`, `sortOrder`                                                                                                                |
-| `GoalReview`    | `weekOf` (ISO date of the Monday), `note?`; unique per `weekOf`                                                                                                           |
+| `GoalReview`    | `weekOf` (ISO date of the Sunday starting the week), `note?`; unique per `weekOf`                                                                                         |
 | `Task` (extend) | `goalId?` (indexed)                                                                                                                                                       |
 
 Dexie `db.version(2)` adds `goals`, `goalMilestones`, `goalReviews` and the `goalId` index on `tasks`, with an `.upgrade()`
@@ -60,7 +60,7 @@ that needs no data rewrite. See data-model §5.3.
   without deleting the goal.
 - **AC-6** A task created from a goal appears in the goal and in `/tasks`; deleting the goal soft-deletes its milestones and
   unlinks (does not delete) its tasks.
-- **AC-7** Completing the weekly review stores exactly one `GoalReview` per ISO week; repeating it the same week edits the
+- **AC-7** Completing the weekly review stores exactly one `GoalReview` per Sunday-start week; repeating it the same week edits the
   note. The streak counts consecutive weeks ending this or last week.
 - **AC-8** The Home right-rail Today card lists at most 3 active goals, ordered by soonest deadline, and hides when none exist.
 - **AC-9** Goals, milestones and reviews survive a JSON export → delete all → import round trip, and are removed/restored with
@@ -79,8 +79,13 @@ that needs no data rewrite. See data-model §5.3.
 - Tasks link to goals with `Task.goalId` rather than copying tasks into milestones: one tasks system, no duplication.
 - Linked people are `Goal.contactIds` (multi-entry index) with no per-link role; simplest option that satisfies the use case.
 - Reminders use source `goal` and the existing reminder service; no new notification code.
-- Weekly review is user-initiated or prompted by a dismissible in-app card; no extra notification type.
-- Assumed defaults to confirm at spec review: week starts Monday; at most 3 goals on the Today card; no cap on goals.
+- Weekly review is user-initiated or prompted by an in-app card on the Goals page (shown while the week's review is pending); no extra notification type.
+- Confirmed at spec review: the week starts on Sunday; at most 3 goals on the Today card; no cap on goals; Phase 10 does not wait for Phase 9.
+- Deadline reminders only exist for dates still ahead: a goal due in 3 days gets the on-the-day reminder but no "a week before" one.
+- Reminder titles are worded from the source ("Goal deadline: …", "Goal due in a week: …"); they open the goal, not a contact.
+- Linked people stay on the goal when a contact is soft-deleted (so Trash restore brings the link back) and are removed on purge and moved on merge.
+- Deleting a goal unlinks its tasks and restoring it does not re-link them.
+- Search index version 2 adds goals; `ChipPicker` gained an optional `onCreate` so it can pick from existing contacts only.
 
 ## Context
 

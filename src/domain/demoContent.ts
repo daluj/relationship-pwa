@@ -319,6 +319,16 @@ const text = {
       { title: 'Return the drill', person: 'dad' },
       { title: 'Plan the book club next month' },
     ],
+    goals: [
+      {
+        title: 'Visit Élise in Lyon',
+        why: 'Friendships need time together, not only messages.',
+        nextAction: 'Pick two weekends that work',
+        daysAhead: 60,
+        people: ['elise'],
+        milestones: ['Agree on dates', 'Book the trip'],
+      },
+    ],
     pets: [{ person: 'elise', name: 'Miso', species: 'Cat' }],
     importantDates: [
       { person: 'mum', label: 'Wedding anniversary', month: 6, day: 14, year: 1982 },
@@ -475,6 +485,16 @@ const text = {
       { title: 'Reservar vuelos a Lyon', person: 'elise' },
       { title: 'Devolver el taladro', person: 'dad' },
       { title: 'Organizar el club de lectura del mes que viene' },
+    ],
+    goals: [
+      {
+        title: 'Visitar a Élise en Lyon',
+        why: 'Las amistades necesitan tiempo juntos, no solo mensajes.',
+        nextAction: 'Elegir dos fines de semana posibles',
+        daysAhead: 60,
+        people: ['elise'],
+        milestones: ['Acordar las fechas', 'Reservar el viaje'],
+      },
     ],
     pets: [{ person: 'elise', name: 'Miso', species: 'Gato' }],
     importantDates: [

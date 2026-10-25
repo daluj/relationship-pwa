@@ -46,6 +46,8 @@ export interface DemoIds {
   groups: string[];
   reminders: string[];
   tasks: string[];
+  /** Added with goals (Phase 10); absent in older saved ids. */
+  goals?: string[];
 }
 
 export const defaultSettings: AppSettings = {

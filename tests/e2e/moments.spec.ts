@@ -100,6 +100,7 @@ test('`n` opens the modal composer; Esc on a dirty draft asks first; photos; det
   page,
 }) => {
   await page.goto('/');
+  await expect(page.getByRole('heading', { name: 'Home', level: 1 })).toBeVisible(); // app mounted, shortcuts bound
   await page.keyboard.press('n');
   const dialog = page.getByRole('dialog', { name: 'Log moment' });
   await expect(dialog).toBeVisible();

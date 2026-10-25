@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
+import { TodayCard } from '@/features/goals/TodayCard';
 import { MoneyCard } from '@/features/money/MoneyCard';
 import { ReachOutCard, UpcomingCard } from '@/features/reminders/RailCards';
 
@@ -43,6 +44,7 @@ export function RightRail() {
             </label>
           </form>
         )}
+        <TodayCard />
         <UpcomingCard />
         <ReachOutCard />
         <MoneyCard />

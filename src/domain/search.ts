@@ -1,7 +1,7 @@
 import { fullName } from './contact';
 import { normalizeText } from './fuzzy';
 import { bodyToPlainText } from './momentText';
-import type { Address, Contact, ContactField, Moment } from './types';
+import type { Address, Contact, ContactField, Goal, Moment } from './types';
 
 /**
  * Search tokens (features §8.6): lowercase, diacritics stripped (NFD + remove combining marks),
@@ -69,3 +69,7 @@ export function parseQuery(q: string): ParsedQuery {
 }
 
 export const isEmptyQuery = (p: ParsedQuery) => p.exact.length === 0 && !p.prefix;
+
+/** Searchable text of a goal: title, why, area, next action (features §8.11, AC-10). */
+export const goalDocument = (g: Pick<Goal, 'title' | 'why' | 'area' | 'nextAction'>): string =>
+  [g.title, g.why, g.area, g.nextAction].filter(Boolean).join(' ');

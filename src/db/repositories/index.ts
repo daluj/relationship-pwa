@@ -89,6 +89,26 @@ export {
   tasksFor,
 } from './profileItems';
 export type { DebtDraft, GiftDraft, PetDraft, TaskDraft } from './profileItems';
+export {
+  deleteGoal,
+  deleteMilestone,
+  goalsFor,
+  listGoals,
+  listMilestones,
+  listReviews,
+  milestonesFor,
+  moveMilestone,
+  restoreGoal,
+  restoreMilestone,
+  saveGoal,
+  saveMilestone,
+  saveWeeklyReview,
+  setGoalStatus,
+  setMilestoneDone,
+  setTaskGoal,
+  tasksForGoal,
+} from './goalService';
+export type { GoalDraft, MilestoneDraft } from './goalService';
 export { ensureSearchIndex, rebuildSearchIndex, search, trendingTags } from './searchService';
 export type { SearchResults } from './searchService';
 export { mergeContacts } from './mergeService';

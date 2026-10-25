@@ -19,12 +19,13 @@ interface Props {
   selected: string[];
   onAdd: (id: string) => void;
   onRemove: (id: string) => void;
-  onCreate: (name: string) => Promise<void>;
+  /** Omit to pick from the options only (no create-on-the-fly). */
+  onCreate?: (name: string) => Promise<void>;
   labels: {
     add: string;
     search: string;
     remove: (name: string) => string;
-    create: (name: string) => string;
+    create?: (name: string) => string;
   };
   renderChip?: (o: ChipOption) => ReactNode;
   /** Options have loaded; until then nothing (not even "Create …") is offered. */
@@ -75,6 +76,8 @@ export function ChipPicker({
       : [];
   const name = query.trim();
   if (
+    onCreate &&
+    labels.create &&
     open &&
     ready &&
     name &&
@@ -82,9 +85,9 @@ export function ChipPicker({
   ) {
     items.push({
       key: 'create',
-      label: labels.create(name),
+      label: labels.create!(name),
       icon: <Plus size={18} className="m-1 text-accent-text" aria-hidden />,
-      onSelect: () => void onCreate(name).then(done),
+      onSelect: () => void onCreate!(name).then(done),
     });
   }
 

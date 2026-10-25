@@ -160,7 +160,7 @@ export const reminderSchema = baseRecordSchema.extend({
     .optional(),
   recurrence: z.enum(['none', 'daily', 'weekly', 'monthly', 'yearly']),
   recurrenceInterval: z.number().int().positive().optional(),
-  source: z.enum(['manual', 'birthday', 'important-date', 'stay-in-touch']),
+  source: z.enum(['manual', 'birthday', 'important-date', 'stay-in-touch', 'goal']),
   sourceId: z.string().optional(),
   completedAt: isoDateTime.optional(),
   lastNotifiedAt: isoDateTime.optional(),
@@ -204,6 +204,7 @@ export const taskSchema = baseRecordSchema.extend({
   notes: z.string().optional(),
   dueDate: isoDateOrDateTime.optional(),
   completedAt: isoDateTime.optional(),
+  goalId: uuid.optional(), // features §8.11
 });
 
 export const petSchema = baseRecordSchema.extend({
@@ -239,7 +240,37 @@ export const blobRecordSchema = z.object({
 export const settingSchema = z.object({ key: z.string().min(1), value: z.unknown() });
 
 export const searchIndexEntrySchema = z.object({
-  entity: z.enum(['contact', 'moment', 'tag']),
+  entity: z.enum(['contact', 'moment', 'tag', 'goal']),
   entityId: z.string(),
   tokens: z.array(z.string()),
+});
+
+// features §8.11, data-model §5.3.
+
+export const goalStatuses = ['active', 'achieved', 'paused', 'dropped'] as const;
+
+export const goalSchema = baseRecordSchema.extend({
+  title: z.string().trim().min(1),
+  why: z.string().optional(),
+  area: z.string().optional(),
+  deadline: z.string().date().optional(),
+  status: z.enum(goalStatuses),
+  achievedAt: isoDateTime.optional(),
+  nextAction: z.string().optional(),
+  contactIds: z.array(uuid),
+  sortOrder: z.number().int().nonnegative(),
+});
+
+export const goalMilestoneSchema = baseRecordSchema.extend({
+  goalId: uuid,
+  title: z.string().trim().min(1),
+  dueDate: z.string().date().optional(),
+  completedAt: isoDateTime.optional(),
+  sortOrder: z.number().int().nonnegative(),
+});
+
+export const goalReviewSchema = baseRecordSchema.extend({
+  /** `YYYY-MM-DD` of the Sunday that starts the reviewed week. */
+  weekOf: z.string().date(),
+  note: z.string().optional(),
 });

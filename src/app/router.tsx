@@ -44,6 +44,8 @@ export const routes: RouteObject[] = [
         lazy: page(() => import('@/features/reminders/RemindersPage'), 'RemindersPage'),
       },
       { path: 'tasks', lazy: page(() => import('@/features/tasks/TasksPage'), 'TasksPage') },
+      { path: 'goals', lazy: page(() => import('@/features/goals/GoalsPage'), 'GoalsPage') },
+      { path: 'goals/:id', lazy: page(() => import('@/features/goals/GoalPage'), 'GoalPage') },
       { path: 'search', lazy: page(() => import('@/features/search/SearchPage'), 'SearchPage') },
       { path: 'tags/:id', lazy: page(() => import('@/features/tags/TagPage'), 'TagPage') },
       { path: 'groups', lazy: page(() => import('@/features/groups/GroupsPage'), 'GroupsPage') },

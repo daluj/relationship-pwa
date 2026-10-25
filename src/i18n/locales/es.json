@@ -23,7 +23,8 @@
     "toggleTheme": "Cambiar tema (actual: {{theme}})",
     "remindersBadge_one": "{{count}} recordatorio pendiente",
     "remindersBadge_other": "{{count}} recordatorios pendientes",
-    "themeLabel": "Tema: {{theme}}"
+    "themeLabel": "Tema: {{theme}}",
+    "goals": "Metas"
   },
   "home": {
     "title": "Inicio",
@@ -65,7 +66,9 @@
     "trash": "Papelera",
     "about": "Acerca de",
     "onboarding": "Te damos la bienvenida a Kin",
-    "notFound": "Esta página no existe"
+    "notFound": "Esta página no existe",
+    "goals": "Metas",
+    "goal": "Meta"
   },
   "placeholder": {
     "comingIn": "Disponible en el hito {{milestone}}.",
@@ -443,7 +446,9 @@
       "birthday": "Cumpleaños de {{name}}",
       "birthdayTurns": "{{name}} cumple {{age}}",
       "stayInTouch": "Escribe a {{name}}",
-      "importantDate": "{{label}} · {{name}}"
+      "importantDate": "{{label}} · {{name}}",
+      "goalWeek": "Meta que vence en una semana: {{title}}",
+      "goalDay": "Fecha límite de la meta: {{title}}"
     },
     "repeat": {
       "none": "No se repite",
@@ -685,7 +690,9 @@
     "deleted": "Tarea eliminada",
     "toggle": "Hecha: {{title}}",
     "dueOn": "Para el {{date}}",
-    "overdue": "Vencida · {{date}}"
+    "overdue": "Vencida · {{date}}",
+    "goal": "Meta",
+    "noGoal": "Sin meta"
   },
   "groups": {
     "new": "Nuevo grupo",
@@ -728,7 +735,8 @@
       "top": "Destacado",
       "people": "Personas",
       "moments": "Momentos",
-      "tags": "Etiquetas"
+      "tags": "Etiquetas",
+      "goals": "Metas"
     },
     "recent": "Búsquedas recientes",
     "clearRecent": "Borrar todo",
@@ -869,7 +877,8 @@
       "previous": "Momento anterior",
       "star": "Destacar el momento seleccionado",
       "open": "Abrir el momento seleccionado",
-      "help": "Mostrar esta lista"
+      "help": "Mostrar esta lista",
+      "goals": "Ir a Metas"
     }
   },
   "onboarding": {
@@ -976,5 +985,93 @@
     "exportLog": "Exportar registro",
     "clearLog": "Borrar registro",
     "shortcuts": "Atajos de teclado"
+  },
+  "goals": {
+    "title": "Metas",
+    "new": "Nueva meta",
+    "delete": "Eliminar meta",
+    "deleted": "Meta eliminada",
+    "why": "Por qué importa",
+    "nextShort": "Siguiente:",
+    "tasks": "Tareas",
+    "progress": "{{percent}}% completado",
+    "progressLabel": "Progreso: {{title}}",
+    "streak_one": "Racha de {{count}} semana de revisión",
+    "streak_other": "Racha de {{count}} semanas de revisión",
+    "tabs": {
+      "active": "Activas",
+      "achieved": "Logradas",
+      "other": "En pausa / descartadas"
+    },
+    "empty": {
+      "active": "Aún no tienes metas activas. Escribe algo concreto que quieras y para cuándo.",
+      "achieved": "Todavía no has logrado ninguna. Aparecerá aquí.",
+      "other": "No hay metas en pausa ni descartadas."
+    },
+    "status": {
+      "active": "Activa",
+      "achieved": "Lograda",
+      "paused": "En pausa",
+      "dropped": "Descartada"
+    },
+    "actions": {
+      "achieve": "Marcar como lograda",
+      "pause": "Pausar",
+      "drop": "Descartar",
+      "reopen": "Reabrir",
+      "resume": "Reanudar"
+    },
+    "deadline": {
+      "due_one": "Vence el {{date}} · mañana",
+      "due_other": "Vence el {{date}} · en {{count}} días",
+      "today": "Vence hoy · {{date}}",
+      "overdue": "Vencida desde el {{date}}"
+    },
+    "form": {
+      "new": "Nueva meta",
+      "edit": "Editar meta",
+      "title": "Meta",
+      "titlePlaceholder": "¿Qué quieres lograr?",
+      "titleRequired": "Ponle un título a tu meta.",
+      "why": "¿Por qué es importante?",
+      "nextAction": "Siguiente acción",
+      "deadline": "Fecha límite",
+      "area": "Área (opcional)"
+    },
+    "milestones": {
+      "title": "Hitos",
+      "add": "Añadir hito",
+      "placeholder": "¿Cuál es el siguiente paso?",
+      "due": "Fecha del hito",
+      "empty": "Aún no hay hitos. Divide la meta en pasos.",
+      "toggle": "Hecho: {{title}}",
+      "moveUp": "Subir: {{title}}",
+      "moveDown": "Bajar: {{title}}",
+      "delete": "Eliminar hito: {{title}}",
+      "deleted": "Hito eliminado"
+    },
+    "people": {
+      "title": "Personas que ayudan",
+      "add": "Añadir persona",
+      "search": "Buscar personas",
+      "remove": "Quitar a {{name}}",
+      "none": "Aún no hay nadie vinculado. Edita la meta para añadir personas."
+    },
+    "review": {
+      "open": "Revisión semanal",
+      "title": "Revisión semanal",
+      "prompt": "Es hora de tu revisión semanal.",
+      "start": "Empezar revisión",
+      "intro": "Repasa cada meta activa. ¿Qué avanzó esta semana y cuál es la siguiente acción?",
+      "noGoals": "No hay metas activas que revisar.",
+      "note": "Nota de esta semana (opcional)",
+      "save": "Guardar revisión",
+      "saved": "Revisión guardada"
+    },
+    "today": {
+      "title": "Hoy",
+      "all": "Todas las metas",
+      "noNext": "Aún sin siguiente acción"
+    }
   }
 }

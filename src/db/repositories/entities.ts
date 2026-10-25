@@ -6,6 +6,9 @@ import type {
   ContactField,
   Debt,
   Gift,
+  Goal,
+  GoalMilestone,
+  GoalReview,
   Group,
   ImportantDate,
   Moment,
@@ -153,3 +156,23 @@ export const tagRepo = {
     return baseTagRepo.update(id, patch);
   },
 };
+
+export const goalRepo = createRepository<Goal, 'status' | 'contactIds' | 'sortOrder'>({
+  entity: 'goal',
+  table: db.goals,
+  schema: s.goalSchema,
+  defaults: () => ({ status: 'active', contactIds: [], sortOrder: 0 }),
+});
+
+export const goalMilestoneRepo = createRepository<GoalMilestone, 'sortOrder'>({
+  entity: 'goalMilestone',
+  table: db.goalMilestones,
+  schema: s.goalMilestoneSchema,
+  defaults: () => ({ sortOrder: 0 }),
+});
+
+export const goalReviewRepo = createRepository<GoalReview>({
+  entity: 'goalReview',
+  table: db.goalReviews,
+  schema: s.goalReviewSchema,
+});

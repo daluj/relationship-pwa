@@ -209,7 +209,7 @@ interface Goal extends BaseRecord {          // Phase 10, Dexie v2
   sortOrder: number;
 }
 interface GoalMilestone extends BaseRecord { goalId: string; title: string; dueDate?: string; completedAt?: string; sortOrder: number }
-interface GoalReview extends BaseRecord { weekOf: string; note?: string }   // unique weekOf (ISO Monday)
+interface GoalReview extends BaseRecord { weekOf: string; note?: string }   // unique weekOf (ISO date of the week's Sunday)
 // Task gains: goalId?: string
 ```
 

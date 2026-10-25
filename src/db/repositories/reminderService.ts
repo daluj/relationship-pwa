@@ -1,7 +1,8 @@
 import { fullName } from '@/domain/contact';
+import { deadlineReminderDates, wantsDeadlineReminders } from '@/domain/goals';
 import { toIsoDate } from '@/domain/partialDate';
 import { addDays, nextRecurringDate, yearlyReminderDate } from '@/domain/recurrence';
-import type { Contact, ImportantDate, PartialDate, Reminder } from '@/domain/types';
+import type { Contact, Goal, ImportantDate, PartialDate, Reminder } from '@/domain/types';
 import { db } from '../db';
 import { nowIso } from './createRepository';
 import { importantDateRepo, reminderRepo } from './entities';
@@ -87,6 +88,47 @@ export async function syncStayInTouchReminder(contact: Contact): Promise<void> {
       dueDate,
       ...(existing.dueDate !== dueDate && { snoozedUntil: undefined, lastNotifiedAt: undefined }),
     });
+  }
+}
+
+/**
+ * Goal deadline reminders (features §8.11, AC-4): one a week before and one on the day, each only while still
+ * ahead. Moving the deadline re-dates them; removing it, or achieving/pausing/dropping/deleting the goal,
+ * purges the open ones. Completed ones stay as history.
+ */
+export async function syncGoalReminders(goal: Goal, now = today()): Promise<void> {
+  const todayIso = toIsoDate(now);
+  const wanted = new Map<string, string>();
+  if (wantsDeadlineReminders(goal)) {
+    const { week, day } = deadlineReminderDates(goal.deadline!);
+    if (week >= todayIso) wanted.set(`${goal.id}:week`, week);
+    if (day >= todayIso) wanted.set(`${goal.id}:day`, day);
+  }
+  for (const suffix of ['week', 'day']) {
+    const sourceId = `${goal.id}:${suffix}`;
+    const existing = await findAuto('goal', sourceId);
+    const dueDate = wanted.get(sourceId);
+    if (!dueDate) {
+      if (existing && !existing.completedAt) await reminderRepo.purge(existing.id);
+    } else if (!existing) {
+      await reminderRepo.create({
+        title: goal.title,
+        dueDate,
+        recurrence: 'none',
+        source: 'goal',
+        sourceId,
+      });
+    } else if (existing.dueDate !== dueDate || existing.title !== goal.title) {
+      await reminderRepo.update(existing.id, {
+        title: goal.title,
+        ...(existing.dueDate !== dueDate && {
+          dueDate,
+          completedAt: undefined,
+          snoozedUntil: undefined,
+          lastNotifiedAt: undefined,
+        }),
+      });
+    }
   }
 }
 

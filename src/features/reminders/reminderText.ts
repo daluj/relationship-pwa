@@ -21,6 +21,13 @@ export function reminderTitle(r: Reminder, contact: Contact | undefined, t: TFun
       return t('reminders.titles.stayInTouch', { name });
     case 'important-date':
       return contact ? t('reminders.titles.importantDate', { label: r.title, name }) : r.title;
+    case 'goal':
+      return t(
+        r.sourceId?.endsWith(':week') ? 'reminders.titles.goalWeek' : 'reminders.titles.goalDay',
+        {
+          title: r.title,
+        },
+      );
     case 'manual':
       return r.title;
   }

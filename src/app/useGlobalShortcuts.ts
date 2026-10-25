@@ -13,6 +13,7 @@ export const shortcuts = [
   { keys: ['g', 'h'], action: 'home' },
   { keys: ['g', 'r'], action: 'reminders' },
   { keys: ['g', 'c'], action: 'contacts' },
+  { keys: ['g', 'g'], action: 'goals' },
   { keys: ['j'], action: 'next' },
   { keys: ['k'], action: 'previous' },
   { keys: ['s'], action: 'star' },
@@ -41,7 +42,7 @@ function moveCard(step: 1 | -1) {
 }
 
 /**
- * Global keyboard shortcuts (ui §6.9): n, /, g h, g r, g c, j/k, s, ?.
+ * Global keyboard shortcuts (ui §6.9): n, /, g h, g r, g c, g g, j/k, s, ?.
  * Ignored while typing, with modifier keys, or when a dialog is open.
  */
 export function useGlobalShortcuts(): { helpOpen: boolean; setHelpOpen: (v: boolean) => void } {
@@ -62,7 +63,7 @@ export function useGlobalShortcuts(): { helpOpen: boolean; setHelpOpen: (v: bool
         fn();
       };
       if (afterG) {
-        const to = { h: '/', r: '/reminders', c: '/contacts' }[e.key];
+        const to = { h: '/', r: '/reminders', c: '/contacts', g: '/goals' }[e.key];
         if (to) return run(() => navigate(to));
       }
       switch (e.key) {

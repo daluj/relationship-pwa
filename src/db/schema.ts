@@ -6,6 +6,9 @@ import type {
   ContactField,
   Debt,
   Gift,
+  Goal,
+  GoalMilestone,
+  GoalReview,
   Group,
   ImportantDate,
   Moment,
@@ -33,6 +36,9 @@ export class KinDB extends Dexie {
   gifts!: Table<Gift, string>;
   debts!: Table<Debt, string>;
   tasks!: Table<Task, string>;
+  goals!: Table<Goal, string>;
+  goalMilestones!: Table<GoalMilestone, string>;
+  goalReviews!: Table<GoalReview, string>;
   pets!: Table<Pet, string>;
   tags!: Table<Tag, string>;
   groups!: Table<Group, string>;
@@ -62,7 +68,14 @@ export class KinDB extends Dexie {
       settings: 'key',
       searchIndex: '[entity+entityId], *tokens',
     });
+    // v2 (Phase 10, data-model §5.3): goals. Only adds tables and the tasks.goalId index; no data rewrite.
+    this.version(2).stores({
+      tasks: 'id, contactId, goalId, dueDate, completedAt, deletedAt',
+      goals: 'id, status, deadline, *contactIds, sortOrder, deletedAt',
+      goalMilestones: 'id, goalId, completedAt, deletedAt',
+      goalReviews: 'id, &weekOf, deletedAt',
+    });
   }
 }
 
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;

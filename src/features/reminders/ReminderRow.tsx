@@ -94,6 +94,7 @@ export function ReminderRow({ reminder: r, today, onEdit }: Props) {
   };
   const edit = () => {
     if (r.source === 'manual') onEdit(r);
+    else if (r.source === 'goal' && r.sourceId) navigate(`/goals/${r.sourceId.split(':')[0]}`);
     else if (r.contactId)
       navigate(
         r.source === 'important-date' ? `/c/${r.contactId}/details` : `/c/${r.contactId}/edit`,

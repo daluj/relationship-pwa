@@ -7,6 +7,7 @@ import type { DemoIds, Locale } from '@/domain/settings';
 import type { Contact } from '@/domain/types';
 import { db } from '../db';
 import { purgeContact, saveContact } from './contactService';
+import { purgeGoal, saveGoal, saveMilestone } from './goalService';
 import { reminderRepo, tagRepo, taskRepo } from './entities';
 import { addToGroup, saveGroup } from './groupService';
 import { purgeMoment, saveMoment } from './momentService';
@@ -29,6 +30,7 @@ export async function loadDemoData(locale: Locale, now = new Date()): Promise<De
     groups: [],
     reminders: [],
     tasks: [],
+    goals: [],
   };
   const today = toIsoDate(now);
   const currency = await settingsRepo.get('currency');
@@ -147,6 +149,17 @@ export async function loadDemoData(locale: Locale, now = new Date()): Promise<De
     });
     ids.tasks.push(saved.id);
   }
+  for (const g of content.goals) {
+    const saved = await saveGoal(undefined, {
+      title: g.title,
+      why: g.why,
+      nextAction: g.nextAction,
+      deadline: addDays(today, g.daysAhead),
+      contactIds: g.people.map((p) => people[p]!.id),
+    });
+    for (const title of g.milestones) await saveMilestone(saved.id, undefined, { title });
+    ids.goals!.push(saved.id);
+  }
   for (const pet of content.pets)
     await savePet(undefined, {
       contactId: people[pet.person]!.id,
@@ -175,6 +188,7 @@ export async function removeDemoData(): Promise<void> {
   for (const id of ids.moments) await purgeMoment(id);
   for (const id of ids.reminders) await reminderRepo.purge(id);
   for (const id of ids.tasks) await taskRepo.purge(id);
+  for (const id of ids.goals ?? []) await purgeGoal(id);
   for (const id of ids.tags) await deleteTag(id);
   await db.groups.bulkDelete(ids.groups);
   await settingsRepo.remove('demo');

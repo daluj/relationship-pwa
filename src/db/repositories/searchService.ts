@@ -2,12 +2,13 @@ import { fullName } from '@/domain/contact';
 import { fuzzyScore, normalizeText } from '@/domain/fuzzy';
 import {
   contactDocument,
+  goalDocument,
   indexTokens,
   isEmptyQuery,
   momentDocument,
   parseQuery,
 } from '@/domain/search';
-import type { Contact, Moment, Tag } from '@/domain/types';
+import type { Contact, Goal, Moment, Tag } from '@/domain/types';
 import { db } from '../db';
 
 /**
@@ -22,10 +23,11 @@ export const searchTables = () => [
   db.addresses,
   db.tags,
   db.moments,
+  db.goals,
 ];
 
 /** Bump when tokenization or document contents change; triggers a rebuild on app start. */
-export const SEARCH_INDEX_VERSION = 1;
+export const SEARCH_INDEX_VERSION = 2;
 const VERSION_KEY = 'searchIndexVersion';
 
 const live = <T extends { deletedAt?: string }>(r: T | undefined): r is T => !!r && !r.deletedAt;
@@ -67,6 +69,17 @@ export async function indexMoment(id: string): Promise<void> {
   await db.searchIndex.put({ entity: 'moment', entityId: id, tokens: indexTokens(text) });
 }
 
+export async function indexGoal(id: string): Promise<void> {
+  const g = await db.goals.get(id);
+  if (!live(g)) return removeGoalFromIndex(id);
+  await db.searchIndex.put({
+    entity: 'goal',
+    entityId: id,
+    tokens: indexTokens(goalDocument(g)),
+  });
+}
+
+export const removeGoalFromIndex = (id: string) => db.searchIndex.delete(['goal', id]);
 export const removeContactFromIndex = (id: string) => db.searchIndex.delete(['contact', id]);
 export const removeMomentFromIndex = (id: string) => db.searchIndex.delete(['moment', id]);
 
@@ -88,6 +101,7 @@ export async function rebuildSearchIndex(): Promise<void> {
   await db.searchIndex.clear();
   const contactIds = await db.contacts.toCollection().primaryKeys();
   const momentIds = await db.moments.toCollection().primaryKeys();
+  const goalIds = await db.goals.toCollection().primaryKeys();
   const BATCH = 500;
   for (let i = 0; i < contactIds.length; i += BATCH) {
     await db.transaction('rw', searchTables(), async () => {
@@ -99,6 +113,9 @@ export async function rebuildSearchIndex(): Promise<void> {
       for (const id of momentIds.slice(i, i + BATCH)) await indexMoment(id);
     });
   }
+  await db.transaction('rw', searchTables(), async () => {
+    for (const id of goalIds) await indexGoal(id);
+  });
   await db.settings.put({ key: VERSION_KEY, value: SEARCH_INDEX_VERSION });
 }
 
@@ -113,6 +130,7 @@ export interface SearchResults {
   contacts: Contact[];
   /** The newest `momentLimit` matching moments. */
   moments: Moment[];
+  goals: Goal[];
   /** Total matching moments (for "load more"). */
   momentTotal: number;
   tags: Tag[];
@@ -150,7 +168,8 @@ async function newestMoments(ids: string[], limit: number): Promise<Moment[]> {
  */
 export async function search(q: string, momentLimit = 50): Promise<SearchResults> {
   const parsed = parseQuery(q);
-  if (isEmptyQuery(parsed)) return { contacts: [], moments: [], momentTotal: 0, tags: [] };
+  if (isEmptyQuery(parsed))
+    return { contacts: [], moments: [], goals: [], momentTotal: 0, tags: [] };
 
   const sets: Set<string>[] = [];
   for (const t of parsed.exact) {
@@ -173,14 +192,16 @@ export async function search(q: string, momentLimit = 50): Promise<SearchResults
 
   const contactIds: string[] = [];
   const momentIds: string[] = [];
+  const goalIds: string[] = [];
   for (const k of hits) {
     const [entity, id] = k.split('|') as [string, string];
-    (entity === 'contact' ? contactIds : momentIds).push(id);
+    (entity === 'contact' ? contactIds : entity === 'goal' ? goalIds : momentIds).push(id);
   }
 
-  const [contacts, moments, tags] = await Promise.all([
+  const [contacts, moments, goals, tags] = await Promise.all([
     db.contacts.bulkGet(contactIds),
     newestMoments(momentIds, momentLimit),
+    db.goals.bulkGet(goalIds),
     db.tags.toArray(),
   ]);
   const name = q.trim();
@@ -195,6 +216,7 @@ export async function search(q: string, momentLimit = 50): Promise<SearchResults
           fullName(a).localeCompare(fullName(b)),
       ),
     moments,
+    goals: goals.filter(live).sort((a, b) => a.title.localeCompare(b.title)),
     momentTotal: momentIds.length,
     tags: tags
       .filter((t) => live(t) && normalizeText(t.name).includes(qNorm))

@@ -4,19 +4,19 @@
 
 `npm run verify` is green, and:
 
-| AC    | Proven by                                                                          |
-| ----- | ---------------------------------------------------------------------------------- |
-| AC-1  | `tests/unit/goalService.test.ts` (create, empty title rejected)                    |
-| AC-2  | `tests/unit/goals.test.ts` progress; `tests/e2e/goals.spec.ts` tick/untick         |
-| AC-3  | `goalService.test.ts` status transitions                                           |
-| AC-4  | `goalService.test.ts` deadline reminders (create, move, remove, achieve)           |
-| AC-5  | `goalService.test.ts` contact link/unlink; contact delete                          |
-| AC-6  | `goalService.test.ts` task link, goal delete cascade                               |
-| AC-7  | `goals.test.ts` streak; `goalService.test.ts` one review per week                  |
-| AC-8  | `goals.test.ts` Today ordering; e2e Today card                                     |
-| AC-9  | backup round-trip unit test; Trash restore test                                    |
-| AC-10 | `searchService.test.ts` Goals group                                                |
-| AC-11 | `tests/e2e/a11y.spec.ts` (new screens × 3 themes); offline e2e; locale parity test |
+| AC    | Proven by                                                                                                |
+| ----- | -------------------------------------------------------------------------------------------------------- |
+| AC-1  | `tests/unit/goals.test.ts` (create, empty title rejected)                                                |
+| AC-2  | `tests/unit/goals.test.ts` progress; `tests/e2e/goals.spec.ts` tick/untick                               |
+| AC-3  | `goals.test.ts` status transitions                                                                       |
+| AC-4  | `goals.test.ts` deadline reminders (create, move, remove, achieve)                                       |
+| AC-5  | `goals.test.ts` contact link/unlink; contact delete                                                      |
+| AC-6  | `goals.test.ts` task link, goal delete cascade                                                           |
+| AC-7  | `goals.test.ts` streak; `goals.test.ts` one review per week                                              |
+| AC-8  | `goals.test.ts` Today ordering; e2e Today card                                                           |
+| AC-9  | `goals.test.ts` backup round trip and Trash purge                                                        |
+| AC-10 | `goals.test.ts` search group                                                                             |
+| AC-11 | `tests/e2e/a11y.spec.ts` (new screens × 3 themes); `goals.spec.ts` offline; `i18n.test.ts` locale parity |
 
 ## Manual
 

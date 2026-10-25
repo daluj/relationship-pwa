@@ -9,11 +9,13 @@ import { IconButton } from '@/components/IconButton';
 import { Tabs } from '@/components/Tabs';
 import { inputClass } from '@/components/form/fieldClass';
 import {
+  listGoals,
   listTasks,
   saveTask,
   setTaskDone,
   taskRepo,
   tasksFor,
+  tasksForGoal,
   useLiveQuery,
 } from '@/db/repositories';
 import { fullName } from '@/domain/contact';
@@ -23,16 +25,22 @@ import type { Task } from '@/domain/types';
 import { useLookup } from '@/features/moments/useLookup';
 
 /** Checklist with open/done filter and quick add (ui §6.7 Tasks, §6.6 profile Tasks). */
-export function TaskList({ contactId }: { contactId?: string }) {
+export function TaskList({ contactId, goalId }: { contactId?: string; goalId?: string }) {
   const { t, i18n } = useTranslation();
   const lookup = useLookup();
   const today = toIsoDate(useToday());
   const showToast = useToasts((s) => s.show);
-  const tasks = useLiveQuery(() => (contactId ? tasksFor(contactId) : listTasks()), [contactId]);
+  const tasks = useLiveQuery(
+    () => (goalId ? tasksForGoal(goalId) : contactId ? tasksFor(contactId) : listTasks()),
+    [contactId, goalId],
+  );
+  const goals = useLiveQuery(listGoals, []);
+  const goalTitle = useMemo(() => new Map((goals ?? []).map((g) => [g.id, g.title])), [goals]);
   const [tab, setTab] = useState<'open' | 'done'>('open');
   const [title, setTitle] = useState('');
   const [due, setDue] = useState('');
   const [person, setPerson] = useState('');
+  const [goal, setGoal] = useState('');
 
   const shown = useMemo(() => {
     const list = (tasks ?? []).filter((x) => (tab === 'open' ? !x.completedAt : !!x.completedAt));
@@ -52,6 +60,7 @@ export function TaskList({ contactId }: { contactId?: string }) {
       title: title.trim(),
       dueDate: due || undefined,
       contactId: contactId ?? (person || undefined),
+      goalId: goalId ?? (goal || undefined),
     });
     setTitle('');
     setDue('');
@@ -88,6 +97,23 @@ export function TaskList({ contactId }: { contactId?: string }) {
           onChange={(e) => setDue(e.target.value)}
           className={`${inputClass} w-40`}
         />
+        {!contactId && !goalId && (goals ?? []).some((g) => g.status === 'active') && (
+          <select
+            aria-label={t('tasks.goal')}
+            value={goal}
+            onChange={(e) => setGoal(e.target.value)}
+            className={`${inputClass} w-44`}
+          >
+            <option value="">{t('tasks.noGoal')}</option>
+            {(goals ?? [])
+              .filter((g) => g.status === 'active')
+              .map((g) => (
+                <option key={g.id} value={g.id}>
+                  {g.title}
+                </option>
+              ))}
+          </select>
+        )}
         {!contactId && (
           <select
             aria-label={t('tasks.person')}
@@ -150,6 +176,16 @@ export function TaskList({ contactId }: { contactId?: string }) {
                   {c && (
                     <Link to={`/c/${c.id}/tasks`} className="text-accent-text hover:underline">
                       {fullName(c)}
+                    </Link>
+                  )}
+                  {(task.dueDate || c) &&
+                    !goalId &&
+                    task.goalId &&
+                    goalTitle.has(task.goalId) &&
+                    ' · '}
+                  {!goalId && task.goalId && goalTitle.has(task.goalId) && (
+                    <Link to={`/goals/${task.goalId}`} className="text-accent-text hover:underline">
+                      {goalTitle.get(task.goalId)}
                     </Link>
                   )}
                 </p>
