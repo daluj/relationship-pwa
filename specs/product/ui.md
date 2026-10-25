@@ -90,6 +90,9 @@ WCAG 2.1 AA: semantic landmarks, focus rings, all icon buttons with `aria-label`
 ### 6.11 Memory recall
 Profile header gains a "Before you meet" button (desktop) and ⋯ menu entry. Profile › Timeline has an **All / Milestones** toggle (`aria-pressed` buttons). Home shows an "On this day" region above the feed on the All tab. The brief is a stack of headed sections (About, Coming up, Open tasks, Money, Gifts, Recent moments) reusing the moment card.
 
+### 6.12 Capture speed
+The composer toolbar has a **Template** menu (after the location button). The profile ⋯ menu starts with **Log a call**. When the composer opens for a call, focus goes to the call-direction control instead of the text box (`data-autofocus`). The gift dialog has a Photo row with a preview and Add / Replace / Remove photo.
+
 ## 7. Routes
 
 | Path | Screen |

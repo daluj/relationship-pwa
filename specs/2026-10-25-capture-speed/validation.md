@@ -2,12 +2,12 @@
 
 ## Automated
 
-- [ ] `npm run verify` is green.
-- [ ] AC-1, AC-2: `tests/unit/momentTemplates.test.ts`, `tests/unit/Composer.test.tsx`
-- [ ] AC-3: `tests/e2e/capture.spec.ts`, `tests/unit/momentService.test.ts` (`lastInteractionAt`)
-- [ ] AC-4: `tests/unit/m5Services.test.ts`
-- [ ] AC-5: `tests/unit/importExport.test.ts`, `tests/e2e/capture.spec.ts`
-- [ ] AC-6: `tests/e2e/a11y.spec.ts`, `tests/unit/i18n.test.ts`
+- [x] `npm run verify` is green.
+- [x] AC-1, AC-2: `tests/unit/momentTemplates.test.ts`, `tests/unit/Composer.test.tsx`
+- [x] AC-3: `tests/e2e/capture.spec.ts`, `tests/unit/momentService.test.ts` (`lastInteractionAt`)
+- [x] AC-4: `tests/unit/m5Services.test.ts`
+- [x] AC-5: `tests/unit/importExport.test.ts`, `tests/e2e/capture.spec.ts`
+- [x] AC-6: `tests/e2e/a11y.spec.ts`, `tests/unit/i18n.test.ts`
 
 ## Manual
 

@@ -21,8 +21,8 @@ export function ComposerDialog() {
       dirty.current = false;
       if (typeof d.showModal === 'function') d.showModal();
       else d.setAttribute('open', '');
-      // showModal focuses the first control (✕); the text box is what people want.
-      d.querySelector('textarea')?.focus();
+      // showModal focuses the first control (✕); the text box (or a control marked data-autofocus) is what people want.
+      (d.querySelector<HTMLElement>('[data-autofocus]') ?? d.querySelector('textarea'))?.focus();
     } else if (!open && d.open) {
       d.close();
     }

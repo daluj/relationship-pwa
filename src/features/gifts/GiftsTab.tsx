@@ -7,11 +7,36 @@ import { Dialog } from '@/components/Dialog';
 import { Menu } from '@/components/Menu';
 import { inputClass } from '@/components/form/fieldClass';
 import { TextField } from '@/components/form/TextField';
-import { giftRepo, giftsFor, saveGift, useLiveQuery, useSettings } from '@/db/repositories';
+import {
+  giftRepo,
+  giftsFor,
+  saveGift,
+  thumbId,
+  useBlobUrl,
+  useLiveQuery,
+  useSettings,
+  type GiftPhotoChange,
+} from '@/db/repositories';
 import { formatMoney } from '@/domain/money';
 import { parseIsoDate } from '@/domain/recurrence';
 import type { Gift } from '@/domain/types';
 import { CurrencySelect } from '@/features/money/CurrencySelect';
+import { prepareMomentPhoto } from '@/lib/image';
+
+/** Gift photo thumbnail (falls back to the full image for photos saved without one). */
+export function GiftPhoto({ photoBlobId, name }: { photoBlobId: string; name: string }) {
+  const { t } = useTranslation();
+  const thumb = useBlobUrl(thumbId(photoBlobId));
+  const full = useBlobUrl(thumb ? undefined : photoBlobId);
+  const url = thumb ?? full;
+  return url ? (
+    <img
+      src={url}
+      alt={t('gifts.photoAlt', { name })}
+      className="h-14 w-14 shrink-0 rounded-lg object-cover"
+    />
+  ) : null;
+}
 
 const statuses = ['idea', 'bought', 'given', 'received'] as const;
 
@@ -69,7 +94,11 @@ export function GiftsTab({ contactId }: { contactId: string }) {
                     data-testid="gift-row"
                     className="flex items-start gap-3 border-b border-border px-4 py-3"
                   >
-                    <GiftIcon size={20} className="mt-0.5 shrink-0 text-muted" aria-hidden />
+                    {g.photoBlobId ? (
+                      <GiftPhoto photoBlobId={g.photoBlobId} name={g.name} />
+                    ) : (
+                      <GiftIcon size={20} className="mt-0.5 shrink-0 text-muted" aria-hidden />
+                    )}
                     <div className="min-w-0 flex-1">
                       <p className="font-bold">
                         {url ? (
@@ -148,6 +177,33 @@ function GiftDialog({
   const [date, setDate] = useState('');
   const [notes, setNotes] = useState('');
   const [error, setError] = useState<string>();
+  /** `undefined` keeps the stored photo, `null` removes it, an object replaces it. */
+  const [photo, setPhoto] = useState<GiftPhotoChange>(undefined);
+  const [photoUrl, setPhotoUrl] = useState<string>();
+  const [preparing, setPreparing] = useState(false);
+  const storedUrl = useBlobUrl(
+    photo === undefined && gift?.photoBlobId ? thumbId(gift.photoBlobId) : undefined,
+  );
+
+  useEffect(() => {
+    if (!photo) return setPhotoUrl(undefined);
+    const url = URL.createObjectURL(photo.thumb.data);
+    setPhotoUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [photo]);
+
+  const choosePhoto = async (file?: File) => {
+    if (!file) return;
+    setPreparing(true);
+    try {
+      setPhoto(await prepareMomentPhoto(file));
+      setError(undefined);
+    } catch {
+      setError(t('composer.photoError'));
+    } finally {
+      setPreparing(false);
+    }
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -160,24 +216,29 @@ function GiftDialog({
     setDate(gift?.date?.slice(0, 10) ?? '');
     setNotes(gift?.notes ?? '');
     setError(undefined);
+    setPhoto(undefined);
   }, [open, gift, defaultCurrency]);
 
   const save = async () => {
     if (!name.trim()) return setError(t('form.required'));
     if (url.trim() && !safeUrl(url.trim())) return setError(t('gifts.invalidUrl'));
     const p = price.trim() ? Number(price.replace(',', '.')) : undefined;
-    await saveGift(gift?.id, {
-      contactId,
-      name: name.trim(),
-      status,
-      occasion: occasion.trim() || undefined,
-      url: url.trim() || undefined,
-      price: p !== undefined && Number.isFinite(p) && p >= 0 ? p : undefined,
-      currency: p !== undefined ? currency : undefined,
-      date: date || undefined,
-      notes: notes.trim() || undefined,
-      photoBlobId: gift?.photoBlobId,
-    });
+    await saveGift(
+      gift?.id,
+      {
+        contactId,
+        name: name.trim(),
+        status,
+        occasion: occasion.trim() || undefined,
+        url: url.trim() || undefined,
+        price: p !== undefined && Number.isFinite(p) && p >= 0 ? p : undefined,
+        currency: p !== undefined ? currency : undefined,
+        date: date || undefined,
+        notes: notes.trim() || undefined,
+        photoBlobId: gift?.photoBlobId,
+      },
+      photo,
+    );
     onClose();
   };
 
@@ -192,7 +253,9 @@ function GiftDialog({
           <Button variant="outline" onClick={onClose}>
             {t('common.cancel')}
           </Button>
-          <Button onClick={() => void save()}>{t('common.save')}</Button>
+          <Button disabled={preparing} onClick={() => void save()}>
+            {t('common.save')}
+          </Button>
         </>
       }
     >
@@ -253,6 +316,43 @@ function GiftDialog({
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
         />
+        <div className="text-sm font-bold text-muted">
+          {t('gifts.photo')}
+          <div className="mt-1 flex items-center gap-3 font-normal text-text">
+            {(photoUrl ?? (photo === undefined ? storedUrl : undefined)) && (
+              <img
+                src={photoUrl ?? storedUrl}
+                alt=""
+                className="h-14 w-14 rounded-lg object-cover"
+              />
+            )}
+            <label className="cursor-pointer rounded-full border border-border px-3 py-1.5 hover:bg-surface-2">
+              {photoUrl || (photo === undefined && gift?.photoBlobId)
+                ? t('gifts.photoReplace')
+                : t('gifts.photoAdd')}
+              <input
+                type="file"
+                accept="image/*"
+                className="sr-only"
+                aria-label={t('gifts.photoInput')}
+                onChange={(e) => {
+                  void choosePhoto(e.target.files?.[0]);
+                  e.target.value = '';
+                }}
+              />
+            </label>
+            {(photoUrl || (photo === undefined && gift?.photoBlobId)) && (
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={preparing}
+                onClick={() => setPhoto(null)}
+              >
+                {t('gifts.photoRemove')}
+              </Button>
+            )}
+          </div>
+        </div>
         {error && (
           <p role="alert" className="text-sm text-danger">
             {error}

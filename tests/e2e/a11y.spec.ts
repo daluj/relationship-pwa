@@ -43,6 +43,7 @@ for (const theme of themes) {
       `${profile}/details`,
       `${profile}/brief`,
       `${profile}/money`,
+      `${profile}/gifts`,
       '/reminders',
       '/search?q=eli',
       '/groups',

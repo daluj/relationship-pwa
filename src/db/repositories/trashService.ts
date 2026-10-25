@@ -3,6 +3,7 @@ import type { Table } from 'dexie';
 import { db } from '../db';
 import { purgeContact, TRASH_RETENTION_DAYS } from './contactService';
 import { purgeMoment } from './momentService';
+import { deleteGiftPhotoBlobs } from './profileItems';
 
 const softDeletableTables = () =>
   [
@@ -39,6 +40,9 @@ export async function purgeExpiredTrash(now = new Date()): Promise<number> {
         c.groupIds = c.groupIds.filter((g) => !groups.includes(g));
       });
   }
+  // Expired gifts take their photo (and thumbnail) with them.
+  const gifts = await db.gifts.where('deletedAt').below(cutoff).toArray();
+  await deleteGiftPhotoBlobs(gifts.flatMap((g) => (g.photoBlobId ? [g.photoBlobId] : [])));
   let purged = contacts.length + moments.length;
   for (const table of softDeletableTables()) {
     purged += await table.where('deletedAt').below(cutoff).delete();

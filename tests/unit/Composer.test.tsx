@@ -102,3 +102,56 @@ describe('Composer autocomplete (ui §6.5, §6.10)', () => {
     expect(box).toHaveValue('Called @Marc ');
   });
 });
+
+describe('Composer templates and "Log a call" (features §8.12)', () => {
+  it('a template sets kind, activity type and text, and keeps the caret at the end (AC-1)', async () => {
+    renderComposer();
+    const box = await screen.findByRole('combobox', { name: 'What happened?' });
+    await userEvent.click(screen.getByRole('button', { name: 'Template' }));
+    await userEvent.click(screen.getByRole('menuitem', { name: 'Coffee' }));
+    expect(box).toHaveValue('Coffee with ');
+    expect(screen.getByRole('radio', { name: 'Activity' })).toHaveAttribute('aria-checked', 'true');
+    expect(screen.getByRole('combobox', { name: 'Activity type' })).toHaveValue('coffee');
+  });
+
+  it('a template never overwrites text already typed (AC-2)', async () => {
+    renderComposer();
+    const box = await screen.findByRole('combobox', { name: 'What happened?' });
+    await userEvent.type(box, 'Long chat');
+    await userEvent.click(screen.getByRole('button', { name: 'Template' }));
+    await userEvent.click(screen.getByRole('menuitem', { name: 'Visit' }));
+    expect(box).toHaveValue('Long chat');
+    expect(screen.getByRole('combobox', { name: 'Activity type' })).toHaveValue('visit');
+  });
+
+  it('opens as an outgoing-call-ready composer with the contact and focus on direction (AC-3)', async () => {
+    const lise = await contactRepo.create({ firstName: 'Élise' });
+    renderRoutes(
+      [
+        {
+          path: '/',
+          element: <Composer variant="modal" prefill={{ contactIds: [lise.id], kind: 'call' }} />,
+        },
+      ],
+      '/',
+    );
+    expect(await screen.findByRole('radio', { name: 'Call' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
+    const direction = screen.getByRole('combobox', { name: 'Call direction' });
+    expect(direction).toHaveFocus();
+    await waitFor(() =>
+      expect(screen.getByRole('group', { name: 'People in this moment' })).toHaveTextContent(
+        'Élise',
+      ),
+    );
+    await userEvent.selectOptions(direction, 'outgoing');
+    await userEvent.click(screen.getByRole('button', { name: 'Save' }));
+    await waitFor(async () => expect(await feed({ limit: 5 })).toHaveLength(1));
+    const [m] = await feed({ limit: 5 });
+    expect(m).toMatchObject({ kind: 'call', callDirection: 'outgoing', contactIds: [lise.id] });
+    const updated = await contactRepo.get(lise.id);
+    expect(updated!.lastInteractionAt).toBe(m!.happenedAt); // features §8.5 / D-028
+  });
+});

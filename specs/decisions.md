@@ -441,3 +441,14 @@ cold on start-up with 2k contacts / 20k moments in the perf project. Each run re
 `performance.measure` (never sent anywhere); the perf test times a warm re-mount of Home, like D-053. A first moment that
 is itself a life event is not listed twice in Milestones. The brief avoids "you haven't talked in N days" wording so stay-in-touch
 stays the only nudge (mission §1.2).
+
+## D-070 — Capture speed (Phase 11)
+
+Moment templates are code (`domain/momentTemplates.ts`) with labels and starter text in i18n; they never overwrite typed text.
+The template picker is a `Menu` (not a native `<select>`) so its options don't appear as extra `option` roles beside the @/#
+suggestions listbox. "Log a call" reuses the composer through a `kind`/`callDirection` prefill; `ComposerDialog` focuses a
+`[data-autofocus]` control before the text box. Gift photos reuse the moment-photo convention (full image plus
+`<id>:thumb`, D-026) and need no schema change; `saveGift(id, draft, photo)` takes `undefined` (keep), `null` (remove) or new
+images (replace) and deletes the old blobs in the same transaction. Contact purge and the expiry sweep delete gift photos too.
+**Voice dictation was dropped:** the browser speech-recognition APIs send audio to a server, which conflicts with mission §1.2.
+It stays in the backlog until an on-device API is widely available.

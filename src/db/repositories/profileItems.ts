@@ -1,6 +1,8 @@
 // Per-contact collections shown on profile tabs (features §8.7): gifts, debts, tasks, pets, tags.
 import type { Debt, Gift, Pet, Task } from '@/domain/types';
 import { db } from '../db';
+import { blobRepo } from './blobRepo';
+import type { NewImage } from './contactService';
 import { nowIso } from './createRepository';
 import { contactRepo, debtRepo, giftRepo, petRepo, taskRepo } from './entities';
 import { indexContact, searchTables } from './searchService';
@@ -35,8 +37,37 @@ export type DebtDraft = Omit<Debt, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt
 export type TaskDraft = Omit<Task, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt' | 'completedAt'>;
 export type PetDraft = Omit<Pet, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>;
 
-export const saveGift = (id: string | undefined, d: GiftDraft) =>
-  id ? giftRepo.update(id, d) : giftRepo.create(d);
+/** Blob id of the thumbnail stored next to a full-size image (D-026). */
+const thumbOf = (photoId: string) => `${photoId}:thumb`;
+
+/** `undefined` keeps the gift's photo, `null` removes it, an image replaces it (features §8.12). */
+export type GiftPhotoChange = { image: NewImage; thumb: NewImage } | null | undefined;
+
+/** Deletes a gift photo and its thumbnail. */
+export const deleteGiftPhotoBlobs = (photoIds: string[]) =>
+  db.blobs.bulkDelete(photoIds.flatMap((id) => [id, thumbOf(id)]));
+
+export async function saveGift(id: string | undefined, d: GiftDraft, photo?: GiftPhotoChange) {
+  return db.transaction('rw', [db.gifts, db.blobs], async () => {
+    const current = id ? await giftRepo.get(id) : undefined;
+    let photoBlobId = d.photoBlobId ?? current?.photoBlobId;
+    if (photo !== undefined) {
+      if (current?.photoBlobId) await deleteGiftPhotoBlobs([current.photoBlobId]);
+      photoBlobId = undefined;
+      if (photo) {
+        const full = await blobRepo.put({ ...photo.image, size: photo.image.data.size });
+        await blobRepo.put({
+          ...photo.thumb,
+          size: photo.thumb.data.size,
+          id: thumbOf(full.id),
+        });
+        photoBlobId = full.id;
+      }
+    }
+    const draft = { ...d, photoBlobId };
+    return id ? giftRepo.update(id, draft) : giftRepo.create(draft);
+  });
+}
 export const saveDebt = (id: string | undefined, d: DebtDraft) =>
   id ? debtRepo.update(id, d) : debtRepo.create(d);
 export const saveTask = (id: string | undefined, d: TaskDraft) =>

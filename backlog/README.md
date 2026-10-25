@@ -14,3 +14,5 @@ tombstones on every record so these stay possible:
 - Encryption at rest (the app lock is a UI lock only; see decisions D-063)
 - Custom record templates
 - Connecting people to non-person records (companies, homes, vehicles)
+- Voice dictation in the composer: needs an on-device speech API. Today's browser speech recognition sends audio to a server
+  (conflicts with mission §1.2); see decisions D-070

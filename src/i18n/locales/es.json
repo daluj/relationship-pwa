@@ -266,7 +266,8 @@
     "archived": "{{name}} archivado",
     "unarchived": "{{name}} desarchivado",
     "banner": "Imagen de cabecera de {{name}}",
-    "avatar": "Foto de {{name}}"
+    "avatar": "Foto de {{name}}",
+    "logCall": "Registrar una llamada"
   },
   "details": {
     "contact": "Datos de contacto",
@@ -383,7 +384,31 @@
     "discard": "¿Descartar este momento?",
     "saved": "Momento guardado",
     "shortcutHint": "Ctrl/⌘ + Intro para guardar",
-    "photoError": "No se ha podido leer esa foto."
+    "photoError": "No se ha podido leer esa foto.",
+    "template": "Plantilla",
+    "templatePlaceholder": "Elige una plantilla…",
+    "templates": {
+      "coffee": {
+        "label": "Café",
+        "text": "Café con "
+      },
+      "meal": {
+        "label": "Comida",
+        "text": "Comida con "
+      },
+      "call": {
+        "label": "Llamada",
+        "text": "Llamada con "
+      },
+      "gift-given": {
+        "label": "Regalo entregado",
+        "text": "Regalé algo a "
+      },
+      "visit": {
+        "label": "Visita",
+        "text": "Visité a "
+      }
+    }
   },
   "tags": {
     "moments_one": "{{count}} momento",
@@ -640,7 +665,13 @@
     "deleted": "Regalo eliminado",
     "empty": "Aún no hay regalos. Apunta ideas cuando se te ocurran.",
     "moveTo": "Marcar como {{status}}",
-    "invalidUrl": "Introduce un enlace completo que empiece por https://"
+    "invalidUrl": "Introduce un enlace completo que empiece por https://",
+    "photo": "Foto",
+    "photoAdd": "Añadir foto",
+    "photoReplace": "Cambiar foto",
+    "photoRemove": "Quitar foto",
+    "photoInput": "Elegir archivo de foto",
+    "photoAlt": "Foto de {{name}}"
   },
   "money": {
     "theyOwe": "Te debe {{amount}}",

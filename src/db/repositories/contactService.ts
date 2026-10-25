@@ -223,7 +223,9 @@ export async function purgeContact(id: string): Promise<void> {
       await removeContactFromIndex(id);
       const blobIds = [contact.avatarBlobId, contact.bannerBlobId];
       const gifts = await db.gifts.where('contactId').equals(id).toArray();
-      blobIds.push(...gifts.map((g) => g.photoBlobId));
+      blobIds.push(
+        ...gifts.flatMap((g) => (g.photoBlobId ? [g.photoBlobId, `${g.photoBlobId}:thumb`] : [])),
+      );
       await db.blobs.bulkDelete(blobIds.filter((b): b is string => !!b));
 
       for (const table of dependentTables()) await table.where('contactId').equals(id).delete();

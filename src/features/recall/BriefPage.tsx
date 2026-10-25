@@ -9,6 +9,7 @@ import { formatMoney } from '@/domain/money';
 import { formatPartialDate, formatRelativeDay } from '@/domain/partialDate';
 import { isBriefEmpty } from '@/domain/recall';
 import { parseIsoDate } from '@/domain/recurrence';
+import { GiftPhoto } from '@/features/gifts/GiftsTab';
 import { MomentCard } from '@/features/moments/MomentCard';
 
 function Section({ id, title, children }: { id: string; title: string; children: ReactNode }) {
@@ -133,9 +134,12 @@ export function BriefPage() {
                 <h4 className="text-sm text-muted">{t('recall.giftsGiven')}</h4>
                 <ul>
                   {brief.giftsGiven.map((g) => (
-                    <li key={g.id}>
-                      {g.name}
-                      {g.date && <span className="text-muted"> · {fmtDay(g.date)}</span>}
+                    <li key={g.id} className="flex items-center gap-2 py-1">
+                      {g.photoBlobId && <GiftPhoto photoBlobId={g.photoBlobId} name={g.name} />}
+                      <span>
+                        {g.name}
+                        {g.date && <span className="text-muted"> · {fmtDay(g.date)}</span>}
+                      </span>
                     </li>
                   ))}
                 </ul>

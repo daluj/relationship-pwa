@@ -8,11 +8,13 @@ import {
   type KeyboardEvent,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CalendarClock, ImagePlus, MapPin, X } from 'lucide-react';
+import { CalendarClock, ImagePlus, LayoutTemplate, MapPin, X } from 'lucide-react';
+import type { ComposerPrefill } from '@/app/stores/composer';
 import { useToasts } from '@/app/stores/toast';
 import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/Button';
 import { IconButton } from '@/components/IconButton';
+import { Menu } from '@/components/Menu';
 import { inputClass } from '@/components/form/fieldClass';
 import {
   findOrCreateTag,
@@ -33,6 +35,7 @@ import {
   type DraftEntity,
   type Trigger,
 } from '@/domain/momentText';
+import { applyTemplate, momentTemplateIds, type MomentTemplateId } from '@/domain/momentTemplates';
 import { toDateTimeLocal } from '@/domain/relativeTime';
 import { momentKinds } from '@/domain/schemas';
 import type { Contact, Moment, MomentKind } from '@/domain/types';
@@ -62,7 +65,7 @@ interface Extra {
 
 interface Props {
   momentId?: string;
-  prefill?: { contactIds?: string[]; text?: string };
+  prefill?: ComposerPrefill;
   variant: 'inline' | 'modal';
   onDone?: () => void;
   onDirtyChange?: (dirty: boolean) => void;
@@ -83,13 +86,16 @@ export function Composer({ momentId, prefill, variant, onDone, onDirtyChange }: 
   const listId = useId();
 
   const [loaded, setLoaded] = useState(!momentId);
-  const [kind, setKind] = useState<MomentKind>('note');
+  const [kind, setKind] = useState<MomentKind>(prefill?.kind ?? 'note');
   const [text, setText] = useState(prefill?.text ?? '');
   const [entities, setEntities] = useState<DraftEntity[]>([]);
   const [explicit, setExplicit] = useState<string[]>(prefill?.contactIds ?? []);
   const [photos, setPhotos] = useState<PhotoItem[]>([]);
   const [happenedAt, setHappenedAt] = useState(() => toDateTimeLocal(new Date()));
-  const [extra, setExtra] = useState<Extra>({ location: '' });
+  const [extra, setExtra] = useState<Extra>({
+    location: '',
+    callDirection: prefill?.callDirection,
+  });
   const [showDate, setShowDate] = useState(false);
   /** Untouched → the moment is stamped with the exact save time, not the time the composer opened. */
   const [dateEdited, setDateEdited] = useState(false);
@@ -229,6 +235,22 @@ export function Composer({ momentId, prefill, variant, onDone, onDirtyChange }: 
     if (next?.query !== trigger?.query || next?.sigil !== trigger?.sigil) setActive(0);
   };
 
+  // ── Templates (features §8.12) ──
+  const chooseTemplate = (id: MomentTemplateId) => {
+    const patch = applyTemplate(text, id, t(`composer.templates.${id}.text`));
+    setKind(patch.kind);
+    setExtra((x) => ({
+      ...x,
+      activityType: patch.activityType,
+      callDirection: patch.callDirection ?? x.callDirection,
+    }));
+    if (patch.body !== text) {
+      setText(patch.body);
+      pendingCaret.current = patch.body.length;
+    } else textRef.current?.focus();
+    touch();
+  };
+
   // ── Photos ──
   const addPhotos = async (files: FileList | null) => {
     if (!files) return;
@@ -357,7 +379,7 @@ export function Composer({ momentId, prefill, variant, onDone, onDirtyChange }: 
           value={text}
           maxLength={MAX_CHARS}
           rows={variant === 'modal' ? 4 : 2}
-          autoFocus={variant === 'modal'}
+          autoFocus={variant === 'modal' && prefill?.kind !== 'call'}
           onChange={(e) => {
             setText(e.target.value);
             updateTrigger(e.target.value, e.target.selectionStart);
@@ -450,6 +472,8 @@ export function Composer({ momentId, prefill, variant, onDone, onDirtyChange }: 
         <div className="flex flex-wrap gap-2">
           <select
             aria-label={t('composer.callDirection')}
+            autoFocus={prefill?.kind === 'call'}
+            data-autofocus={prefill?.kind === 'call' ? '' : undefined}
             value={extra.callDirection ?? ''}
             onChange={(e) =>
               setX({ callDirection: (e.target.value || undefined) as Extra['callDirection'] })
@@ -592,6 +616,18 @@ export function Composer({ momentId, prefill, variant, onDone, onDirtyChange }: 
           >
             <MapPin size={20} aria-hidden />
           </IconButton>
+          {!momentId && (
+            <Menu
+              align="left"
+              label={t('composer.template')}
+              triggerClassName="rounded-full p-2 hover:bg-accent-tint"
+              trigger={<LayoutTemplate size={20} aria-hidden />}
+              items={momentTemplateIds.map((id) => ({
+                label: t(`composer.templates.${id}.label`),
+                onSelect: () => chooseTemplate(id),
+              }))}
+            />
+          )}
           <input
             ref={fileRef}
             type="file"

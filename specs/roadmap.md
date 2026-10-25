@@ -82,9 +82,9 @@ onwards also link their feature spec folder (`specs/YYYY-MM-DD-<name>/`).
 
 **Goal:** log a moment in as few taps as possible.
 
-- [ ] Quick "log a call" shortcut and built-in moment templates (Coffee, Meal, Call, Gift given, Visit)
+- [x] Quick "log a call" shortcut and built-in moment templates (Coffee, Meal, Call, Gift given, Visit)
 - ~~Voice dictation~~ dropped: browser speech recognition sends audio to a server (mission §1.2); stays in the backlog
-- [ ] Editable photo attachments on gifts (closes the `photoBlobId` gap in D-045)
+- [x] Editable photo attachments on gifts (closes the `photoBlobId` gap in D-045)
 
 ### Phase 12 — Organisation depth · [spec](2026-10-25-organisation-depth/)
 

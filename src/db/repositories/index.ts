@@ -88,7 +88,7 @@ export {
   starredMoments,
   tasksFor,
 } from './profileItems';
-export type { DebtDraft, GiftDraft, PetDraft, TaskDraft } from './profileItems';
+export type { DebtDraft, GiftDraft, GiftPhotoChange, PetDraft, TaskDraft } from './profileItems';
 export { ensureSearchIndex, rebuildSearchIndex, search, trendingTags } from './searchService';
 export type { SearchResults } from './searchService';
 export { mergeContacts } from './mergeService';

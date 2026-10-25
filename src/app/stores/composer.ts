@@ -1,8 +1,12 @@
 import { create } from 'zustand';
+import type { MomentKind } from '@/domain/types';
 
 export interface ComposerPrefill {
   contactIds?: string[];
   text?: string;
+  /** Opens the composer on this kind (e.g. "Log a call"). */
+  kind?: MomentKind;
+  callDirection?: 'incoming' | 'outgoing';
 }
 
 interface ComposerState {

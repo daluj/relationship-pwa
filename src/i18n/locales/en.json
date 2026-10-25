@@ -266,7 +266,8 @@
     "archived": "{{name}} archived",
     "unarchived": "{{name}} restored from archive",
     "banner": "Header image of {{name}}",
-    "avatar": "Photo of {{name}}"
+    "avatar": "Photo of {{name}}",
+    "logCall": "Log a call"
   },
   "details": {
     "contact": "Contact info",
@@ -383,7 +384,31 @@
     "discard": "Discard this moment?",
     "saved": "Moment saved",
     "shortcutHint": "Ctrl/⌘ + Enter to save",
-    "photoError": "That photo couldn't be read."
+    "photoError": "That photo couldn't be read.",
+    "template": "Template",
+    "templatePlaceholder": "Choose a template…",
+    "templates": {
+      "coffee": {
+        "label": "Coffee",
+        "text": "Coffee with "
+      },
+      "meal": {
+        "label": "Meal",
+        "text": "Meal with "
+      },
+      "call": {
+        "label": "Call",
+        "text": "Call with "
+      },
+      "gift-given": {
+        "label": "Gift given",
+        "text": "Gave a gift to "
+      },
+      "visit": {
+        "label": "Visit",
+        "text": "Visited "
+      }
+    }
   },
   "tags": {
     "moments_one": "{{count}} moment",
@@ -640,7 +665,13 @@
     "deleted": "Gift deleted",
     "empty": "No gifts yet. Jot down ideas when they come up.",
     "moveTo": "Mark as {{status}}",
-    "invalidUrl": "Enter a full link starting with https://"
+    "invalidUrl": "Enter a full link starting with https://",
+    "photo": "Photo",
+    "photoAdd": "Add photo",
+    "photoReplace": "Replace photo",
+    "photoRemove": "Remove photo",
+    "photoInput": "Choose photo file",
+    "photoAlt": "Photo of {{name}}"
   },
   "money": {
     "theyOwe": "Owes you {{amount}}",

@@ -87,3 +87,9 @@ Every **AC** here must be covered by an automated test (see tech-stack §13).
 - **Milestones** (Profile › Timeline › Milestones): how-we-met, relationship start dates, life events, important dates with a year, given gifts and the first logged moment, oldest first. Items without a year are omitted.
 - Nothing is ranked or scored. All of it is derived from existing records (no schema change).
 - **AC:** with the system date mocked to 25 Oct 2026, a moment from 25 Oct 2024 shows under "2 years ago · 2024" and one from today or a deleted one does not; the brief shows only the 5 newest of 6 moments and no completed tasks; Milestones lists items in ascending date order.
+
+### 8.12 Capture speed
+- **Templates** (composer toolbar › Template): Coffee, Meal, Call, Gift given, Visit set the moment kind, activity type (and an outgoing direction for Call) and prefill localized starter text ("Coffee with "). The text is only filled when the body is empty, so a template never overwrites typing. They are built in; user-defined templates are a backlog item.
+- **Log a call** (profile ⋯ menu): opens the composer as a call for that contact with the call-direction control focused. Saving updates `lastInteractionAt` as for any moment.
+- **Gift photos**: add, replace and remove a photo in the gift dialog (resized ≤ 1600 px with a ≤ 600 px thumbnail `<id>:thumb`, like moment photos). The photo shows on the gift row and in "Before you meet", is deleted with the gift's contact purge or expired Trash, and round-trips through JSON backup.
+- **AC:** choosing Coffee on an empty composer gives kind Activity, type coffee and text "Coffee with "; choosing Visit over typed text keeps the text; Log a call saves a call for that contact; replacing a gift photo deletes the old blobs.

@@ -1,5 +1,14 @@
 # Changelog
 
+## Phase 11 — Capture speed (2026-10-25)
+
+- Composer **Template** menu (Coffee, Meal, Call, Gift given, Visit): sets the kind and type and prefills starter text, never over
+  text you already typed.
+- **Log a call** in the profile ⋯ menu opens a call for that person with the direction control focused.
+- Gift photos: add, replace and remove in the gift dialog; thumbnail on the gift row and in "Before you meet"; included in
+  backups; removed when the contact or an expired gift is purged (this closes the `photoBlobId` gap in D-045).
+- Voice dictation was dropped for privacy (browser speech recognition uses a server) and moved to the backlog (D-070).
+
 ## Phase 10 — Memory recall (2026-10-25)
 
 - "Before you meet" (`/c/:id/brief`): recent moments, open tasks, net balance per currency, gift ideas and recent gifts, how you met,

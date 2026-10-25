@@ -17,6 +17,7 @@ import {
   Trash2,
   Download,
   NotebookText,
+  Phone,
   Merge,
   type LucideIcon,
 } from 'lucide-react';
@@ -160,6 +161,12 @@ export function ProfileHeader({ contact }: { contact: Contact }) {
               triggerClassName="rounded-full border border-border p-2 hover:bg-surface-2"
               trigger={<Ellipsis size={18} aria-hidden />}
               items={[
+                {
+                  label: t('profile.logCall'),
+                  icon: Phone,
+                  onSelect: () =>
+                    openComposer({ prefill: { contactIds: [contact.id], kind: 'call' } }),
+                },
                 {
                   label: contact.isStarred ? t('profile.menu.unstar') : t('profile.menu.star'),
                   icon: Star,
