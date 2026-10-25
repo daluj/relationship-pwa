@@ -70,6 +70,42 @@ onwards also link their feature spec folder (`specs/YYYY-MM-DD-<name>/`).
 - [ ] Desktop Chrome and Firefox: offline after first load, export → delete all → import round trip
 - [ ] Record any device-specific findings in [decisions.md](decisions.md) and fix or schedule them
 
+### Phase 10 — Memory recall · [spec](2026-10-25-memory-recall/)
+
+**Goal:** make the stored memories easy to get back at the moment they matter. No scoring or ranking of people.
+
+- [ ] Contact "Before you meet" view: recent moments, open tasks, unsettled debts, gifts and notes on one screen
+- [ ] Home "On this day" panel with moments from past years
+- [ ] Per-contact relationship timeline with life events and milestones
+
+### Phase 11 — Capture speed · [spec](2026-10-25-capture-speed/)
+
+**Goal:** log a moment in as few taps as possible.
+
+- [ ] Quick "log a call" shortcut and built-in moment templates (Coffee, Meal, Call, Gift given, Visit)
+- ~~Voice dictation~~ dropped: browser speech recognition sends audio to a server (mission §1.2); stays in the backlog
+- [ ] Editable photo attachments on gifts (closes the `photoBlobId` gap in D-045)
+
+### Phase 12 — Organisation depth · [spec](2026-10-25-organisation-depth/)
+
+**Goal:** find and manage people and moments at scale.
+
+- [ ] Search filters (kind, tag, group, date range, "not contacted in N days") and saved searches (Dexie v2)
+- [ ] Bulk actions on contacts: tag, group, archive
+- [ ] Year in review page with plain counts (no scores, no rankings)
+
+### Phase 13 — Backlog polish · [spec](2026-10-25-backlog-polish/)
+
+**Goal:** clear the small items from the backlog.
+
+- [ ] Calendar `.ics` import of birthdays and important dates
+- [ ] Undo for contact merge (Dexie v3 snapshots)
+- [ ] New locales: fr, de, pt
+- [ ] Print / PDF view of a contact profile
+- [ ] Screen-reader announcements for live updates
+
+Phases 10–13 ship together on branch `phase-10-13-recall-capture-organise` and one PR. Phase 9 (real-device check) stays open; it needs hardware and does not block them.
+
 ## 15. Definition of done (v1)
 
 - [x] All ACs in features §8 and pwa §9 pass (automated: `npm run verify`).
