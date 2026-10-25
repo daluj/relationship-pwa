@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ClipboardCheck, Plus } from 'lucide-react';
 import { useToday } from '@/app/useToday';
 import { Button } from '@/components/Button';
+import { IconButton } from '@/components/IconButton';
 import { PageHeader } from '@/components/PageHeader';
 import { compareGoals, reviewDue, reviewStreak } from '@/domain/goals';
 import type { Goal } from '@/domain/types';
@@ -50,9 +51,9 @@ export function GoalsPage() {
         onTabChange={(id) => setTab(id as Tab)}
         actions={
           <>
-            <Button variant="outline" size="sm" onClick={() => setReviewing(true)}>
-              <ClipboardCheck size={16} aria-hidden /> {t('goals.review.open')}
-            </Button>
+            <IconButton label={t('goals.review.open')} onClick={() => setReviewing(true)}>
+              <ClipboardCheck size={20} aria-hidden />
+            </IconButton>
             <Button size="sm" onClick={() => setCreating(true)}>
               <Plus size={16} aria-hidden /> {t('goals.new')}
             </Button>

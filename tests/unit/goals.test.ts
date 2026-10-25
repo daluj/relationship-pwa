@@ -7,6 +7,7 @@ import {
   deleteContact,
   deleteGoal,
   deleteMilestone,
+  ensureSearchIndex,
   exportBackup,
   goalsFor,
   importBackup,
@@ -281,6 +282,17 @@ describe('goal service', () => {
     expect((await search('swim')).goals).toEqual([]);
     await restoreGoal(g.id);
     expect((await search('swim')).goals).toHaveLength(1);
+  });
+});
+
+describe('upgrade from schema v1', () => {
+  it('does not rebuild the search index on start: existing installs would pay for 20k moments', async () => {
+    const ana = await person('Ana');
+    await ensureSearchIndex(); // first run: builds and records the version
+    await db.searchIndex.put({ entity: 'contact', entityId: 'sentinel', tokens: ['sentinel'] });
+    await ensureSearchIndex(); // same version: must leave the index alone
+    expect(await db.searchIndex.get(['contact', 'sentinel'])).toBeDefined();
+    expect((await search('ana')).contacts.map((c) => c.id)).toEqual([ana.id]);
   });
 });
 

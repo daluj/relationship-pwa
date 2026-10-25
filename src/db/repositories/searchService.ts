@@ -26,8 +26,12 @@ export const searchTables = () => [
   db.goals,
 ];
 
-/** Bump when tokenization or document contents change; triggers a rebuild on app start. */
-export const SEARCH_INDEX_VERSION = 2;
+/**
+ * Bump when tokenization or document contents change of records that already exist; triggers a full rebuild on app
+ * start (about 45 s for 20k moments). Not bumped for goals (Phase 10): none exist at upgrade time, they are indexed as
+ * they are written, and `importBackup` rebuilds the whole index anyway.
+ */
+export const SEARCH_INDEX_VERSION = 1;
 const VERSION_KEY = 'searchIndexVersion';
 
 const live = <T extends { deletedAt?: string }>(r: T | undefined): r is T => !!r && !r.deletedAt;

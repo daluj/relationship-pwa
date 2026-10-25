@@ -63,8 +63,7 @@ that needs no data rewrite. See data-model §5.3.
 - **AC-7** Completing the weekly review stores exactly one `GoalReview` per Sunday-start week; repeating it the same week edits the
   note. The streak counts consecutive weeks ending this or last week.
 - **AC-8** The Home right-rail Today card lists at most 3 active goals, ordered by soonest deadline, and hides when none exist.
-- **AC-9** Goals, milestones and reviews survive a JSON export → delete all → import round trip, and are removed/restored with
-  Trash.
+- **AC-9** Goals, milestones and reviews survive a JSON export → delete all → import round trip. Deleting a goal can be undone from the toast (milestones come back), and expired deleted goals are purged with the 30-day Trash purge. The Trash screen itself lists contacts and moments only, as it does for tasks and groups.
 - **AC-10** Goal titles and whys are found by Search, in a new **Goals** result group.
 - **AC-11** All new screens pass axe (WCAG 2.1 AA) in all three themes and work offline; en and es locales are complete.
 
@@ -85,7 +84,7 @@ that needs no data rewrite. See data-model §5.3.
 - Reminder titles are worded from the source ("Goal deadline: …", "Goal due in a week: …"); they open the goal, not a contact.
 - Linked people stay on the goal when a contact is soft-deleted (so Trash restore brings the link back) and are removed on purge and moved on merge.
 - Deleting a goal unlinks its tasks and restoring it does not re-link them.
-- Search index version 2 adds goals; `ChipPicker` gained an optional `onCreate` so it can pick from existing contacts only.
+- The search index version stays at 1: no goals exist at upgrade time and a rebuild costs about 45 s for 20k moments (found in validation); `ChipPicker` gained an optional `onCreate` so it can pick from existing contacts only.
 
 ## Context
 

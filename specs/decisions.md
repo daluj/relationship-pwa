@@ -435,3 +435,10 @@ still needs a manual check.
 ## D-069 — Growth and networking track (Phase 10)
 
 New track: goals (Phase 10), networking pipeline (Phase 11) and event log (Phase 12), inspired by goal-setting and relationship-leverage ideas. (1) Mission §1.2 principle 3 is narrowed: no scoring, ranking or gamification **of people**; progress percentages and a weekly-review streak are allowed for the user's own goals. Pipeline stages are user-set labels, never computed. (2) UI and code use neutral wording; no book names, quotes or branding. (3) Out of v1 scope in mission §2.2 stays unchanged; these are post-v1 phases scheduled after the Phase 9 device check.
+
+## D-070 — Don't rebuild the search index for new entity types (Phase 10)
+
+`SEARCH_INDEX_VERSION` is bumped only when tokenization or the indexed content of records that already exist changes.
+Bumping it makes every existing install rebuild the whole index on the next start (about 45 s in the background for 2k
+contacts and 20k moments, with search empty meanwhile). A new entity type (goals) has no rows at upgrade time and is indexed
+as it is written; `importBackup` already rebuilds everything. Found when validating Phase 10 against a large v1 database.

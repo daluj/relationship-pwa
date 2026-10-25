@@ -1,5 +1,25 @@
 # Changelog
 
+## Phase 10 — Goals (2026-10-25)
+
+Spec: [specs/2026-10-25-goals](specs/2026-10-25-goals/)
+
+- Goals (`/goals`): a title, why, deadline, area and next action, with milestones you can tick and reorder, linked tasks and
+  linked people. Progress is the share of milestones done. Goals can be achieved, paused, dropped, reopened and deleted
+  (with Undo).
+- Weekly review (weeks start on Sunday) with an optional note and a review streak, plus a prompt on the Goals page while the
+  week's review is still to do.
+- Today card in the right rail: up to 3 active goals, soonest deadline first, with their next action.
+- Deadline reminders: a week before and on the day, only for dates still ahead.
+- Contact Details lists the goals a person helps with. Tasks can belong to a goal. Goals appear in Search (new Goals tab),
+  backups (schema v2; older backups still import), demo data, and a `g g` shortcut. English and Spanish.
+- Upgrading keeps all data and does not rebuild the search index: a first attempt did, which took about 45 s in the
+  background for 20,000 moments.
+- Mobile: the Goals header keeps its title (the weekly review button is an icon).
+- Quality: 23 goal unit tests (domain, service, search, backup round trip, v1 → v2 upgrade), 5 Chromium e2e tests, and the
+  accessibility audit covers the new screens in all three themes. First-load bundle about 207 KB gzipped.
+- Decisions logged: D-069–D-070.
+
 ## M8 — Polish (2026-10-19)
 
 - Onboarding (language, theme, persistent storage, notifications, first contacts or demo data). It opens only when the database is

@@ -84,7 +84,8 @@ Every **AC** here must be covered by an automated test (see tech-stack §13).
 ### 8.11 Goals (Phase 10)
 - Goals have a title, why, optional deadline and area, a next action, status (active / achieved / paused / dropped), milestones, linked tasks and linked contacts. Progress is the share of milestones done.
 - Home right rail shows a Today card (max 3 active goals by soonest deadline). A weekly review saves one note per Sunday-start week and shows a review streak (D-069: progress and streaks apply to goals only, never to people).
-- Deadline reminders use source `goal`.
+- Deadline reminders use source `goal`: one a week before and one on the day, only for dates still ahead.
+- Deleting a goal is undoable from the toast and unlinks its tasks; expired deleted goals are purged with the 30-day Trash purge (the Trash screen lists contacts and moments only).
 - **AC:** see [2026-10-25-goals/requirements.md](../2026-10-25-goals/requirements.md) AC-1…AC-11.
 
 ### 8.12 Networking pipeline (Phase 11, draft)

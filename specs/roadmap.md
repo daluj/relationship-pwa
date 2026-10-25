@@ -75,11 +75,11 @@ onwards also link their feature spec folder (`specs/YYYY-MM-DD-<name>/`).
 Goal-setting and relationship-leverage features, kept within Kin's principles (D-069). Specified in
 [features §8.11–§8.13](product/features.md); Phase 10 has a feature spec, 11 and 12 get theirs when they come up.
 
-### Phase 10 — Goals · spec: [2026-10-25-goals](2026-10-25-goals/requirements.md)
+### Phase 10 — Goals · complete · spec: [2026-10-25-goals](2026-10-25-goals/requirements.md)
 
-- [ ] Goals with why, deadline, milestones, linked tasks and people
-- [ ] Weekly review, review streak, Today card
-- [ ] Goal deadline reminders; search, Trash, backup, demo data
+- [x] Goals with why, deadline, milestones, linked tasks and people
+- [x] Weekly review, review streak, Today card
+- [x] Goal deadline reminders; search, undo/purge, backup, demo data
 
 ### Phase 11 — Networking pipeline
 
