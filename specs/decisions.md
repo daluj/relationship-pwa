@@ -452,3 +452,16 @@ suggestions listbox. "Log a call" reuses the composer through a `kind`/`callDire
 images (replace) and deletes the old blobs in the same transaction. Contact purge and the expiry sweep delete gift photos too.
 **Voice dictation was dropped:** the browser speech-recognition APIs send audio to a server, which conflicts with mission §1.2.
 It stays in the backlog until an on-device API is widely available.
+
+## D-071 — Saved searches table, Dexie v2 (Phase 12)
+
+Saved searches are a table (`savedSearches`, `db.version(2)`), not settings keys, so they get ids, soft delete with Undo, backup
+inclusion and a path to sync. The v1 → v2 upgrade only adds the table, so there is no `.upgrade()`; `BACKUP_SCHEMA_VERSION` is 2 and
+`backupMigrations[1]` adds an empty table for older files (a test imports a v1 backup and opens a v1 database). The boolean-index
+fix (D-046) was left out: bulk actions and filters don't depend on it. Filter semantics: tags must all match, groups match if any
+does, kind and date filters apply to moments only, "not contacted" to people only. With text, hits are narrowed by `[kind+happenedAt]`
+index keys before records are read; with filters alone the newest moments are read until `limit + 1` match, so `momentTotal` is then a
+lower bound (`limit + 1` means "more exist"). Measured in Chromium with 2k contacts and 20k moments: 25–90 ms per filter change.
+Bulk actions run inside one transaction over every table, reuse the single-contact services (so indexes, reminders and cascades stay
+correct) and return an undo token holding only the touched contacts' prior tags, groups and archive state. Year in review is derived
+and unranked (mission §1.2).

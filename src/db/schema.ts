@@ -12,6 +12,7 @@ import type {
   Pet,
   Relationship,
   Reminder,
+  SavedSearch,
   SearchIndexEntry,
   Setting,
   Tag,
@@ -39,6 +40,7 @@ export class KinDB extends Dexie {
   blobs!: Table<BlobRecord, string>;
   settings!: Table<Setting, string>;
   searchIndex!: Table<SearchIndexEntry, [string, string]>;
+  savedSearches!: Table<SavedSearch, string>;
 
   constructor(name = DB_NAME) {
     super(name);
@@ -62,7 +64,9 @@ export class KinDB extends Dexie {
       settings: 'key',
       searchIndex: '[entity+entityId], *tokens',
     });
+    // v2 (Phase 12): saved searches. No data changes, so no upgrade function is needed.
+    this.version(2).stores({ savedSearches: 'id, name, deletedAt' });
   }
 }
 
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;

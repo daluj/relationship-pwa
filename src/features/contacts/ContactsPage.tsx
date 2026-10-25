@@ -1,8 +1,8 @@
-import { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useWindowVirtualizer } from '@tanstack/react-virtual';
-import { Star, UserPlus } from 'lucide-react';
+import { CheckSquare, Star, UserPlus } from 'lucide-react';
 import { buttonClass } from '@/components/buttonClass';
 import { IconButton } from '@/components/IconButton';
 import { PageHeader } from '@/components/PageHeader';
@@ -11,6 +11,7 @@ import { contactRepo, listGroups, useLiveList, useLiveQuery } from '@/db/reposit
 import { useLookup } from '@/features/moments/useLookup';
 import { fullName, sortContacts, sortLetter, type ContactSort } from '@/domain/contact';
 import type { Contact } from '@/domain/types';
+import { BulkBar } from './BulkBar';
 import { ContactRow } from './ContactRow';
 
 const sorts: ContactSort[] = ['az', 'recent-interaction', 'recently-added'];
@@ -49,6 +50,44 @@ export function ContactsPage() {
     [all, filter, sort, i18n.language, tagId, groupId],
   );
 
+  // Selection mode (features §8.13): Space toggles, Shift+click selects a range, Esc leaves.
+  const [selecting, setSelecting] = useState(false);
+  const [selected, setSelected] = useState<ReadonlySet<string>>(new Set());
+  const anchor = useRef<number>(-1);
+  useEffect(() => {
+    if (!selecting) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && !document.querySelector('[role="menu"]')) {
+        setSelecting(false);
+        setSelected(new Set());
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [selecting]);
+  const exitSelection = () => {
+    setSelecting(false);
+    setSelected(new Set());
+    anchor.current = -1;
+  };
+  const toggle = (index: number, shift: boolean) => {
+    setSelected((cur) => {
+      const next = new Set(cur);
+      const id = visible[index]!.id;
+      if (shift && anchor.current >= 0) {
+        const [a, b] = [anchor.current, index].sort((x, y) => x - y) as [number, number];
+        const turnOn = !cur.has(id);
+        for (let i = a; i <= b; i++) {
+          if (turnOn) next.add(visible[i]!.id);
+          else next.delete(visible[i]!.id);
+        }
+      } else if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+    anchor.current = index;
+  };
+
   const setParam = (key: string, value: string, fallback: string) => {
     const next = new URLSearchParams(params);
     if (value === fallback) next.delete(key);
@@ -65,13 +104,33 @@ export function ContactsPage() {
         activeTab={filter}
         onTabChange={(f) => setParam('filter', f, 'all')}
         actions={
-          <Link to="/contacts/new" className={buttonClass('primary', 'sm')}>
-            <UserPlus size={16} aria-hidden />
-            <span className="hidden sm:inline">{t('contacts.new')}</span>
-            <span className="sr-only sm:hidden">{t('contacts.new')}</span>
-          </Link>
+          <>
+            <button
+              type="button"
+              aria-pressed={selecting}
+              onClick={() => (selecting ? exitSelection() : setSelecting(true))}
+              className={buttonClass('outline', 'sm')}
+            >
+              <CheckSquare size={16} aria-hidden />
+              <span className="hidden sm:inline">{t('bulk.select')}</span>
+              <span className="sr-only sm:hidden">{t('bulk.select')}</span>
+            </button>
+            <Link to="/contacts/new" className={buttonClass('primary', 'sm')}>
+              <UserPlus size={16} aria-hidden />
+              <span className="hidden sm:inline">{t('contacts.new')}</span>
+              <span className="sr-only sm:hidden">{t('contacts.new')}</span>
+            </Link>
+          </>
         }
       />
+      {selecting && (
+        <BulkBar
+          ids={[...selected]}
+          total={visible.length}
+          onSelectAll={() => setSelected(new Set(visible.map((c) => c.id)))}
+          onDone={exitSelection}
+        />
+      )}
       <div className="flex flex-wrap justify-end gap-2 border-b border-border px-4 py-2">
         {lookup.tags.length > 0 && (
           <SelectField
@@ -113,13 +172,30 @@ export function ContactsPage() {
           {all.length === 0 ? t('contacts.empty') : t('contacts.emptyFiltered')}
         </p>
       ) : (
-        <VirtualList contacts={visible} showJump={sort === 'az'} />
+        <VirtualList
+          contacts={visible}
+          showJump={sort === 'az' && !selecting}
+          selection={selecting ? { selected, onToggle: toggle } : undefined}
+        />
       )}
     </>
   );
 }
 
-function VirtualList({ contacts, showJump }: { contacts: Contact[]; showJump: boolean }) {
+interface Selection {
+  selected: ReadonlySet<string>;
+  onToggle: (index: number, shift: boolean) => void;
+}
+
+function VirtualList({
+  contacts,
+  showJump,
+  selection,
+}: {
+  contacts: Contact[];
+  showJump: boolean;
+  selection?: Selection;
+}) {
   const { t } = useTranslation();
   const listRef = useRef<HTMLUListElement>(null);
   const [offset, setOffset] = useState(0);
@@ -165,7 +241,14 @@ function VirtualList({ contacts, showJump }: { contacts: Contact[]; showJump: bo
                     {c.isDeceased && <Badge>{t('contacts.deceasedBadge')}</Badge>}
                   </>
                 }
-                actions={<StarButton contact={c} />}
+                actions={selection ? undefined : <StarButton contact={c} />}
+                select={
+                  selection && {
+                    checked: selection.selected.has(c.id),
+                    label: t('bulk.selectContact', { name: fullName(c) }),
+                    onToggle: (shift) => selection.onToggle(item.index, shift),
+                  }
+                }
               />
             </li>
           );

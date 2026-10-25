@@ -82,3 +82,39 @@ test('On this day returns in < 100 ms with 2,000 contacts and 20,000 moments (fe
   console.log('on this day (ms):', ms);
   expect(ms).toBeLessThan(100);
 });
+
+test('filtered search returns in < 100 ms with 2,000 contacts and 20,000 moments (features §8.13 AC-10)', async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  await loadDataset(page);
+  await page.goto('/search');
+  const count = () => page.evaluate(() => performance.getEntriesByName('kin-search').length);
+  const last = () =>
+    page.evaluate(() => performance.getEntriesByName('kin-search').at(-1)!.duration);
+  const timings: Record<string, number> = {};
+  const step = async (name: string, act: () => Promise<unknown>) => {
+    const before = await count();
+    await act();
+    await expect.poll(count).toBeGreaterThan(before);
+    await expect(page.getByTestId('search-results')).toBeVisible();
+    await page.waitForTimeout(150); // let the final query of the step settle
+    timings[name] = await last();
+  };
+
+  await step('text', () => page.getByRole('main').getByRole('searchbox').fill('lyon'));
+  await page.getByRole('button', { name: 'Filters' }).click();
+  await step('text + kind', () => page.getByRole('checkbox', { name: 'Activity' }).click());
+  await step('text + kind + from', () =>
+    page
+      .getByLabel('From', { exact: true })
+      .fill(new Date(Date.now() - 200 * 86_400_000).toISOString().slice(0, 10)),
+  );
+  await step('kind + date, no text', () => page.getByRole('main').getByRole('searchbox').fill(''));
+  await step('not contacted', async () => {
+    await page.getByRole('button', { name: 'Clear filters' }).click();
+    await page.getByLabel('Not contacted in').selectOption('90');
+  });
+  console.log('filtered search timings (ms):', timings);
+  for (const [name, ms] of Object.entries(timings)) expect(ms, name).toBeLessThan(100);
+});

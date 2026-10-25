@@ -125,6 +125,7 @@ export function SettingsPage() {
 
       <nav aria-label={t('settings.sections')}>
         {[
+          { to: `/review/${new Date().getFullYear()}`, label: t('pages.review') },
           { to: '/settings/data', label: t('pages.data') },
           { to: '/settings/trash', label: t('pages.trash') },
           { to: '/settings/about', label: t('pages.about') },

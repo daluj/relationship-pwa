@@ -65,7 +65,8 @@
     "trash": "Papelera",
     "about": "Acerca de",
     "onboarding": "Te damos la bienvenida a Kin",
-    "notFound": "Esta página no existe"
+    "notFound": "Esta página no existe",
+    "review": "Resumen del año"
   },
   "placeholder": {
     "comingIn": "Disponible en el hito {{milestone}}.",
@@ -768,7 +769,20 @@
     "trendsEmpty": "Etiqueta momentos con #algo y aparecerán aquí.",
     "noResults": "No hay resultados para «{{q}}»",
     "noResultsHint": "Prueba con una palabra más corta o revisa la ortografía.",
-    "showAllPeople": "Ver todas las personas"
+    "showAllPeople": "Ver todas las personas",
+    "noResultsFiltered": "Nada coincide con estos filtros",
+    "filters": {
+      "title": "Filtros",
+      "kinds": "Tipo de momento",
+      "from": "Desde",
+      "to": "Hasta",
+      "tag": "Etiqueta",
+      "group": "Grupo",
+      "notContacted": "Sin contacto en",
+      "anyTime": "Cualquier fecha",
+      "days": "{{count}} días",
+      "clear": "Quitar filtros"
+    }
   },
   "data": {
     "backup": "Copia de seguridad",
@@ -1042,5 +1056,62 @@
       "gift": "Regalaste {{name}}",
       "first": "Primer momento registrado"
     }
+  },
+  "savedSearches": {
+    "title": "Búsquedas guardadas",
+    "save": "Guardar búsqueda",
+    "saveTitle": "Guardar esta búsqueda",
+    "name": "Nombre",
+    "saved": "Guardada «{{name}}»",
+    "deleted": "Eliminada «{{name}}»",
+    "rename": "Renombrar",
+    "options": "Opciones de {{name}}"
+  },
+  "bulk": {
+    "select": "Seleccionar",
+    "toolbar": "Acciones en lote",
+    "selected_one": "{{count}} seleccionado",
+    "selected_other": "{{count}} seleccionados",
+    "selectAll": "Seleccionar los {{count}}",
+    "selectContact": "Seleccionar a {{name}}",
+    "tags": "Etiquetas",
+    "groups": "Grupos",
+    "addTag": "Añadir #{{name}}",
+    "removeTag": "Quitar #{{name}}",
+    "addGroup": "Añadir a {{name}}",
+    "removeGroup": "Quitar de {{name}}",
+    "archive": "Archivar",
+    "unarchive": "Desarchivar",
+    "trash": "Mover a la papelera",
+    "done": "Hecho",
+    "nothingChanged": "Nada que cambiar",
+    "taggedDone_one": "{{count}} contacto etiquetado con #{{name}}",
+    "taggedDone_other": "{{count}} contactos etiquetados con #{{name}}",
+    "untaggedDone_one": "Se quitó #{{name}} de {{count}} contacto",
+    "untaggedDone_other": "Se quitó #{{name}} de {{count}} contactos",
+    "groupedDone_one": "{{count}} contacto añadido a {{name}}",
+    "groupedDone_other": "{{count}} contactos añadidos a {{name}}",
+    "ungroupedDone_one": "{{count}} contacto quitado de {{name}}",
+    "ungroupedDone_other": "{{count}} contactos quitados de {{name}}",
+    "archivedDone_one": "{{count}} contacto archivado",
+    "archivedDone_other": "{{count}} contactos archivados",
+    "unarchivedDone_one": "{{count}} contacto desarchivado",
+    "unarchivedDone_other": "{{count}} contactos desarchivados",
+    "trashedDone_one": "{{count}} contacto movido a la papelera",
+    "trashedDone_other": "{{count}} contactos movidos a la papelera"
+  },
+  "review": {
+    "title": "Resumen del año",
+    "year": "Año",
+    "empty": "Todavía no hay nada registrado en {{year}}.",
+    "moments_one": "{{count}} momento",
+    "moments_other": "{{count}} momentos",
+    "people": "Personas",
+    "peopleMentioned": "Personas de las que escribiste",
+    "newContacts": "Contactos nuevos",
+    "other": "También este año",
+    "giftsGiven": "Regalos entregados",
+    "debtsSettled": "Deudas saldadas",
+    "tagsUsed": "Etiquetas usadas"
   }
 }

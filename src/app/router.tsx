@@ -44,6 +44,10 @@ export const routes: RouteObject[] = [
         path: 'reminders',
         lazy: page(() => import('@/features/reminders/RemindersPage'), 'RemindersPage'),
       },
+      {
+        path: 'review/:year',
+        lazy: page(() => import('@/features/review/ReviewPage'), 'ReviewPage'),
+      },
       { path: 'tasks', lazy: page(() => import('@/features/tasks/TasksPage'), 'TasksPage') },
       { path: 'search', lazy: page(() => import('@/features/search/SearchPage'), 'SearchPage') },
       { path: 'tags/:id', lazy: page(() => import('@/features/tags/TagPage'), 'TagPage') },

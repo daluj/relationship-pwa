@@ -11,6 +11,8 @@ import {
   importBackup,
   knownContacts,
   rebuildSearchIndex,
+  saveSearch,
+  listSavedSearches,
   mergeContacts,
   momentRepo,
   momentsForContact,
@@ -160,6 +162,38 @@ describe('JSON backup (features §8.9)', () => {
       parseBackup({ ...base, schemaVersion: 1, data: { contacts: [{ id: 'x', firstName: '' }] } }),
     ).toThrow(/invalid: contacts\[0\]/);
     expect(parseBackup({ ...base, schemaVersion: 1 }).contacts).toEqual([]);
+  });
+});
+
+describe('saved searches in backups (features §8.13 AC-4, AC-9)', () => {
+  it('survive an export → delete all → import round trip', async () => {
+    await saveSearch('March calls', 'lyon', { kinds: ['call'], from: '2026-03-01' });
+    const file = await exportBackup();
+    const json = (await readJson(file)) as { schemaVersion: number };
+    expect(json.schemaVersion).toBe(2);
+    await deleteAllData();
+    await importBackup(parseBackup(json), 'replace');
+    const [restored] = await listSavedSearches();
+    expect(restored).toMatchObject({
+      name: 'March calls',
+      query: 'lyon',
+      filters: { kinds: ['call'], from: '2026-03-01' },
+    });
+  });
+
+  it('a v1 backup without savedSearches still imports', async () => {
+    await seed();
+    const before = await recordCounts(); // taken first: exporting records the backup date in settings
+    const v1 = (await readJson(await exportBackup())) as {
+      schemaVersion: number;
+      data: Record<string, unknown>;
+    };
+    v1.schemaVersion = 1;
+    delete v1.data.savedSearches;
+    await deleteAllData();
+    const summary = await importBackup(parseBackup(v1), 'replace');
+    expect(summary.added).toBeGreaterThan(0);
+    expect(await recordCounts()).toEqual(before);
   });
 });
 

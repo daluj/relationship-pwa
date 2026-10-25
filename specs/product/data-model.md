@@ -159,6 +159,18 @@ interface Pet extends BaseRecord {
 interface Tag extends BaseRecord { name: string; color?: string }      // unique, case-insensitive
 interface Group extends BaseRecord { name: string; description?: string; emoji?: string; bannerColor?: string }
 
+interface SavedSearch extends BaseRecord {   // Phase 12, db.version(2)
+  name: string;
+  query: string;                // may be empty when filters alone select the results
+  filters: {
+    kinds?: MomentKind[];       // moments only
+    from?: string; to?: string; // inclusive local dates (YYYY-MM-DD), moments only
+    tagIds?: string[];          // all must match (moments and people)
+    groupIds?: string[];        // any group matches (moments mentioning a member; people in a group)
+    notContactedDays?: number;  // people only
+  };
+}
+
 interface BlobRecord {           // images; no BaseRecord timestamps needed beyond createdAt
   id: string; createdAt: string;
   mime: string; width: number; height: number; size: number;
@@ -168,7 +180,7 @@ interface BlobRecord {           // images; no BaseRecord timestamps needed beyo
 interface Setting { key: string; value: unknown }   // theme, accent, locale, currency, notification prefs…
 ```
 
-### 5.2 Dexie schema (version 1)
+### 5.2 Dexie schema (versions 1–2)
 
 ```ts
 db.version(1).stores({
@@ -191,5 +203,10 @@ db.version(1).stores({
 });
 ```
 
+```ts
+db.version(2).stores({ savedSearches: 'id, name, deletedAt' });   // Phase 12; no data upgrade needed
+```
+
+- Backups carry `schemaVersion` 2; `backupMigrations[1]` adds an empty `savedSearches` for older files.
 - Every schema change = new `db.version(n)` with an `.upgrade()` migration. Never edit a released version.
 - Deleting a contact soft-deletes its dependent records in one Dexie transaction; restoring from Trash restores them.

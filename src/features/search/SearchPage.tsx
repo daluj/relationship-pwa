@@ -1,22 +1,38 @@
-import { useCallback, useEffect, useRef, useState, type FormEvent, type MouseEvent } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type FormEvent,
+  type MouseEvent,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Clock, Hash, Search, X } from 'lucide-react';
 import { IconButton } from '@/components/IconButton';
 import { Tabs } from '@/components/Tabs';
 import { search, trendingTags, useLiveQuery, type SearchResults } from '@/db/repositories';
+import { filtersFromParams, filtersToParams, hasAnyFilter } from '@/domain/searchFilters';
+import type { SearchFilters } from '@/domain/types';
 import { ContactRow } from '@/features/contacts/ContactRow';
 import { Feed } from '@/features/moments/Feed';
 import { addRecent, clearRecent, getRecent, removeRecent } from './recent';
+import { SearchFilterPanel } from './SearchFilterPanel';
+import { SavedSearches, SaveSearchButton } from './SavedSearches';
 
 const PAGE = 50;
 const tabs = ['top', 'people', 'moments', 'tags'] as const;
 type Tab = (typeof tabs)[number];
 
 /** Runs a search and records its duration as a `kin-search` performance measure (features §8.6 perf). */
-async function timedSearch(q: string, limit: number): Promise<SearchResults> {
+async function timedSearch(
+  q: string,
+  limit: number,
+  filters: SearchFilters,
+): Promise<SearchResults> {
   const start = performance.now();
-  const results = await search(q, limit);
+  const results = await search(q, limit, filters);
   performance.measure('kin-search', { start, end: performance.now(), detail: { q } });
   return results;
 }
@@ -31,6 +47,8 @@ export function SearchPage() {
   const tab: Tab = (tabs as readonly string[]).includes(params.get('tab') ?? '')
     ? (params.get('tab') as Tab)
     : 'top';
+  const filters = useMemo(() => filtersFromParams(params), [params]);
+  const active = !!q.trim() || hasAnyFilter(filters);
   const [input, setInput] = useState(q);
   const [recent, setRecent] = useState(getRecent);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -55,7 +73,12 @@ export function SearchPage() {
 
   const [limit, setLimit] = useState(PAGE);
   useEffect(() => setLimit(PAGE), [q]);
-  const results = useLiveQuery(() => (q.trim() ? timedSearch(q, limit) : undefined), [q, limit]);
+  const filterKey = filtersToParams(filters).toString();
+  useEffect(() => setLimit(PAGE), [filterKey]);
+  const results = useLiveQuery(
+    () => (active ? timedSearch(q, limit, filters) : undefined),
+    [q, limit, active, filterKey],
+  );
   const hasMore = !!results && results.moments.length < results.momentTotal;
   const loadMore = useCallback(() => hasMore && setLimit((l) => l + PAGE), [hasMore]);
   const trends = useLiveQuery(() => trendingTags(), []);
@@ -116,7 +139,7 @@ export function SearchPage() {
             </label>
           </form>
         </div>
-        {q.trim() && (
+        {active && (
           <Tabs
             label={t('pages.search')}
             items={tabs.map((id) => ({ id, label: t(`search.tabs.${id}`) }))}
@@ -126,8 +149,25 @@ export function SearchPage() {
         )}
       </header>
 
-      {!q.trim() ? (
+      <SearchFilterPanel
+        filters={filters}
+        onChange={(next) => {
+          // Carry what's typed so a filter change inside the typing debounce doesn't bring the old query back.
+          const base = new URLSearchParams(params);
+          if (input.trim()) base.set('q', input);
+          else base.delete('q');
+          setParams(filtersToParams(next, base), { replace: true });
+        }}
+      />
+      {active && (
+        <div className="flex justify-end border-b border-border px-4 py-2">
+          <SaveSearchButton query={q} filters={filters} />
+        </div>
+      )}
+
+      {!active ? (
         <>
+          <SavedSearches />
           {recent.length > 0 && (
             <section aria-labelledby="recent-searches" className="border-b border-border py-2">
               <div className="flex items-center justify-between px-4 py-2">
@@ -181,7 +221,9 @@ export function SearchPage() {
         </>
       ) : results && total === 0 ? (
         <div className="px-8 py-12 text-center">
-          <p className="text-xl font-extrabold">{t('search.noResults', { q })}</p>
+          <p className="text-xl font-extrabold">
+            {q.trim() ? t('search.noResults', { q }) : t('search.noResultsFiltered')}
+          </p>
           <p className="mt-1 text-muted">{t('search.noResultsHint')}</p>
         </div>
       ) : results ? (

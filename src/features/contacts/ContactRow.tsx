@@ -11,10 +11,12 @@ interface Props {
   badges?: ReactNode;
   secondary?: ReactNode;
   linkTo?: string | null;
+  /** Selection mode: a leading checkbox; the row stops being a link. */
+  select?: { checked: boolean; label: string; onToggle: (shift: boolean) => void };
 }
 
 /** X "Following"-style row: avatar, name, @nickname, bio snippet (ui §6.7). */
-export function ContactRow({ contact, actions, badges, secondary, linkTo }: Props) {
+export function ContactRow({ contact, actions, badges, secondary, linkTo, select }: Props) {
   const name = fullName(contact);
   const body = (
     <>
@@ -31,6 +33,21 @@ export function ContactRow({ contact, actions, badges, secondary, linkTo }: Prop
       </div>
     </>
   );
+  if (select) {
+    return (
+      <label className="flex cursor-pointer items-start gap-3 px-4 py-3 hover:bg-surface-1 has-[:checked]:bg-accent-tint">
+        <input
+          type="checkbox"
+          checked={select.checked}
+          aria-label={select.label}
+          onChange={() => undefined}
+          onClick={(e) => select.onToggle(e.shiftKey)}
+          className="mt-3 h-5 w-5 shrink-0"
+        />
+        <div className="flex min-w-0 flex-1 items-start gap-3">{body}</div>
+      </label>
+    );
+  }
   return (
     <div className="flex items-start gap-3 px-4 py-3 hover:bg-surface-1">
       {linkTo === null ? (

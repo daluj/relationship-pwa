@@ -226,6 +226,23 @@ export const groupSchema = baseRecordSchema.extend({
   bannerColor: z.string().optional(),
 });
 
+export const searchFiltersSchema = z.object({
+  kinds: z.array(z.enum(momentKinds)).optional(),
+  /** Inclusive local dates, `YYYY-MM-DD`. */
+  from: z.string().date().optional(),
+  to: z.string().date().optional(),
+  tagIds: z.array(z.string()).optional(),
+  groupIds: z.array(z.string()).optional(),
+  notContactedDays: z.number().int().positive().optional(),
+});
+
+/** A named query plus filters (features §8.13). */
+export const savedSearchSchema = baseRecordSchema.extend({
+  name: z.string().trim().min(1),
+  query: z.string(),
+  filters: searchFiltersSchema,
+});
+
 export const blobRecordSchema = z.object({
   id: z.string().min(1),
   createdAt: isoDateTime,

@@ -2,15 +2,15 @@
 
 ## Automated
 
-- [ ] `npm run verify` is green.
-- [ ] AC-1, AC-2, AC-3: `tests/unit/searchFilters.test.ts`, `tests/unit/search.test.ts`, `tests/e2e/organise.spec.ts`
-- [ ] AC-4: `tests/unit/importExport.test.ts`, `tests/e2e/organise.spec.ts`
-- [ ] AC-5, AC-6: `tests/unit/bulkService.test.ts`, `tests/e2e/organise.spec.ts`
-- [ ] AC-7: `tests/e2e/organise.spec.ts`, `tests/e2e/a11y.spec.ts`
-- [ ] AC-8: `tests/unit/yearReview.test.ts`, `tests/e2e/organise.spec.ts`
-- [ ] AC-9: `tests/unit/schema.test.ts`, `tests/unit/importExport.test.ts`
-- [ ] AC-10: `tests/e2e/search.perf.ts`
-- [ ] AC-11: `tests/e2e/a11y.spec.ts`, `tests/e2e/offline.spec.ts`, `tests/unit/i18n.test.ts`
+- [x] `npm run verify` is green.
+- [x] AC-1, AC-2, AC-3: `tests/unit/searchFilters.test.ts`, `tests/unit/search.test.ts`, `tests/e2e/organise.spec.ts`
+- [x] AC-4: `tests/unit/importExport.test.ts`, `tests/e2e/organise.spec.ts`
+- [x] AC-5, AC-6: `tests/unit/bulkService.test.ts`, `tests/e2e/organise.spec.ts`
+- [x] AC-7: `tests/e2e/organise.spec.ts`, `tests/e2e/a11y.spec.ts`
+- [x] AC-8: `tests/unit/yearReview.test.ts`, `tests/e2e/organise.spec.ts`
+- [x] AC-9: `tests/unit/schema.test.ts`, `tests/unit/importExport.test.ts`
+- [x] AC-10: `tests/e2e/search.perf.ts`
+- [x] AC-11: `tests/e2e/a11y.spec.ts`, `tests/e2e/offline.spec.ts`, `tests/unit/i18n.test.ts`
 
 ## Manual
 

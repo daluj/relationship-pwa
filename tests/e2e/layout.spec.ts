@@ -94,6 +94,8 @@ test('every ui §7 route renders inside the shell', async ({ page }) => {
     '/c/x',
     '/c/x/details',
     '/c/x/edit',
+    '/c/x/brief',
+    '/review/2026',
     '/reminders',
     '/tasks',
     '/search?q=a',

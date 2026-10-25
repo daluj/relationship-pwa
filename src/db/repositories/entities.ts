@@ -12,6 +12,7 @@ import type {
   Pet,
   Relationship,
   Reminder,
+  SavedSearch,
   Tag,
   Task,
 } from '@/domain/types';
@@ -105,6 +106,12 @@ export const petRepo = createRepository<Pet>({
   entity: 'pet',
   table: db.pets,
   schema: s.petSchema,
+});
+
+export const savedSearchRepo = createRepository<SavedSearch>({
+  entity: 'savedSearch',
+  table: db.savedSearches,
+  schema: s.savedSearchSchema,
 });
 
 export const groupRepo = createRepository<Group>({

@@ -1,5 +1,15 @@
 # Changelog
 
+## Phase 12 — Organisation depth (2026-10-25)
+
+- Search filters: kind, date range, tag, group and "not contacted in N days", combined with the text query and kept in the URL.
+- Saved searches (Dexie v2): save, run, rename and delete with Undo; included in backups. Older backups and v1 databases still open.
+- Bulk actions on Contacts (Select): tag, group, archive, unarchive and Trash for many contacts, with one Undo and a keyboard-friendly
+  selection (Space, Shift+click, Esc).
+- Year in review (`/review/:year`, from Settings): plain counts, never ranked.
+- Fixed: changing a filter within the typing delay could bring back the previous query.
+- Tests: filter, bulk, saved-search, migration and review unit tests; E2E for each flow; a perf test for filtered search with 20k moments.
+
 ## Phase 11 — Capture speed (2026-10-25)
 
 - Composer **Template** menu (Coffee, Meal, Call, Gift given, Visit): sets the kind and type and prefills starter text, never over

@@ -90,9 +90,9 @@ onwards also link their feature spec folder (`specs/YYYY-MM-DD-<name>/`).
 
 **Goal:** find and manage people and moments at scale.
 
-- [ ] Search filters (kind, tag, group, date range, "not contacted in N days") and saved searches (Dexie v2)
-- [ ] Bulk actions on contacts: tag, group, archive
-- [ ] Year in review page with plain counts (no scores, no rankings)
+- [x] Search filters (kind, tag, group, date range, "not contacted in N days") and saved searches (Dexie v2)
+- [x] Bulk actions on contacts: tag, group, archive
+- [x] Year in review page with plain counts (no scores, no rankings)
 
 ### Phase 13 — Backlog polish · [spec](2026-10-25-backlog-polish/)
 

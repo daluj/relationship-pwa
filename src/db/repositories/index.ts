@@ -90,6 +90,16 @@ export {
 } from './profileItems';
 export type { DebtDraft, GiftDraft, GiftPhotoChange, PetDraft, TaskDraft } from './profileItems';
 export { ensureSearchIndex, rebuildSearchIndex, search, trendingTags } from './searchService';
+export {
+  deleteSavedSearch,
+  listSavedSearches,
+  renameSavedSearch,
+  restoreSavedSearch,
+  saveSearch,
+} from './savedSearchService';
+export { bulkUpdateContacts, undoBulkUpdate } from './bulkService';
+export type { BulkAction, BulkUndo } from './bulkService';
+export { getYearReview, reviewYears } from './reviewService';
 export type { SearchResults } from './searchService';
 export { mergeContacts } from './mergeService';
 export {

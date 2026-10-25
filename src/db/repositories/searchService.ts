@@ -1,3 +1,4 @@
+import Dexie from 'dexie';
 import { fullName } from '@/domain/contact';
 import { fuzzyScore, normalizeText } from '@/domain/fuzzy';
 import {
@@ -7,7 +8,14 @@ import {
   momentDocument,
   parseQuery,
 } from '@/domain/search';
-import type { Contact, Moment, Tag } from '@/domain/types';
+import { momentKinds } from '@/domain/schemas';
+import {
+  contactMatchesFilters,
+  dayRange,
+  hasAnyFilter,
+  momentMatchesFilters,
+} from '@/domain/searchFilters';
+import type { Contact, Moment, SearchFilters, Tag } from '@/domain/types';
 import { db } from '../db';
 
 /**
@@ -113,7 +121,7 @@ export interface SearchResults {
   contacts: Contact[];
   /** The newest `momentLimit` matching moments. */
   moments: Moment[];
-  /** Total matching moments (for "load more"). */
+  /** Total matching moments (for "load more"); a lower bound of `limit + 1` when filters alone select them. */
   momentTotal: number;
   tags: Tag[];
 }
@@ -148,9 +156,20 @@ async function newestMoments(ids: string[], limit: number): Promise<Moment[]> {
  * Tokenize, intersect matches (exact for all but the last token, prefix for the last), rank people
  * above moments (features §8.6). People: best name match first; moments: newest first.
  */
-export async function search(q: string, momentLimit = 50): Promise<SearchResults> {
+export async function search(
+  q: string,
+  momentLimit = 50,
+  filters: SearchFilters = {},
+  now = new Date(),
+): Promise<SearchResults> {
+  if (hasAnyFilter(filters)) return filteredSearch(q, momentLimit, filters, now);
+  return textSearch(q, momentLimit);
+}
+
+/** Ids of contacts and moments matching the text query (all of them, unranked). */
+async function textHits(q: string): Promise<{ contactIds: string[]; momentIds: string[] } | null> {
   const parsed = parseQuery(q);
-  if (isEmptyQuery(parsed)) return { contacts: [], moments: [], momentTotal: 0, tags: [] };
+  if (isEmptyQuery(parsed)) return null;
 
   const sets: Set<string>[] = [];
   for (const t of parsed.exact) {
@@ -177,6 +196,13 @@ export async function search(q: string, momentLimit = 50): Promise<SearchResults
     const [entity, id] = k.split('|') as [string, string];
     (entity === 'contact' ? contactIds : momentIds).push(id);
   }
+  return { contactIds, momentIds };
+}
+
+async function textSearch(q: string, momentLimit: number): Promise<SearchResults> {
+  const found = await textHits(q);
+  if (!found) return { contacts: [], moments: [], momentTotal: 0, tags: [] };
+  const { contactIds, momentIds } = found;
 
   const [contacts, moments, tags] = await Promise.all([
     db.contacts.bulkGet(contactIds),
@@ -203,6 +229,97 @@ export async function search(q: string, momentLimit = 50): Promise<SearchResults
 }
 
 /** Tag "trends" for the empty search page: tags by number of moments (ui §6.7). */
+/**
+ * Text hits that also satisfy the kind and date filters, found from `[kind+happenedAt]` index keys alone,
+ * so the full records of every hit don't have to be read just to be thrown away (features §8.13 AC-10).
+ */
+async function narrowByKindAndDate(ids: string[], f: SearchFilters): Promise<string[]> {
+  if (!f.kinds?.length && !f.from && !f.to) return ids;
+  const { start, end } = dayRange(f.from, f.to);
+  const wanted = new Set(ids);
+  const keep: string[] = [];
+  for (const kind of f.kinds?.length ? f.kinds : momentKinds) {
+    const keys = await db.moments
+      .where('[kind+happenedAt]')
+      .between([kind, start ?? Dexie.minKey], [kind, end ?? Dexie.maxKey], true, false)
+      .primaryKeys();
+    for (const id of keys) if (wanted.has(id)) keep.push(id);
+  }
+  return keep;
+}
+
+/**
+ * Search with filters (features §8.13). Kind and date filters narrow moments only, "not contacted" narrows
+ * people only; tag and group filters apply to both. With no text, the filters alone select the results.
+ */
+async function filteredSearch(
+  q: string,
+  momentLimit: number,
+  filters: SearchFilters,
+  now: Date,
+): Promise<SearchResults> {
+  const found = await textHits(q);
+  const hasText = !!found;
+  if (!hasText && q.trim()) return { contacts: [], moments: [], momentTotal: 0, tags: [] };
+
+  const memberIds = filters.groupIds?.length
+    ? new Set(
+        (await db.contacts.where('groupIds').anyOf(filters.groupIds).primaryKeys()) as string[],
+      )
+    : undefined;
+  const byNewest = (a: Moment, b: Moment) => b.happenedAt.localeCompare(a.happenedAt);
+  const wantMoment = (m: Moment) => live(m) && momentMatchesFilters(m, filters, memberIds);
+  const wantContact = (c: Contact) => live(c) && contactMatchesFilters(c, filters, now);
+
+  let moments: Moment[];
+  let momentTotal: number;
+  if (filters.notContactedDays) {
+    moments = [];
+    momentTotal = 0;
+  } else if (found) {
+    const candidates = await narrowByKindAndDate(found.momentIds, filters);
+    const all = (await db.moments.bulkGet(candidates)).filter(
+      (m): m is Moment => !!m && wantMoment(m),
+    );
+    all.sort(byNewest);
+    moments = all.slice(0, momentLimit);
+    momentTotal = all.length;
+  } else {
+    const { start, end } = dayRange(filters.from, filters.to);
+    const range = () =>
+      start || end
+        ? db.moments
+            .where('happenedAt')
+            .between(start ?? '', end ?? '\uffff', true, false)
+            .reverse()
+        : db.moments.orderBy('happenedAt').reverse();
+    // Without text there is no cheap exact total, so read one extra row: finding it means "there is more".
+    const page = await range()
+      .filter(wantMoment)
+      .limit(momentLimit + 1)
+      .toArray();
+    moments = page.slice(0, momentLimit);
+    momentTotal = page.length > momentLimit ? momentLimit + 1 : page.length;
+  }
+
+  let contacts: Contact[];
+  if (found) {
+    contacts = (await db.contacts.bulkGet(found.contactIds)).filter(
+      (c): c is Contact => !!c && wantContact(c),
+    );
+  } else {
+    contacts = await db.contacts.filter(wantContact).toArray();
+  }
+  const name = q.trim();
+  contacts.sort(
+    (a, b) =>
+      Number(a.isArchived) - Number(b.isArchived) ||
+      (name ? fuzzyScore(name, fullName(b)) - fuzzyScore(name, fullName(a)) : 0) ||
+      fullName(a).localeCompare(fullName(b)),
+  );
+  return { contacts, moments, momentTotal, tags: [] };
+}
+
 export async function trendingTags(limit = 10): Promise<{ tag: Tag; count: number }[]> {
   const tags = (await db.tags.toArray()).filter(live);
   const counts = await Promise.all(

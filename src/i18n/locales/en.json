@@ -65,7 +65,8 @@
     "trash": "Trash",
     "about": "About",
     "onboarding": "Welcome to Kin",
-    "notFound": "This page doesn't exist"
+    "notFound": "This page doesn't exist",
+    "review": "Year in review"
   },
   "placeholder": {
     "comingIn": "Coming in milestone {{milestone}}.",
@@ -768,7 +769,20 @@
     "trendsEmpty": "Tag moments with #something and they'll show up here.",
     "noResults": "No results for “{{q}}”",
     "noResultsHint": "Try a shorter word or check the spelling.",
-    "showAllPeople": "Show all people"
+    "showAllPeople": "Show all people",
+    "noResultsFiltered": "Nothing matches these filters",
+    "filters": {
+      "title": "Filters",
+      "kinds": "Kind of moment",
+      "from": "From",
+      "to": "To",
+      "tag": "Tag",
+      "group": "Group",
+      "notContacted": "Not contacted in",
+      "anyTime": "Any time",
+      "days": "{{count}} days",
+      "clear": "Clear filters"
+    }
   },
   "data": {
     "backup": "Back up",
@@ -1042,5 +1056,62 @@
       "gift": "Gave {{name}}",
       "first": "First moment logged"
     }
+  },
+  "savedSearches": {
+    "title": "Saved searches",
+    "save": "Save search",
+    "saveTitle": "Save this search",
+    "name": "Name",
+    "saved": "Saved “{{name}}”",
+    "deleted": "Deleted “{{name}}”",
+    "rename": "Rename",
+    "options": "Options for {{name}}"
+  },
+  "bulk": {
+    "select": "Select",
+    "toolbar": "Bulk actions",
+    "selected_one": "{{count}} selected",
+    "selected_other": "{{count}} selected",
+    "selectAll": "Select all {{count}}",
+    "selectContact": "Select {{name}}",
+    "tags": "Tags",
+    "groups": "Groups",
+    "addTag": "Add #{{name}}",
+    "removeTag": "Remove #{{name}}",
+    "addGroup": "Add to {{name}}",
+    "removeGroup": "Remove from {{name}}",
+    "archive": "Archive",
+    "unarchive": "Unarchive",
+    "trash": "Move to Trash",
+    "done": "Done",
+    "nothingChanged": "Nothing to change",
+    "taggedDone_one": "Tagged {{count}} contact #{{name}}",
+    "taggedDone_other": "Tagged {{count}} contacts #{{name}}",
+    "untaggedDone_one": "Removed #{{name}} from {{count}} contact",
+    "untaggedDone_other": "Removed #{{name}} from {{count}} contacts",
+    "groupedDone_one": "Added {{count}} contact to {{name}}",
+    "groupedDone_other": "Added {{count}} contacts to {{name}}",
+    "ungroupedDone_one": "Removed {{count}} contact from {{name}}",
+    "ungroupedDone_other": "Removed {{count}} contacts from {{name}}",
+    "archivedDone_one": "Archived {{count}} contact",
+    "archivedDone_other": "Archived {{count}} contacts",
+    "unarchivedDone_one": "Unarchived {{count}} contact",
+    "unarchivedDone_other": "Unarchived {{count}} contacts",
+    "trashedDone_one": "{{count}} contact moved to Trash",
+    "trashedDone_other": "{{count}} contacts moved to Trash"
+  },
+  "review": {
+    "title": "Year in review",
+    "year": "Year",
+    "empty": "Nothing recorded in {{year}} yet.",
+    "moments_one": "{{count}} moment",
+    "moments_other": "{{count}} moments",
+    "people": "People",
+    "peopleMentioned": "People you wrote about",
+    "newContacts": "New contacts",
+    "other": "Also this year",
+    "giftsGiven": "Gifts given",
+    "debtsSettled": "Debts settled",
+    "tagsUsed": "Tags used"
   }
 }

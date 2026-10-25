@@ -46,6 +46,8 @@ for (const theme of themes) {
       `${profile}/gifts`,
       '/reminders',
       '/search?q=eli',
+      '/search?kinds=call',
+      '/review/2026',
       '/groups',
       '/tasks',
       '/starred',

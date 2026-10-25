@@ -93,6 +93,9 @@ Profile header gains a "Before you meet" button (desktop) and ⋯ menu entry. Pr
 ### 6.12 Capture speed
 The composer toolbar has a **Template** menu (after the location button). The profile ⋯ menu starts with **Log a call**. When the composer opens for a call, focus goes to the call-direction control instead of the text box (`data-autofocus`). The gift dialog has a Photo row with a preview and Add / Replace / Remove photo.
 
+### 6.13 Organisation depth
+Search has a **Filters** disclosure (with an active-filter count) above the results, a **Save search** button once something is being searched, and a **Saved searches** list when it is empty. Contacts has a **Select** toggle in its header; selection mode shows a sticky toolbar (`role="toolbar"`) with a polite selected-count, Select all, Tags, Groups, Archive, Unarchive, Move to Trash and Done, and rows become checkboxes. `/review/:year` shows grouped `<dl>` counts and a year picker.
+
 ## 7. Routes
 
 | Path | Screen |
@@ -105,6 +108,7 @@ The composer toolbar has a **Template** menu (after the location button). The pr
 | `/c/:id` and `/c/:id/:tab` | Contact profile |
 | `/c/:id/edit` | Edit contact |
 | `/c/:id/brief` | Before you meet |
+| `/review/:year` | Year in review |
 | `/reminders` | Reminders |
 | `/tasks` | Tasks |
 | `/search?q=` | Search |
